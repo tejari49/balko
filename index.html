@@ -296,7 +296,7 @@
     <section id="view-market">
       <div class="market-header">
         <div class="market-title" data-i18n="market_title">Entdecken</div>
-        <div class="market-subtitle" data-i18n="market_subtitle">Finde Angebote im Balkan</div>
+        <div class="market-subtitle" data-i18n="market_subtitle">Finde Angebote im Balkan (Alle Preise in €)</div>
       </div>
 
       <div class="search-wrapper">
@@ -446,6 +446,9 @@
   </div>
 
   <script type="module">
+    // --- FIREBASE CONFIGURATION (PUBLIC) ---
+    // API Keys sind in Firebase Web Apps öffentlich. 
+    // Sicherheit erfolgt durch "Firebase Security Rules" und "Domain Restrictions" in der Google Cloud Console.
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, doc, setDoc, getDoc, deleteDoc, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -464,39 +467,37 @@
     const db = getFirestore(fbApp);
     const googleProvider = new GoogleAuthProvider();
 
-    // --- DATA ---
+    // --- TRANSLATIONS & DATA ---
     const TRANSLATIONS = {
       de: {
         nav_market: "Markt", nav_sell: "Verkaufen", nav_profile: "Profil",
-        market_title: "Entdecken", market_subtitle: "Finde Angebote im Balkan",
+        market_title: "Entdecken", market_subtitle: "Finde Angebote im Balkan (Alle Preise in €)",
         sell_subtitle: "Inserat aufgeben", profile_title: "Mein Profil", profile_subtitle: "Gast",
-        search_ph: "Suche (z.B. Golf 7, Wohnung)...", label_country: "Land", label_category: "Kategorie", label_region: "Region / Stadt",
+        search_ph: "Suche...", label_country: "Land", label_category: "Kategorie", label_region: "Region / Stadt",
         label_subcategory: "Unterkategorie", label_title: "Titel", label_price: "Preis (€)",
         label_description: "Beschreibung", label_photos: "Fotos (Max 8)",
-        region_ph: "Ort eingeben", title_ph: "Was verkaufst du?", desc_ph: "Details zum Artikel...",
+        region_ph: "Ort eingeben", title_ph: "Titel...", desc_ph: "Details...",
         btn_publish: "Veröffentlichen", btn_logout: "Abmelden", opt_all: "Alle", opt_choose: "Wählen...",
         menu_personal: "Persönliche Daten", menu_listings: "Meine Inserate", menu_watchlist: "Merkliste", menu_security: "Sicherheit",
-        empty_results: "Keine Ergebnisse.<br><small>Wähle Filter um Angebote zu sehen.</small>",
-        filter_km: "Kilometer bis", filter_year: "Erstzulassung ab", filter_power: "Leistung (PS)",
-        filter_area: "Fläche (m²)", filter_rooms: "Zimmer ab", filter_floor: "Etage"
+        empty_results: "Keine Ergebnisse.", filter_km: "Kilometer bis", filter_year: "Jahr ab", filter_power: "PS",
+        filter_area: "m²", filter_rooms: "Zimmer", filter_floor: "Etage"
       },
       en: {
         nav_market: "Market", nav_sell: "Sell", nav_profile: "Profile",
-        market_title: "Discover", market_subtitle: "Find offers in the Balkans",
-        sell_subtitle: "Post an ad", profile_title: "My Profile", profile_subtitle: "Guest",
-        search_ph: "Search (e.g. Golf 7, Apartment)...", label_country: "Country", label_category: "Category", label_region: "Region / City",
-        label_subcategory: "Subcategory", label_title: "Title", label_price: "Price (€)",
-        label_description: "Description", label_photos: "Photos (Max 8)",
-        region_ph: "Enter location", title_ph: "What are you selling?", desc_ph: "Item details...",
-        btn_publish: "Publish", btn_logout: "Log out", opt_all: "All", opt_choose: "Choose...",
-        menu_personal: "Personal Data", menu_listings: "My Listings", menu_watchlist: "Watchlist", menu_security: "Security",
-        empty_results: "No results.<br><small>Choose filters to see listings.</small>",
-        filter_km: "Max Mileage", filter_year: "Min Year", filter_power: "Power (HP)",
-        filter_area: "Min Area (m²)", filter_rooms: "Min Rooms", filter_floor: "Floor"
+        market_title: "Discover", market_subtitle: "Find offers in the Balkans (Prices in €)",
+        sell_subtitle: "Post Ad", profile_title: "Profile", profile_subtitle: "Guest", search_ph: "Search...",
+        label_country: "Country", label_category: "Category", label_region: "City",
+        label_subcategory: "Subcategory", label_title: "Title", label_price: "Price",
+        label_description: "Description", label_photos: "Photos", region_ph: "City", title_ph: "Title", desc_ph: "Details",
+        btn_publish: "Publish", btn_logout: "Log out", opt_all: "All", opt_choose: "Choose",
+        menu_personal: "Data", menu_listings: "Listings", menu_watchlist: "Watchlist", menu_security: "Security",
+        empty_results: "No results.", filter_km: "KM", filter_year: "Year", filter_power: "HP",
+        filter_area: "m²", filter_rooms: "Rooms", filter_floor: "Floor"
       },
-      sq: { nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Qyteti", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", opt_all: "Të gjitha", opt_choose: "Zgjidh", menu_personal: "Të dhënat", menu_listings: "Njoftimet", menu_watchlist: "Lista", menu_security: "Siguria", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati" },
-      sr: { nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", opt_all: "Sve", opt_choose: "Izaberi", menu_personal: "Podaci", menu_listings: "Oglasi", menu_watchlist: "Lista", menu_security: "Sigurnost", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat" },
-      mk: { nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", opt_all: "Сите", opt_choose: "Избери", menu_personal: "Податоци", menu_listings: "Огласи", menu_watchlist: "Листа", menu_security: "Безбедност", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат" }
+      // ... same logic for other languages ...
+      sq: { nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan (€)", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Rajoni", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", opt_all: "Të gjitha", opt_choose: "Zgjidh", menu_personal: "Të dhënat", menu_listings: "Njoftimet", menu_watchlist: "Lista", menu_security: "Siguria", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati" },
+      sr: { nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan (€)", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", opt_all: "Sve", opt_choose: "Izaberi", menu_personal: "Podaci", menu_listings: "Oglasi", menu_watchlist: "Lista", menu_security: "Sigurnost", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat" },
+      mk: { nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан (€)", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", opt_all: "Сите", opt_choose: "Избери", menu_personal: "Податоци", menu_listings: "Огласи", menu_watchlist: "Листа", menu_security: "Безбедност", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат" }
     };
 
     const COUNTRIES_DATA = { all: { de: "Alle", en: "All", sq: "Të gjitha", sr: "Sve", mk: "Сите" }, al: { de: "Albanien", en: "Albania", sq: "Shqipëria", sr: "Albanija", mk: "Албанија" }, xk: { de: "Kosovo", en: "Kosovo", sq: "Kosova", sr: "Kosovo", mk: "Косово" }, mk: { de: "Nordmazedonien", en: "North Macedonia", sq: "Maqedonia e V.", sr: "Severna Makedonija", mk: "Северна Македонија" }, rs: { de: "Serbien", en: "Serbia", sq: "Serbia", sr: "Srbija", mk: "Србија" }, ba: { de: "Bosnien & Herz.", en: "Bosnia & Herz.", sq: "Bosnja", sr: "Bosna", mk: "Босна" }, hr: { de: "Kroatien", en: "Croatia", sq: "Kroacia", sr: "Hrvatska", mk: "Хрватска" }, me: { de: "Montenegro", en: "Montenegro", sq: "Mali i Zi", sr: "Crna Gora", mk: "Црна Гора" } };
@@ -511,7 +512,7 @@
     // --- MAIN APP ---
     window.app = {
       lang: 'de', user: null, authMode: 'login', uploadSlot: -1,
-      images: [null, null, null, null], // Max 4 images for now
+      images: [null, null, null, null],
 
       init: () => {
         app.loadTheme();
@@ -520,8 +521,6 @@
         app.setupListeners('sell');
         app.initAuthListener();
         app.loadListings();
-        
-        // Handle File Input
         document.getElementById('upload-input').addEventListener('change', app.handleFileSelect);
       },
 
@@ -535,11 +534,9 @@
           const guestContent = document.getElementById("profile-content-guest");
 
           if (user) {
-            // Fetch extended profile data
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
             let phone = "";
-            
             if (userSnap.exists()) {
                 const d = userSnap.data();
                 phone = d.phone || "";
@@ -548,7 +545,6 @@
                 await setDoc(userRef, { email: user.email, displayName: user.displayName, photoURL: user.photoURL }, { merge: true });
                 nameEl.textContent = user.displayName || user.email.split('@')[0];
             }
-
             subEl.textContent = phone ? phone : "Mitglied";
             if(user.photoURL) {
               avatarEl.style.backgroundImage = `url(${user.photoURL})`;
@@ -600,40 +596,30 @@
       },
       logout: async () => { await signOut(auth); app.showToast("Abgemeldet."); },
 
-      // --- PROFILE ACTIONS (SCHARF) ---
+      // --- PROFILE ACTIONS ---
       openEditProfile: async () => {
         const userRef = doc(db, "users", app.user.uid);
         const snap = await getDoc(userRef);
         const data = snap.data() || {};
-        
         document.getElementById('edit-name').value = data.displayName || app.user.displayName || "";
         document.getElementById('edit-phone').value = data.phone || "";
         document.getElementById('edit-profile-modal').style.display = "flex";
       },
-
       saveProfile: async () => {
         const newName = document.getElementById('edit-name').value;
         const newPhone = document.getElementById('edit-phone').value;
-        
         try {
-            await setDoc(doc(db, "users", app.user.uid), {
-                displayName: newName,
-                phone: newPhone
-            }, { merge: true });
+            await setDoc(doc(db, "users", app.user.uid), { displayName: newName, phone: newPhone }, { merge: true });
             app.showToast("Profil gespeichert!");
             app.closeModal('edit-profile-modal');
-            window.location.reload(); // Refresh to update UI
-        } catch(e) {
-            app.showToast("Fehler beim Speichern");
-        }
+            window.location.reload(); 
+        } catch(e) { app.showToast("Fehler beim Speichern"); }
       },
-
       openMyListings: async () => {
         const q = query(collection(db, "listings"), where("uid", "==", app.user.uid));
         const snap = await getDocs(q);
         const list = document.getElementById('my-listings-list');
         list.innerHTML = "";
-        
         if (snap.empty) {
             list.innerHTML = "<div class='empty-state'>Keine Inserate.</div>";
         } else {
@@ -643,23 +629,17 @@
                 div.className = "rai-card";
                 div.style.padding = "15px";
                 div.style.marginBottom = "0";
-                div.innerHTML = `
-                    <div style="font-weight:bold;">${item.title}</div>
-                    <div style="color:var(--text-secondary); font-size:14px;">${item.price} €</div>
-                    <button class="rai-btn danger" style="height:30px; font-size:12px; margin-top:5px;" onclick="app.deleteListing('${d.id}')">Löschen</button>
-                `;
+                div.innerHTML = `<div style="font-weight:bold;">${item.title}</div><div style="color:var(--text-secondary); font-size:14px;">${item.price} €</div><button class="rai-btn danger" style="height:30px; font-size:12px; margin-top:5px;" onclick="app.deleteListing('${d.id}')">Löschen</button>`;
                 list.appendChild(div);
             });
         }
         document.getElementById('my-listings-modal').style.display = "flex";
       },
-
       deleteListing: async (id) => {
         if(!confirm("Wirklich löschen?")) return;
         await deleteDoc(doc(db, "listings", id));
         app.showToast("Gelöscht.");
-        app.openMyListings(); // Refresh list
-        app.loadListings(); // Refresh market
+        app.openMyListings(); app.loadListings();
       },
 
       // --- IMAGES & LISTINGS ---
@@ -667,12 +647,9 @@
         app.uploadSlot = index;
         document.getElementById('upload-input').click();
       },
-
       handleFileSelect: (event) => {
         const file = event.target.files[0];
         if (!file) return;
-
-        // Compress and Convert to Base64
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
@@ -680,21 +657,14 @@
             img.src = e.target.result;
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800; // Limit size
+                const MAX_WIDTH = 800;
                 const scale = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = img.height * scale;
-                
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                
-                // Get Base64 (JPEG 70% quality)
                 const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                
-                // Store
                 app.images[app.uploadSlot] = dataUrl;
-                
-                // Update UI
                 const boxes = document.querySelectorAll('.upload-box');
                 const box = boxes[app.uploadSlot];
                 box.innerHTML = `<img src="${dataUrl}">`;
@@ -702,110 +672,55 @@
             };
         };
       },
-
       publishListing: async () => {
-        if (!app.user) {
-          app.showToast("Bitte erst anmelden!");
-          app.openAuth('login');
-          return;
-        }
+        if (!app.user) { app.showToast("Bitte erst anmelden!"); app.openAuth('login'); return; }
         const title = document.getElementById('sell-title').value;
         const price = document.getElementById('sell-price').value;
-        
-        // Use first image as main
         const mainImage = app.images[0] || null; 
-
-        if(!title || !price) {
-          app.showToast("Titel & Preis fehlen!");
-          return;
-        }
-        
+        if(!title || !price) { app.showToast("Titel & Preis fehlen!"); return; }
         try {
           await addDoc(collection(db, "listings"), {
-            title: title,
-            price: price,
-            category: document.getElementById('sell-cat').value,
-            country: document.getElementById('sell-country').value,
-            desc: document.getElementById('sell-desc').value,
-            image: mainImage, // Store Base64 directly
-            uid: app.user.uid,
-            createdAt: new Date()
+            title: title, price: price, category: document.getElementById('sell-cat').value,
+            country: document.getElementById('sell-country').value, desc: document.getElementById('sell-desc').value,
+            image: mainImage, uid: app.user.uid, createdAt: new Date()
           });
           app.showToast("Inserat veröffentlicht!");
-          
-          // Reset Form
           document.getElementById('sell-title').value = "";
           app.images = [null,null,null,null];
           document.querySelectorAll('.upload-box').forEach(b => { b.innerHTML = "+"; b.style.border = ""; });
           document.querySelector('.upload-box.main').innerHTML = "📷";
-          
           app.nav('market');
           app.loadListings();
-        } catch (e) {
-          app.showToast("Fehler: Bild zu groß? " + e.message);
-        }
+        } catch (e) { app.showToast("Fehler: Bild zu groß? " + e.message); }
       },
-
       loadListings: async () => {
         let q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(50));
-        
-        // Simple client-side filtering for demo (better: firestore composite indexes)
         const country = document.getElementById('filter-country').value;
-        if(country && country !== "all") {
-            q = query(collection(db, "listings"), where("country", "==", country));
-        }
-
+        if(country && country !== "all") { q = query(collection(db, "listings"), where("country", "==", country)); }
         const snapshot = await getDocs(q);
         const container = document.getElementById('market-listings');
-        
         if (snapshot.empty) {
           container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>Keine Angebote.<br><small>Sei der Erste!</small></div></div>`;
           return;
         }
-
         let html = '';
         snapshot.forEach(doc => {
           const data = doc.data();
-          const imgHtml = data.image 
-            ? `<img src="${data.image}" style="width:100%; height:100%; object-fit:cover;">` 
-            : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
-            
-          html += `
-            <div class="rai-card" style="padding:0; cursor:pointer;">
-              <div style="height:150px; background:var(--bg-input); position:relative;">
-                ${imgHtml}
-                <div style="position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.9); padding:2px 8px; border-radius:10px; font-size:10px; font-weight:bold;">${data.country || "Balkan"}</div>
-              </div>
-              <div style="padding:15px;">
-                <div style="font-weight:700; font-size:16px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.title}</div>
-                <div style="color:var(--accent); font-weight:700;">€ ${data.price}</div>
-              </div>
-            </div>
-          `;
+          const imgHtml = data.image ? `<img src="${data.image}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
+          html += `<div class="rai-card" style="padding:0; cursor:pointer;"><div style="height:150px; background:var(--bg-input); position:relative;">${imgHtml}<div style="position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.9); padding:2px 8px; border-radius:10px; font-size:10px; font-weight:bold;">${data.country || "Balkan"}</div></div><div style="padding:15px;"><div style="font-weight:700; font-size:16px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.title}</div><div style="color:var(--accent); font-weight:700;">€ ${data.price}</div></div></div>`;
         });
         container.innerHTML = html;
       },
 
-      // --- NAV & HELPERS ---
       nav: (view) => {
         window.scrollTo(0,0);
-        ['market', 'sell', 'profile'].forEach(v => {
-          document.getElementById('view-' + v).classList.add('hidden');
-          document.getElementById('tab-' + v).classList.remove('active');
-        });
-        document.getElementById('view-' + view).classList.remove('hidden');
-        document.getElementById('tab-' + view).classList.add('active');
+        ['market', 'sell', 'profile'].forEach(v => { document.getElementById('view-' + v).classList.add('hidden'); document.getElementById('tab-' + v).classList.remove('active'); });
+        document.getElementById('view-' + view).classList.remove('hidden'); document.getElementById('tab-' + view).classList.add('active');
       },
-
       showToast: (text) => {
-        const c = document.getElementById('toast-container');
-        const el = document.createElement('div');
-        el.className = 'toast show';
-        el.innerText = text;
-        c.appendChild(el);
+        const c = document.getElementById('toast-container'); const el = document.createElement('div'); el.className = 'toast show'; el.innerText = text; c.appendChild(el);
         setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
       },
-
       setLanguage: (langCode) => { app.lang = langCode; app.translatePage(); app.populateDropdowns('filter'); app.populateDropdowns('sell'); },
       translatePage: () => {
         const t = TRANSLATIONS[app.lang];
@@ -814,30 +729,23 @@
       },
       populateDropdowns: (prefix) => {
         const lang = app.lang;
-        const countrySel = document.getElementById(prefix + '-country');
-        countrySel.innerHTML = "";
+        const countrySel = document.getElementById(prefix + '-country'); countrySel.innerHTML = "";
         for (const code in COUNTRIES_DATA) { const opt = document.createElement('option'); opt.value = code; opt.textContent = COUNTRIES_DATA[code][lang] || COUNTRIES_DATA[code]['en']; countrySel.appendChild(opt); }
-        const catSel = document.getElementById(prefix + '-cat');
-        catSel.innerHTML = "";
-        for (const catKey in CATEGORIES_DATA) { const opt = document.createElement('option'); opt.value = catKey; opt.textContent = CATEGORIES_DATA[catKey].label[lang]; catSel.appendChild(opt); }
+        const catSel = document.getElementById(prefix + '-cat'); catSel.innerHTML = "";
+        for (const catKey in CATEGORIES_DATA) { const opt = document.createElement('option'); opt.value = catKey; opt.textContent = CATEGORIES_DATA[catKey].label[lang] || CATEGORIES_DATA[catKey].label['de']; catSel.appendChild(opt); }
       },
       setupListeners: (prefix) => {
-        const catSel = document.getElementById(prefix + '-cat');
-        const subSel = document.getElementById(prefix + '-sub');
+        const catSel = document.getElementById(prefix + '-cat'); const subSel = document.getElementById(prefix + '-sub');
         catSel.addEventListener('change', () => { subSel.disabled = false; subSel.innerHTML = "<option>Alle</option>"; });
       },
       loadTheme: () => {
-        const saved = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', saved);
-        document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙';
+        const saved = localStorage.getItem('theme') || 'light'; document.documentElement.setAttribute('data-theme', saved); document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙';
       },
       toggleTheme: () => {
-        const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-        document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙';
-      }
+        const current = document.documentElement.getAttribute('data-theme'); const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙';
+      },
+      uploadPhoto: () => app.showToast("Kamera öffnet sich...")
     };
 
     document.getElementById('btn-auth-switch').addEventListener('click', () => { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
