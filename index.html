@@ -2,193 +2,269 @@
 <html lang="de" data-theme="light">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BALKO – Balkan Marketplace</title>
-  <meta name="description" content="Der Marktplatz für den Balkan. Kaufen, Verkaufen, Verbinden." />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>BALKO – Marktplatz</title>
   
   <style>
-    /* --- DESIGN SYSTEM / VARIABLES --- */
+    /* --- iOS DESIGN SYSTEM --- */
     :root {
-      /* LIGHT MODE DEFAULTS */
-      --bg: #ffffff;
-      --bg-sec: #f5f5f7; /* Apple Light Grey */
-      --card: #ffffff;
-      --text: #1d1d1f;
-      --text-muted: #86868b;
-      --border: #d2d2d7;
-      --accent: #0071e3; /* Apple Blue */
-      --accent-hover: #0077ed;
-      --danger: #ff3b30;
-      --success: #34c759;
-      --radius: 18px;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      /* LIGHT MODE */
+      --bg-body: #F2F2F7;       /* Apple System Gray 6 */
+      --bg-card: #FFFFFF;
+      --bg-input: #E5E5EA;      /* Apple System Gray 5 */
+      --text-primary: #000000;
+      --text-secondary: #8E8E93;/* Apple System Gray */
+      --separator: #C6C6C8;     /* Apple Separator */
+      --accent: #007AFF;        /* Apple System Blue */
+      --danger: #FF3B30;        /* Apple System Red */
+      --success: #34C759;       /* Apple System Green */
+      
+      --radius-l: 20px;         /* Große Karten */
+      --radius-m: 14px;         /* Inputs/Buttons */
+      --radius-s: 10px;         /* Kleine Elemente */
+      
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      
       --nav-height: 60px;
+      --max-width: 960px;       /* Schmaler für mehr Symmetrie auf Desktop */
     }
 
     [data-theme="dark"] {
-      /* DARK MODE OVERRIDES */
-      --bg: #000000;
-      --bg-sec: #1c1c1e;
-      --card: #1c1c1e;
-      --text: #f5f5f7;
-      --text-muted: #98989d;
-      --border: #38383a;
-      --accent: #0a84ff;
-      --accent-hover: #409cff;
-      --danger: #ff453a;
-      --success: #30d158;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      /* DARK MODE */
+      --bg-body: #000000;
+      --bg-card: #1C1C1E;       /* Apple Dark Content Background */
+      --bg-input: #2C2C2E;
+      --text-primary: #FFFFFF;
+      --text-secondary: #98989D;
+      --separator: #38383A;
+      --accent: #0A84FF;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     }
 
     /* --- RESET & BASE --- */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    
     body {
-      background-color: var(--bg);
-      color: var(--text);
+      background-color: var(--bg-body);
+      color: var(--text-primary);
       font-family: var(--font);
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      padding-bottom: 80px; /* Platz für Mobile Nav falls nötig */
+      padding-bottom: 90px; /* Platz für Mobile Nav */
+      transition: background-color 0.3s ease;
     }
 
+    button, input, select, textarea { font-family: inherit; border: none; outline: none; }
     a { text-decoration: none; color: inherit; cursor: pointer; }
-    button, input, select, textarea { font-family: inherit; }
 
-    /* --- LAYOUT UTILS --- */
-    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-    .hidden { display: none !important; }
-    .row { display: flex; justify-content: space-between; align-items: center; }
-    .flex-gap { display: flex; gap: 10px; align-items: center; }
-
-    /* --- NAVIGATION (Sticky Header) --- */
-    .navbar {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      height: var(--nav-height);
-      display: flex; align-items: center;
-      transition: background-color 0.3s;
+    /* --- LAYOUT CONTAINER --- */
+    .wrap { 
+      max-width: var(--max-width); 
+      margin: 0 auto; 
+      padding: 0 20px; 
     }
-    
-    .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
-    
-    .logo { font-weight: 800; font-size: 22px; letter-spacing: -0.5px; color: var(--text); }
+
+    /* --- NAVIGATION (Blurry Glass) --- */
+    .navbar {
+      position: sticky; top: 0; z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(255, 255, 255, 0.85); /* Light Translucency */
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 0.5px solid var(--separator);
+      display: flex; align-items: center; justify-content: center;
+    }
+    [data-theme="dark"] .navbar { background: rgba(28, 28, 30, 0.85); }
+
+    .nav-inner { 
+      width: 100%; display: flex; justify-content: space-between; align-items: center; 
+    }
+
+    .logo { 
+      font-weight: 700; font-size: 20px; letter-spacing: -0.5px; 
+      color: var(--text-primary);
+    }
     .logo span { color: var(--accent); }
 
-    .nav-links { display: flex; gap: 24px; }
-    .nav-link { font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color 0.2s; position: relative; }
-    .nav-link:hover, .nav-link.active { color: var(--text); }
-    .nav-link.active::after {
-      content: ''; position: absolute; bottom: -21px; left: 0; right: 0; height: 2px; background: var(--accent);
+    .theme-toggle {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--bg-input); color: var(--text-primary);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 18px; transition: 0.2s;
     }
+    .theme-toggle:active { transform: scale(0.92); }
 
-    /* Mobile Bottom Nav (Optional, hidden on Desktop) */
-    @media (max-width: 768px) {
-      .nav-links { display: none; } /* Hide top links on mobile */
-      .mobile-bar {
-        position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
-        background: var(--bg-sec); border-top: 1px solid var(--border);
-        display: flex; justify-content: space-around; align-items: center; z-index: 100;
-        padding-bottom: env(safe-area-inset-bottom);
-      }
-      .mob-item { font-size: 24px; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-      .mob-item.active { color: var(--accent); }
-      .mob-label { font-size: 10px; margin-top: 2px; font-weight: 600; }
+    /* --- MOBILE BOTTOM BAR (Fixed & Symmetrical) --- */
+    .tab-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+      height: 84px; /* iOS Standard Höhe inkl. Home Indicator */
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-top: 0.5px solid var(--separator);
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      padding-bottom: 20px; /* Space for Home Indicator */
     }
-    @media (min-width: 769px) { .mobile-bar { display: none; } }
+    [data-theme="dark"] .tab-bar { background: rgba(28, 28, 30, 0.9); }
 
-    /* --- BUTTONS & INPUTS --- */
-    .btn {
-      height: 40px; padding: 0 20px; border-radius: 12px; border: none;
-      font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
-    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-ghost:hover { background: var(--bg-sec); }
-    
-    .icon-btn { width: 40px; height: 40px; padding: 0; border-radius: 50%; font-size: 18px; }
-
-    input, select, textarea {
-      background: var(--bg-sec); border: 1px solid transparent; color: var(--text);
-      border-radius: 12px; padding: 12px 16px; width: 100%; font-size: 15px; outline: none; transition: 0.2s;
-    }
-    input:focus, select:focus, textarea:focus {
-      background: var(--bg); border-color: var(--accent); box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
-    }
-    
-    /* --- CARD COMPONENT --- */
-    .card {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 24px; box-shadow: var(--shadow); transition: border-color 0.3s, background-color 0.3s;
-    }
-
-    /* --- VIEWS --- */
-    main { margin-top: 30px; }
-    
-    /* 1. MARKET VIEW */
-    .filter-bar {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 30px;
-    }
-    .grid-listings {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px;
-    }
-    
-    .listing-item {
-      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-      overflow: hidden; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .listing-item:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
-    
-    .img-box {
-      height: 180px; background: var(--bg-sec); display: flex; align-items: center; justify-content: center;
-      color: var(--text-muted); font-size: 32px; overflow: hidden;
-    }
-    .img-box img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .item-content { padding: 16px; }
-    .item-price { font-size: 18px; font-weight: 700; color: var(--text); }
-    .item-title { font-size: 15px; margin: 4px 0 8px; line-height: 1.4; color: var(--text); }
-    .item-meta { display: flex; gap: 8px; font-size: 12px; color: var(--text-muted); }
-    .tag { background: var(--bg-sec); padding: 4px 8px; border-radius: 6px; }
-
-    /* 2. SELL VIEW */
-    .upload-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-    @media(max-width:600px){ .upload-grid { grid-template-columns: repeat(2,1fr); } }
-    
-    .upload-slot {
-      aspect-ratio: 1; border: 2px dashed var(--border); border-radius: 12px;
+    .tab-item {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: var(--text-muted); cursor: pointer; transition: 0.2s;
-      background: var(--bg-sec);
+      color: var(--text-secondary); cursor: pointer;
     }
-    .upload-slot:hover { border-color: var(--accent); color: var(--accent); background: var(--bg); }
-    .upload-slot span { font-size: 24px; margin-bottom: 4px; }
-    .upload-slot small { font-size: 10px; font-weight: 600; text-transform: uppercase; }
+    .tab-icon { font-size: 24px; margin-bottom: 4px; transition: transform 0.2s; }
+    .tab-label { font-size: 10px; font-weight: 500; }
+    
+    .tab-item.active { color: var(--accent); }
+    .tab-item:active .tab-icon { transform: scale(0.85); }
 
-    /* 3. PROFILE VIEW */
-    .profile-grid { display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
-    @media(max-width:768px){ .profile-grid { grid-template-columns: 1fr; } }
-    
-    .avatar-area { text-align: center; padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-    .avatar { 
-      width: 100px; height: 100px; border-radius: 50%; background: var(--bg-sec); 
-      margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 1px solid var(--border);
+    /* --- DESKTOP NAV (Hidden on Mobile) --- */
+    @media (min-width: 769px) {
+      .tab-bar { display: none; }
+      .desktop-links { display: flex; gap: 30px; }
+      .d-link { font-size: 15px; font-weight: 500; color: var(--text-secondary); transition: 0.2s; }
+      .d-link:hover, .d-link.active { color: var(--text-primary); }
     }
-    .menu-list { list-style: none; }
-    .menu-item { padding: 12px; border-radius: 10px; cursor: pointer; color: var(--text-muted); display: flex; gap: 10px; align-items: center; font-weight: 500; }
-    .menu-item:hover { background: var(--bg-sec); color: var(--text); }
-    .menu-item.active { background: var(--bg-sec); color: var(--accent); }
+    @media (max-width: 768px) { .desktop-links { display: none; } }
+
+
+    /* --- COMPONENTS --- */
     
-    /* UTILS */
-    .section-title { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .col-full { grid-column: 1 / -1; }
-    @media(max-width:600px){ .form-grid { grid-template-columns: 1fr; } }
+    /* Input Fields (iOS Style) */
+    .ios-input-group { margin-bottom: 20px; }
+    .ios-label {
+      display: block; font-size: 12px; text-transform: uppercase; 
+      color: var(--text-secondary); margin-bottom: 8px; margin-left: 4px; letter-spacing: 0.5px;
+    }
+    .ios-input {
+      width: 100%; height: 50px; padding: 0 16px;
+      background: var(--bg-card); color: var(--text-primary);
+      border-radius: var(--radius-m); font-size: 17px;
+      transition: 0.2s;
+    }
+    .ios-input:focus { box-shadow: 0 0 0 2px var(--accent); }
+    textarea.ios-input { height: auto; padding-top: 14px; min-height: 120px; resize: none; }
+    
+    /* Select (Custom Arrow) */
+    select.ios-input {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat; background-position: right 16px center; background-size: 16px;
+    }
+
+    /* Cards */
+    .ios-card {
+      background: var(--bg-card); border-radius: var(--radius-l);
+      padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Buttons */
+    .ios-btn {
+      width: 100%; height: 52px;
+      background: var(--accent); color: #fff;
+      font-size: 17px; font-weight: 600;
+      border-radius: var(--radius-m);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform 0.1s, opacity 0.2s;
+    }
+    .ios-btn:active { transform: scale(0.98); opacity: 0.9; }
+    .ios-btn.secondary { background: var(--bg-input); color: var(--text-primary); }
+
+    /* --- VIEW 1: MARKET (SYMMETRICAL GRID) --- */
+    .market-header { margin: 30px 0 20px 0; text-align: center; }
+    .market-title { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .market-subtitle { color: var(--text-secondary); font-size: 17px; }
+
+    .search-bar {
+      position: relative; margin-bottom: 30px;
+    }
+    .search-input {
+      background: var(--bg-input); border-radius: 12px; 
+      padding-left: 44px; /* Space for icon */
+    }
+    .search-icon {
+      position: absolute; left: 14px; top: 16px; color: var(--text-secondary); font-size: 18px;
+    }
+
+    .filter-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+    }
+    
+    /* Listing Grid - Perfectly Symmetrical */
+    .listing-grid {
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); /* Genau 2 Spalten auf Mobile */
+      gap: 16px; 
+    }
+    @media (min-width: 600px) { .listing-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 900px) { .listing-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .item-card {
+      background: var(--bg-card); border-radius: var(--radius-l);
+      overflow: hidden; box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+      aspect-ratio: 0.8; /* Einheitliches Seitenverhältnis */
+    }
+    .item-img {
+      flex: 1; background: var(--bg-input);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary);
+    }
+    .item-details {
+      padding: 12px; background: var(--bg-card);
+      height: 70px; /* Feste Höhe für Symmetrie */
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .item-price { font-weight: 700; font-size: 16px; color: var(--text-primary); }
+    .item-name { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Empty State */
+    .empty-state {
+      grid-column: 1 / -1; padding: 60px 0; text-align: center; color: var(--text-secondary);
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+
+
+    /* --- VIEW 2: SELL (SYMMETRICAL UPLOAD) --- */
+    .upload-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px;
+    }
+    .upload-box {
+      aspect-ratio: 1; background: var(--bg-input); border-radius: var(--radius-m);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--text-secondary); cursor: pointer;
+    }
+    .upload-box.main {
+      border: 2px solid var(--accent); color: var(--accent);
+      background: rgba(0, 122, 255, 0.05);
+    }
+
+    /* --- VIEW 3: PROFILE (LIST LAYOUT) --- */
+    .profile-header {
+      text-align: center; padding: 30px 0;
+    }
+    .avatar-circle {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: var(--bg-input); margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px; border: 1px solid var(--separator);
+    }
+    .list-group {
+      background: var(--bg-card); border-radius: var(--radius-l);
+      overflow: hidden; margin-bottom: 24px;
+    }
+    .list-item {
+      padding: 16px 20px;
+      border-bottom: 0.5px solid var(--separator);
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; font-size: 16px;
+    }
+    .list-item:last-child { border-bottom: none; }
+    .list-item:active { background: var(--bg-input); }
+    
+    .list-icon { margin-right: 12px; width: 24px; text-align: center; }
+    .chevron { color: var(--text-secondary); font-size: 14px; font-weight: 700; }
+
+    /* UTILITY CLASSES */
+    .hidden { display: none !important; }
 
   </style>
 </head>
@@ -196,251 +272,220 @@
 
   <nav class="navbar">
     <div class="wrap nav-inner">
-      <a href="#" class="logo" onclick="app.nav('market')">BALKO<span>.</span></a>
+      <div class="logo" onclick="app.nav('market')">BALKO<span>.</span></div>
       
-      <div class="nav-links">
-        <a class="nav-link active" onclick="app.nav('market')" id="link-market">Kaufen</a>
-        <a class="nav-link" onclick="app.nav('sell')" id="link-sell">Verkaufen</a>
-        <a class="nav-link" onclick="app.nav('profile')" id="link-profile">Profil</a>
+      <div class="desktop-links">
+        <div class="d-link active" id="d-market" onclick="app.nav('market')">Entdecken</div>
+        <div class="d-link" id="d-sell" onclick="app.nav('sell')">Verkaufen</div>
+        <div class="d-link" id="d-profile" onclick="app.nav('profile')">Profil</div>
       </div>
 
-      <div class="flex-gap">
-        <button class="btn btn-ghost icon-btn" onclick="app.toggleTheme()" title="Design wechseln">
-          <span id="theme-icon">🌙</span>
-        </button>
-        <button class="btn btn-primary btn-sm" onclick="app.nav('profile')">Mein Bereich</button>
+      <div class="theme-toggle" onclick="app.toggleTheme()">
+        <span id="theme-icon">🌙</span>
       </div>
     </div>
   </nav>
 
-  <div class="mobile-bar">
-    <div class="mob-item active" onclick="app.nav('market')" id="mob-market">
-      <span>🔍</span><span class="mob-label">Markt</span>
-    </div>
-    <div class="mob-item" onclick="app.nav('sell')" id="mob-sell">
-      <span>📷</span><span class="mob-label">Verkaufen</span>
-    </div>
-    <div class="mob-item" onclick="app.nav('profile')" id="mob-profile">
-      <span>👤</span><span class="mob-label">Profil</span>
-    </div>
-  </div>
-
   <main class="wrap">
     
     <section id="view-market">
-      <div class="card" style="margin-bottom: 30px; background: linear-gradient(135deg, var(--bg-sec) 0%, var(--bg) 100%);">
-        <h1 style="font-size: 28px; margin-bottom: 10px;">Entdecke den Balkan.</h1>
-        <p style="color: var(--text-muted);">Der Marktplatz für Serbien, Albanien, Kosovo, Nordmazedonien und mehr.</p>
+      <div class="market-header">
+        <div class="market-title">Marktplatz</div>
+        <div class="market-subtitle">Balkan Region</div>
       </div>
 
-      <div class="filter-bar">
-        <input type="text" placeholder="Suche (z.B. Golf 7, Wohnung Pristina)...">
-        <select>
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="ios-input search-input" placeholder="Suchen...">
+      </div>
+
+      <div class="filter-grid">
+        <select class="ios-input">
           <option>Alle Kategorien</option>
           <option>Fahrzeuge</option>
           <option>Immobilien</option>
           <option>Elektronik</option>
-          <option>Dienstleistung</option>
+          <option>Mode</option>
         </select>
-        <select>
-          <option>Land / Region</option>
+        <select class="ios-input">
+          <option>Alle Regionen</option>
           <option>Kosovo</option>
           <option>Albanien</option>
           <option>Nordmazedonien</option>
           <option>Serbien</option>
-          <option>Bosnien</option>
         </select>
-        <button class="btn btn-primary">Suchen</button>
       </div>
 
-      <div class="grid-listings" id="listings-container">
-        <div class="col-full" style="text-align: center; padding: 40px; color: var(--text-muted);">
-          Lade Angebote...
+      <div class="listing-grid" id="market-results">
+        <div class="empty-state">
+          <div class="empty-icon">🏷️</div>
+          <div>Keine Inserate gefunden.<br><small>Ändere den Filter oder suche erneut.</small></div>
         </div>
       </div>
     </section>
 
     <section id="view-sell" class="hidden">
-      <h2 class="section-title">Anzeige aufgeben</h2>
-      
-      <div class="card">
-        <h3 style="margin-bottom: 15px; font-size: 16px;">Bilder (Max 8)</h3>
+      <div class="market-header">
+        <div class="market-title">Verkaufen</div>
+        <div class="market-subtitle">Erstelle ein neues Inserat</div>
+      </div>
+
+      <div class="ios-card">
+        <div class="ios-label" style="margin-bottom:12px;">Fotos (Max 8)</div>
         <div class="upload-grid">
-          <div class="upload-slot" onclick="alert('Demo: Upload Dialog')">
-            <span>📷</span><small>Titelbild</small>
-          </div>
-          <div class="upload-slot"><span>+</span></div>
-          <div class="upload-slot"><span>+</span></div>
-          <div class="upload-slot"><span>+</span></div>
+          <div class="upload-box main">📷</div>
+          <div class="upload-box">+</div>
+          <div class="upload-box">+</div>
+          <div class="upload-box">+</div>
+          <div class="upload-box">+</div>
+          <div class="upload-box">+</div>
+          <div class="upload-box">+</div>
+          <div class="upload-box">+</div>
         </div>
       </div>
 
-      <div class="card" style="margin-top: 20px;">
-        <h3 style="margin-bottom: 15px; font-size: 16px;">Details</h3>
-        <div class="form-grid">
-          <div class="col-full">
-            <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Titel</label>
-            <input type="text" placeholder="Was verkaufst du?">
+      <div class="ios-card">
+        <div class="ios-input-group">
+          <label class="ios-label">Titel</label>
+          <input type="text" class="ios-input" placeholder="Was verkaufst du?">
+        </div>
+        
+        <div class="filter-grid"> <div class="ios-input-group">
+            <label class="ios-label">Preis (€)</label>
+            <input type="number" class="ios-input" placeholder="0">
           </div>
-          
-          <div>
-            <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Preis (€)</label>
-            <input type="number" placeholder="0.00">
-          </div>
-          
-          <div>
-            <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Kategorie</label>
-            <select><option>Fahrzeug</option><option>Immobilie</option><option>Elektronik</option></select>
-          </div>
-
-          <div class="col-full">
-            <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Beschreibung</label>
-            <textarea style="min-height: 120px;" placeholder="Beschreibe den Artikel genau..."></textarea>
-          </div>
-
-          <div class="col-full">
-            <button class="btn btn-primary" style="width: 100%;">Anzeige veröffentlichen</button>
+          <div class="ios-input-group">
+            <label class="ios-label">Kategorie</label>
+            <select class="ios-input">
+              <option>Wählen...</option>
+              <option>Fahrzeuge</option>
+              <option>Immobilien</option>
+            </select>
           </div>
         </div>
+
+        <div class="ios-input-group">
+          <label class="ios-label">Beschreibung</label>
+          <textarea class="ios-input" placeholder="Details zum Artikel..."></textarea>
+        </div>
+
+        <button class="ios-btn">Veröffentlichen</button>
       </div>
     </section>
 
     <section id="view-profile" class="hidden">
-      <h2 class="section-title">Mein Profil</h2>
-      
-      <div class="profile-grid">
-        <div class="card" style="height: fit-content;">
-          <div class="avatar-area">
-            <div class="avatar">👤</div>
-            <h3 style="margin: 0;">Benutzername</h3>
-            <p style="color: var(--text-muted); font-size: 13px;">Mitglied seit 2024</p>
-          </div>
-          <ul class="menu-list">
-            <li class="menu-item active">📦 Meine Anzeigen</li>
-            <li class="menu-item">❤️ Merkliste</li>
-            <li class="menu-item">⚙️ Einstellungen</li>
-            <li class="menu-item" style="color: var(--danger);">🚪 Abmelden</li>
-          </ul>
-        </div>
+      <div class="profile-header">
+        <div class="avatar-circle">👤</div>
+        <div class="market-title" style="font-size:24px;">Mein Profil</div>
+        <div class="market-subtitle">Nicht angemeldet</div>
+      </div>
 
-        <div class="card">
-          <h3 style="margin-bottom: 20px;">Persönliche Daten</h3>
-          <div class="form-grid">
-            <div>
-              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Vorname</label>
-              <input type="text" value="Max">
-            </div>
-            <div>
-              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Nachname</label>
-              <input type="text" value="Mustermann">
-            </div>
-            <div class="col-full">
-              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted);">E-Mail</label>
-              <input type="email" value="max@balko.com">
-            </div>
-            <div class="col-full" style="text-align: right; margin-top: 10px;">
-              <button class="btn btn-primary">Speichern</button>
-            </div>
+      <div class="list-group">
+        <div class="list-item">
+          <div style="display:flex; align-items:center;">
+            <span class="list-icon">👤</span> Persönliche Daten
           </div>
+          <span class="chevron">›</span>
+        </div>
+        <div class="list-item">
+          <div style="display:flex; align-items:center;">
+            <span class="list-icon">📦</span> Meine Inserate
+          </div>
+          <span class="chevron">›</span>
+        </div>
+        <div class="list-item">
+          <div style="display:flex; align-items:center;">
+            <span class="list-icon">❤️</span> Merkliste
+          </div>
+          <span class="chevron">›</span>
         </div>
       </div>
+
+      <div class="list-group">
+        <div class="list-item">
+          <div style="display:flex; align-items:center;">
+            <span class="list-icon">🔒</span> Sicherheit & Passwort
+          </div>
+          <span class="chevron">›</span>
+        </div>
+        <div class="list-item">
+          <div style="display:flex; align-items:center;">
+            <span class="list-icon">🌍</span> Sprache / Region
+          </div>
+          <span class="chevron">›</span>
+        </div>
+      </div>
+
+      <button class="ios-btn secondary" style="color:var(--danger);">Abmelden</button>
     </section>
 
   </main>
 
+  <div class="tab-bar">
+    <div class="tab-item active" id="tab-market" onclick="app.nav('market')">
+      <div class="tab-icon">🔍</div>
+      <div class="tab-label">Markt</div>
+    </div>
+    <div class="tab-item" id="tab-sell" onclick="app.nav('sell')">
+      <div class="tab-icon">📷</div>
+      <div class="tab-label">Verkaufen</div>
+    </div>
+    <div class="tab-item" id="tab-profile" onclick="app.nav('profile')">
+      <div class="tab-icon">👤</div>
+      <div class="tab-label">Profil</div>
+    </div>
+  </div>
+
   <script>
-    // --- APP LOGIC ---
+    // --- SIMPLE APP LOGIC ---
     const app = {
       
-      // Init
       init: () => {
-        // Theme Check
+        // Theme laden
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         app.updateThemeIcon(savedTheme);
-
-        // Render Mock Listings
-        app.renderListings();
       },
 
-      // Navigation Logic
-      nav: (viewName) => {
-        // Hide all views
+      nav: (view) => {
+        window.scrollTo(0,0);
+        
+        // 1. Views umschalten
         ['market', 'sell', 'profile'].forEach(v => {
           document.getElementById('view-' + v).classList.add('hidden');
-          // Update Desktop Links
-          const link = document.getElementById('link-' + v);
-          if(link) link.classList.remove('active');
-          // Update Mobile Links
-          const mob = document.getElementById('mob-' + v);
-          if(mob) mob.classList.remove('active');
         });
+        document.getElementById('view-' + view).classList.remove('hidden');
 
-        // Show active view
-        document.getElementById('view-' + viewName).classList.remove('hidden');
-        
-        // Active States
-        const activeLink = document.getElementById('link-' + viewName);
-        if(activeLink) activeLink.classList.add('active');
-        
-        const activeMob = document.getElementById('mob-' + viewName);
-        if(activeMob) activeMob.classList.add('active');
-        
-        // Scroll top
-        window.scrollTo(0,0);
+        // 2. Mobile Tabs aktualisieren
+        ['market', 'sell', 'profile'].forEach(v => {
+          document.getElementById('tab-' + v).classList.remove('active');
+        });
+        document.getElementById('tab-' + view).classList.add('active');
+
+        // 3. Desktop Links aktualisieren
+        ['market', 'sell', 'profile'].forEach(v => {
+          const el = document.getElementById('d-' + v);
+          if(el) el.classList.remove('active');
+        });
+        const dLink = document.getElementById('d-' + view);
+        if(dLink) dLink.classList.add('active');
       },
 
-      // Theme Logic
       toggleTheme: () => {
         const root = document.documentElement;
         const current = root.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
-        
         root.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
         app.updateThemeIcon(next);
       },
 
       updateThemeIcon: (theme) => {
-        const btn = document.getElementById('theme-icon');
-        btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-      },
-
-      // Mock Data Renderer
-      renderListings: () => {
-        const container = document.getElementById('listings-container');
-        const mockData = [
-          { title: "VW Golf 7, 2.0 TDI", price: "12.500 €", loc: "Pristina", cat: "Fahrzeug" },
-          { title: "Wohnung Zentrum (Kauf)", price: "120.000 €", loc: "Tirana", cat: "Immobilie" },
-          { title: "iPhone 14 Pro Max", price: "850 €", loc: "Skopje", cat: "Elektronik" },
-          { title: "Villa mit Pool", price: "350.000 €", loc: "Durrës", cat: "Immobilie" },
-          { title: "Mercedes C-Klasse 2018", price: "22.000 €", loc: "Belgrad", cat: "Fahrzeug" },
-          { title: "Sony PlayStation 5", price: "450 €", loc: "Sarajevo", cat: "Elektronik" },
-          { title: "Handgemachter Teppich", price: "120 €", loc: "Prizren", cat: "Deko" },
-          { title: "Baugrundstück 500m2", price: "45.000 €", loc: "Ohrid", cat: "Immobilie" }
-        ];
-
-        let html = '';
-        mockData.forEach(item => {
-          html += `
-            <div class="listing-item">
-              <div class="img-box">Image</div>
-              <div class="item-content">
-                <div class="item-price">${item.price}</div>
-                <div class="item-title">${item.title}</div>
-                <div class="item-meta">
-                  <span class="tag">${item.loc}</span>
-                  <span class="tag">${item.cat}</span>
-                </div>
-              </div>
-            </div>
-          `;
-        });
-        container.innerHTML = html;
+        document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
       }
     };
 
-    // Start App
+    // Start
     app.init();
   </script>
 </body>
