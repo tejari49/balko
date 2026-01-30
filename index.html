@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <title>ZONA – Balkan Marketplace</title>
+  <title>ZONA BALKO – Marktplatz</title>
   
   <style>
     /* --- RAI DESIGN SYSTEM --- */
@@ -76,10 +76,11 @@
     }
     [data-theme="dark"] .nav-inner { background: rgba(28, 28, 30, 0.85); }
 
+    /* LOGO: Klickbar -> Startseite */
     .logo { 
-      font-weight: 800; font-size: 24px; letter-spacing: 1px; 
+      font-weight: 800; font-size: 20px; letter-spacing: 0.5px; 
       color: var(--text-primary); cursor: pointer; user-select: none;
-      text-transform: uppercase;
+      text-transform: uppercase; white-space: nowrap;
     }
     .logo span { color: var(--accent); }
     .logo:active { opacity: 0.7; transform: scale(0.98); }
@@ -253,7 +254,7 @@
 
   <nav class="navbar">
     <div class="wrap nav-inner">
-      <div class="logo" onclick="app.nav('market')">ZONA<span>.</span></div>
+      <div class="logo" onclick="app.nav('market')">ZONA BALKO<span>.</span></div>
       
       <div class="nav-controls">
         <select class="lang-select" id="lang-switcher" onchange="app.setLanguage(this.value)">
@@ -572,7 +573,7 @@
           { k: "comm", de: "Gewerbe", en: "Commercial", sq: "Hapësirë afariste", sr: "Poslovni prostor", mk: "Деловен простор" },
           { k: "garage", de: "Garage", en: "Garage", sq: "Garazhë", sr: "Garaža", mk: "Гаража" }
         ],
-        filters: [ { id: "filter_area" } ] // Base filter
+        filters: [ { id: "filter_area" } ] // Standard: Area only
       },
       electronics: {
         label: { de: "Elektronik", en: "Electronics", sq: "Elektronikë", sr: "Elektronika", mk: "Електроника" },
