@@ -8,228 +8,123 @@
   <style>
     /* --- RAI DESIGN SYSTEM (ZONA BALKO) --- */
     :root {
-      /* LIGHT MODE */
-      --bg-body: #F2F2F7;       
-      --bg-card: #FFFFFF;
-      --bg-input: #E5E5EA;      
-      --text-primary: #000000;
-      --text-secondary: #8E8E93;
-      --separator: #C6C6C8;     
-      --accent: #007AFF;        
-      --danger: #FF3B30;        
-      --success: #34C759;       
-      
-      --radius-l: 24px;         
-      --radius-m: 16px;         
-      --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --bg-body: #F2F2F7; --bg-card: #FFFFFF; --bg-input: #E5E5EA; --text-primary: #000000; --text-secondary: #8E8E93;
+      --separator: #C6C6C8; --accent: #007AFF; --danger: #FF3B30; --success: #34C759; --whatsapp: #25D366;
+      --radius-l: 24px; --radius-m: 16px; --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --nav-height: 60px;
-      --max-width: 800px;
+      --nav-height: 60px; --max-width: 800px;
     }
-
     [data-theme="dark"] {
-      /* DARK MODE */
-      --bg-body: #000000;
-      --bg-card: #1C1C1E;       
-      --bg-input: #2C2C2E;
-      --text-primary: #FFFFFF;
-      --text-secondary: #98989D;
-      --separator: #38383A;
-      --accent: #0A84FF;
-      --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      --bg-body: #000000; --bg-card: #1C1C1E; --bg-input: #2C2C2E; --text-primary: #FFFFFF; --text-secondary: #98989D;
+      --separator: #38383A; --accent: #0A84FF; --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    
-    body {
-      background-color: var(--bg-body);
-      color: var(--text-primary);
-      font-family: var(--font);
-      -webkit-font-smoothing: antialiased;
-      padding-bottom: 120px; padding-top: env(safe-area-inset-top);
-      transition: background-color 0.3s ease;
-    }
-
+    body { background-color: var(--bg-body); color: var(--text-primary); font-family: var(--font); -webkit-font-smoothing: antialiased; padding-bottom: 120px; padding-top: env(safe-area-inset-top); transition: background-color 0.3s ease; }
     button, input, select, textarea { font-family: inherit; border: none; outline: none; }
     a { text-decoration: none; color: inherit; cursor: pointer; }
     .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
     .hidden { display: none !important; }
 
     /* TOAST */
-    .toast-container {
-      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-      z-index: 3000; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-    }
-    .toast {
-      background: rgba(50, 50, 50, 0.9); backdrop-filter: blur(10px);
-      color: #fff; padding: 12px 24px; border-radius: 50px;
-      font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      opacity: 0; transform: translateY(-20px); transition: 0.3s;
-    }
+    .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 6000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast { background: rgba(50, 50, 50, 0.9); backdrop-filter: blur(10px); color: #fff; padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transform: translateY(-20px); transition: 0.3s; }
     .toast.show { opacity: 1; transform: translateY(0); }
 
     /* HEADER */
-    .navbar {
-      position: sticky; top: 0; z-index: 1000; height: var(--nav-height);
-      background: rgba(255, 255, 255, 0.0); display: flex; align-items: center; justify-content: center;
-      margin-bottom: 10px; pointer-events: none; 
-    }
-    .nav-inner { 
-      pointer-events: auto; width: 100%; display: flex; justify-content: space-between; align-items: center; 
-      background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      padding: 10px 20px; border-radius: 0 0 24px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
+    .navbar { position: sticky; top: 0; z-index: 1000; height: var(--nav-height); background: rgba(255, 255, 255, 0.0); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; pointer-events: none; }
+    .nav-inner { pointer-events: auto; width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 10px 20px; border-radius: 0 0 24px 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
     [data-theme="dark"] .nav-inner { background: rgba(28, 28, 30, 0.85); }
-
-    .logo { 
-      font-weight: 800; font-size: 20px; letter-spacing: 0.5px; 
-      color: var(--text-primary); cursor: pointer; user-select: none; text-transform: uppercase; white-space: nowrap;
-    }
+    .logo { font-weight: 800; font-size: 20px; letter-spacing: 0.5px; color: var(--text-primary); cursor: pointer; user-select: none; text-transform: uppercase; white-space: nowrap; }
     .logo span { color: var(--accent); }
     .logo:active { opacity: 0.7; transform: scale(0.98); }
-
     .nav-controls { display: flex; gap: 12px; align-items: center; }
-
-    .lang-select {
-      background: var(--bg-input); color: var(--text-primary);
-      font-size: 13px; font-weight: 700; padding: 0 12px; height: 36px;
-      border-radius: 18px; cursor: pointer; appearance: none; text-align: center; border: 1px solid transparent; transition: 0.2s;
-    }
-    .theme-toggle {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--bg-input); color: var(--text-primary);
-      display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s;
-    }
-    .theme-toggle:active { transform: scale(0.9); }
-
+    .lang-select { background: var(--bg-input); color: var(--text-primary); font-size: 13px; font-weight: 700; padding: 0 12px; height: 36px; border-radius: 18px; cursor: pointer; appearance: none; text-align: center; border: 1px solid transparent; transition: 0.2s; }
+    .theme-toggle { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-input); color: var(--text-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s; }
+    
     /* COMPONENTS */
     .rai-input-group { margin-bottom: 20px; }
-    .rai-label {
-      display: block; font-size: 11px; text-transform: uppercase; font-weight: 700;
-      color: var(--text-secondary); margin-bottom: 8px; margin-left: 12px; letter-spacing: 0.5px;
-    }
-    .rai-input {
-      width: 100%; height: 54px; padding: 0 16px; background: var(--bg-card); color: var(--text-primary);
-      border-radius: var(--radius-m); font-size: 17px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: 0.2s;
-    }
+    .rai-label { display: block; font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px; margin-left: 12px; letter-spacing: 0.5px; }
+    .rai-input { width: 100%; height: 54px; padding: 0 16px; background: var(--bg-card); color: var(--text-primary); border-radius: var(--radius-m); font-size: 17px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); transition: 0.2s; }
     .rai-input:focus { box-shadow: 0 0 0 2px var(--accent); transform: scale(1.01); }
     textarea.rai-input { height: auto; padding-top: 16px; min-height: 140px; resize: none; }
-    select.rai-input { appearance: none; background-repeat: no-repeat; background-position: right 16px center; background-size: 18px; 
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    }
-
-    .rai-card {
-      background: var(--bg-card); border-radius: var(--radius-l); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; overflow: hidden;
-    }
-
-    .rai-btn {
-      width: 100%; height: 56px; background: var(--accent); color: #fff; font-size: 17px; font-weight: 700;
-      border-radius: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer;
-      transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
-    }
+    select.rai-input { appearance: none; background-repeat: no-repeat; background-position: right 16px center; background-size: 18px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); }
+    .rai-card { background: var(--bg-card); border-radius: var(--radius-l); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; overflow: hidden; }
+    .rai-btn { width: 100%; height: 56px; background: var(--accent); color: #fff; font-size: 17px; font-weight: 700; border-radius: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3); }
     .rai-btn:active { transform: scale(0.96); opacity: 0.9; }
     .rai-btn.secondary { background: var(--bg-input); color: var(--text-primary); box-shadow: none; }
     .rai-btn.danger { background: rgba(255, 59, 48, 0.1); color: var(--danger); box-shadow: none; }
     .rai-btn.google { background: #fff; color: #000; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .rai-btn.whatsapp { background: var(--whatsapp); color: #fff; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
     .rai-btn.small { height: 36px; font-size: 13px; padding: 0 16px; width: auto; display: inline-flex; }
     [data-theme="dark"] .rai-btn.google { background: #fff; color: #000; }
-
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr 1fr; } }
-
+    
     /* MARKET VIEW */
     .market-header { margin: 20px 0 30px 0; text-align: left; padding: 0 10px; }
     .market-title { font-size: 34px; font-weight: 800; margin-bottom: 4px; letter-spacing: -1px; }
     .market-subtitle { color: var(--text-secondary); font-size: 17px; font-weight: 500; }
-
     .search-wrapper { position: relative; margin-bottom: 24px; }
     .search-input { background: var(--bg-card); border-radius: 20px; padding-left: 50px; height: 60px; font-size: 18px; }
     .search-icon { position: absolute; left: 18px; top: 20px; color: var(--accent); font-size: 20px; }
-
-    .adv-filter-box {
-      margin-top: 16px; padding: 20px; background: var(--bg-card); border: 1px solid var(--accent);
-      border-radius: var(--radius-m); display: none; box-shadow: var(--shadow);
-    }
+    .adv-filter-box { margin-top: 16px; padding: 20px; background: var(--bg-card); border: 1px solid var(--accent); border-radius: var(--radius-m); display: none; box-shadow: var(--shadow); }
     .adv-filter-box.show { display: block; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    @keyframes popIn { from{opacity:0; transform:scale(0.95)} to{opacity:1; transform:scale(1)} }
-
     .listing-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px; }
     @media (min-width: 600px) { .listing-grid { grid-template-columns: repeat(3, 1fr); } }
-
     .empty-state { grid-column: 1 / -1; padding: 60px 0; text-align: center; color: var(--text-secondary); }
     .empty-icon { font-size: 60px; margin-bottom: 16px; opacity: 0.2; filter: grayscale(1); }
 
-    .upload-box {
-      aspect-ratio: 1; background: var(--bg-input); border-radius: var(--radius-m);
-      display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--text-secondary); cursor: pointer; transition: 0.2s;
-      position: relative; overflow: hidden;
-    }
+    /* SELL & UPLOAD */
+    .upload-box { aspect-ratio: 1; background: var(--bg-input); border-radius: var(--radius-m); display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--text-secondary); cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; }
     .upload-box img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
     .upload-box.main { border: 2px dashed var(--accent); color: var(--accent); background: rgba(0, 122, 255, 0.05); }
 
     /* DASHBOARD */
     .dashboard-header { text-align: center; padding: 40px 0 20px; }
     .dash-avatar-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 16px; }
-    .dash-avatar {
-      width: 100%; height: 100%; border-radius: 50%; background: var(--bg-input); 
-      background-size: cover; background-position: center; border: 4px solid var(--bg-card);
-      box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; font-size: 50px;
-    }
-    .dash-edit-badge {
-      position: absolute; bottom: 0; right: 0; width: 36px; height: 36px;
-      background: var(--accent); color: #fff; border-radius: 50%; border: 3px solid var(--bg-card);
-      display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer;
-    }
+    .dash-avatar { width: 100%; height: 100%; border-radius: 50%; background: var(--bg-input); background-size: cover; background-position: center; border: 4px solid var(--bg-card); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; font-size: 50px; }
+    .dash-edit-badge { position: absolute; bottom: 0; right: 0; width: 36px; height: 36px; background: var(--accent); color: #fff; border-radius: 50%; border: 3px solid var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
     .dash-stats { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; }
-    .stat-pill {
-      background: var(--bg-card); padding: 10px 20px; border-radius: 20px; box-shadow: var(--shadow);
-      display: flex; flex-direction: column; align-items: center; min-width: 100px;
-    }
+    .stat-pill { background: var(--bg-card); padding: 10px 20px; border-radius: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; min-width: 100px; }
     .stat-val { font-size: 18px; font-weight: 800; color: var(--text-primary); }
     .stat-lbl { font-size: 12px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; }
     .dash-section-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; margin-top: 30px; padding-left: 10px; }
-
-    /* LISTS */
     .list-group { background: var(--bg-card); border-radius: var(--radius-l); overflow: hidden; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-    .list-item {
-      padding: 18px 24px; border-bottom: 0.5px solid var(--separator); display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; font-size: 16px; font-weight: 500; transition: background 0.1s;
-    }
+    .list-item { padding: 18px 24px; border-bottom: 0.5px solid var(--separator); display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 16px; font-weight: 500; transition: background 0.1s; }
     .list-item:last-child { border-bottom: none; }
     .list-item:active { background: var(--bg-input); }
     .list-icon { margin-right: 16px; width: 24px; text-align: center; font-size: 18px; }
     .chevron { color: var(--text-secondary); font-size: 14px; font-weight: 700; opacity: 0.5; }
 
-    /* MODALS */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
-      z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    .modal-box {
-      background: var(--bg-card); width: 100%; max-width: 400px; max-height: 85vh; overflow-y: auto;
-      border-radius: var(--radius-l); padding: 24px; box-shadow: var(--shadow);
-      animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+    /* MODALS & OVERLAYS */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-box { background: var(--bg-card); width: 100%; max-width: 400px; max-height: 90vh; overflow-y: auto; border-radius: var(--radius-l); padding: 24px; box-shadow: var(--shadow); animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); display:flex; flex-direction:column; }
+    .modal-box.large { max-width: 600px; padding: 0; }
     .auth-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; text-align: center; }
+    @keyframes popIn { from{opacity:0; transform:scale(0.95)} to{opacity:1; transform:scale(1)} }
+
+    /* DETAIL VIEW STYLES */
+    .detail-img-container { width: 100%; height: 300px; background: var(--bg-input); position: relative; }
+    .detail-img-container img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-content { padding: 24px; padding-bottom: 100px; }
+    .detail-price { font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    .detail-title { font-size: 22px; font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
+    .detail-meta { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .detail-tag { background: var(--bg-input); padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-secondary); display:flex; align-items:center; gap:5px; }
+    .detail-desc { font-size: 16px; line-height: 1.6; color: var(--text-primary); margin-bottom: 30px; white-space: pre-wrap; }
+    .seller-card { background: var(--bg-input); padding: 16px; border-radius: 16px; display: flex; align-items: center; gap: 15px; }
+    .seller-av { width: 50px; height: 50px; border-radius: 50%; background: #ccc; background-size: cover; background-position: center; }
+    .detail-actions { position: absolute; bottom: 0; left: 0; right: 0; background: var(--bg-card); padding: 16px 24px; border-top: 1px solid var(--separator); display: flex; gap: 10px; }
+    .close-fab { position: absolute; top: 15px; right: 15px; width: 36px; height: 36px; background: rgba(0,0,0,0.5); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; }
 
     /* DOCK */
     .tab-bar-container { position: fixed; bottom: 30px; left: 0; right: 0; z-index: 2000; display: flex; justify-content: center; pointer-events: none; }
-    .tab-bar {
-      pointer-events: auto; height: 70px; background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 35px;
-      display: flex; align-items: center; justify-content: space-between; padding: 0 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.2); min-width: 280px;
-    }
+    .tab-bar { pointer-events: auto; height: 70px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.2); min-width: 280px; }
     [data-theme="dark"] .tab-bar { background: rgba(40, 40, 42, 0.85); border-color: rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-    .tab-item {
-      width: 60px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: var(--text-secondary); cursor: pointer; border-radius: 50%; transition: all 0.25s;
-    }
+    .tab-item { width: 60px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); cursor: pointer; border-radius: 50%; transition: all 0.25s; }
     .tab-icon { font-size: 26px; margin-bottom: 0; transition: transform 0.2s; }
     .tab-item.active { color: #fff; background: var(--accent); transform: translateY(-10px) scale(1.1); box-shadow: 0 6px 15px rgba(0, 122, 255, 0.4); }
     .tab-item:active { transform: scale(0.9); }
-
   </style>
 </head>
 <body>
@@ -255,14 +150,8 @@
   <div class="modal-overlay" id="settings-modal">
     <div class="modal-box">
       <div class="auth-title" data-i18n="title_settings">Profil bearbeiten</div>
-      <div class="rai-input-group">
-        <label class="rai-label" data-i18n="label_displayname">Anzeigename</label>
-        <input type="text" id="set-name" class="rai-input">
-      </div>
-      <div class="rai-input-group">
-        <label class="rai-label" data-i18n="label_phone">Telefonnummer</label>
-        <input type="tel" id="set-phone" class="rai-input" placeholder="+41 79 ...">
-      </div>
+      <div class="rai-input-group"><label class="rai-label" data-i18n="label_displayname">Anzeigename</label><input type="text" id="set-name" class="rai-input"></div>
+      <div class="rai-input-group"><label class="rai-label" data-i18n="label_phone">Telefonnummer</label><input type="tel" id="set-phone" class="rai-input" placeholder="+41 79 ..."></div>
       <div class="rai-input-group">
         <label class="rai-label" data-i18n="label_privacy">Privatsphäre (Nummer)</label>
         <select id="set-privacy" class="rai-input">
@@ -273,6 +162,44 @@
       </div>
       <button class="rai-btn" onclick="app.saveSettings()" data-i18n="btn_save">Speichern</button>
       <button class="rai-btn secondary" style="margin-top:10px; background:transparent;" onclick="app.closeModal('settings-modal')" data-i18n="btn_cancel">Abbrechen</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="detail-modal">
+    <div class="modal-box large" style="height: 100%; max-height: 100%; border-radius: 0; max-width: 100%; position: relative;">
+      <div class="close-fab" onclick="app.closeModal('detail-modal')">✕</div>
+      <div style="overflow-y: auto; flex: 1;">
+        <div class="detail-img-container" id="detail-img-box"></div>
+        <div class="detail-content">
+          <div class="detail-price" id="detail-price">€ 0</div>
+          <div class="detail-title" id="detail-title">Titel</div>
+          <div class="detail-meta">
+            <div class="detail-tag">📍 <span id="detail-loc">Ort</span></div>
+            <div class="detail-tag">🏷️ <span id="detail-cat">Kat</span></div>
+            <div class="detail-tag">📅 <span id="detail-date">Datum</span></div>
+          </div>
+          <div class="seller-card" style="margin-bottom:20px;">
+            <div class="seller-av" id="detail-seller-av"></div>
+            <div>
+              <div style="font-weight:700" id="detail-seller-name">Verkäufer</div>
+              <div style="font-size:12px; color:var(--text-secondary);" data-i18n="lbl_seller">Verkäufer auf ZONA</div>
+            </div>
+          </div>
+          <div class="detail-desc" id="detail-desc">Beschreibung...</div>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="rai-btn secondary" style="flex:1" onclick="app.contactSeller('call')" data-i18n="btn_call">📞 Anrufen</button>
+        <button class="rai-btn whatsapp" style="flex:1" onclick="app.contactSeller('whatsapp')" data-i18n="btn_whatsapp">💬 WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="my-listings-modal">
+    <div class="modal-box">
+      <div class="auth-title" data-i18n="menu_listings">Meine Inserate</div>
+      <div id="my-listings-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+      <button class="rai-btn secondary" style="margin-top:20px;" onclick="app.closeModal('my-listings-modal')" data-i18n="btn_close">Schließen</button>
     </div>
   </div>
 
@@ -311,36 +238,19 @@
       </div>
 
       <div class="grid-2" style="margin-bottom: 16px;">
-        <div class="rai-input-group" style="margin:0;">
-          <label class="rai-label" data-i18n="label_country">Land</label>
-          <select class="rai-input" id="filter-country" onchange="app.loadListings()"></select>
-        </div>
-        <div class="rai-input-group" style="margin:0;">
-          <label class="rai-label" data-i18n="label_category">Kategorie</label>
-          <select class="rai-input" id="filter-cat"></select>
-        </div>
+        <div class="rai-input-group" style="margin:0;"><label class="rai-label" data-i18n="label_country">Land</label><select class="rai-input" id="filter-country" onchange="app.loadListings()"></select></div>
+        <div class="rai-input-group" style="margin:0;"><label class="rai-label" data-i18n="label_category">Kategorie</label><select class="rai-input" id="filter-cat"></select></div>
       </div>
 
       <div class="grid-2">
-        <div class="rai-input-group" style="margin:0;">
-          <label class="rai-label" data-i18n="label_region">Region / Stadt</label>
-          <input type="text" class="rai-input" id="filter-region" placeholder="" data-i18n-placeholder="region_ph" oninput="app.loadListings()">
-        </div>
-        <div class="rai-input-group" style="margin:0;">
-          <label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label>
-          <select class="rai-input" id="filter-sub" disabled onchange="app.loadListings()">
-            <option data-i18n="opt_all">Alle</option>
-          </select>
-        </div>
+        <div class="rai-input-group" style="margin:0;"><label class="rai-label" data-i18n="label_region">Region / Stadt</label><input type="text" class="rai-input" id="filter-region" placeholder="" data-i18n-placeholder="region_ph" oninput="app.loadListings()"></div>
+        <div class="rai-input-group" style="margin:0;"><label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label><select class="rai-input" id="filter-sub" disabled onchange="app.loadListings()"><option data-i18n="opt_all">Alle</option></select></div>
       </div>
 
       <div id="dynamic-filters" class="adv-filter-box"></div>
 
       <div class="listing-grid" id="market-listings">
-        <div class="empty-state">
-          <div class="empty-icon">🛒</div>
-          <div data-i18n="empty_results">Keine Ergebnisse.</div>
-        </div>
+        <div class="empty-state"><div class="empty-icon">🛒</div><div data-i18n="empty_results">Keine Ergebnisse.</div></div>
       </div>
     </section>
 
@@ -361,42 +271,17 @@
       </div>
 
       <div class="rai-card">
-        <div class="rai-input-group">
-          <label class="rai-label" data-i18n="label_title">Titel</label>
-          <input type="text" class="rai-input" id="sell-title" placeholder="" data-i18n-placeholder="title_ph">
-        </div>
-
+        <div class="rai-input-group"><label class="rai-label" data-i18n="label_title">Titel</label><input type="text" class="rai-input" id="sell-title" placeholder="" data-i18n-placeholder="title_ph"></div>
         <div class="grid-2">
-           <div class="rai-input-group">
-            <label class="rai-label" data-i18n="label_country">Land</label>
-            <select class="rai-input" id="sell-country"></select>
-          </div>
-          <div class="rai-input-group">
-            <label class="rai-label" data-i18n="label_price">Preis (€)</label>
-            <input type="number" class="rai-input" id="sell-price" placeholder="0">
-          </div>
+           <div class="rai-input-group"><label class="rai-label" data-i18n="label_country">Land</label><select class="rai-input" id="sell-country"></select></div>
+           <div class="rai-input-group"><label class="rai-label" data-i18n="label_price">Preis (€)</label><input type="number" class="rai-input" id="sell-price" placeholder="0"></div>
         </div>
-
         <div class="grid-2">
-          <div class="rai-input-group">
-            <label class="rai-label" data-i18n="label_category">Kategorie</label>
-            <select class="rai-input" id="sell-cat"></select>
-          </div>
-          <div class="rai-input-group">
-            <label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label>
-            <select class="rai-input" id="sell-sub" disabled>
-              <option data-i18n="opt_choose">Wählen...</option>
-            </select>
-          </div>
+          <div class="rai-input-group"><label class="rai-label" data-i18n="label_category">Kategorie</label><select class="rai-input" id="sell-cat"></select></div>
+          <div class="rai-input-group"><label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label><select class="rai-input" id="sell-sub" disabled><option data-i18n="opt_choose">Wählen...</option></select></div>
         </div>
-
         <div id="sell-dynamic-inputs" class="grid-2" style="margin-bottom: 20px; display:none;"></div>
-
-        <div class="rai-input-group">
-          <label class="rai-label" data-i18n="label_description">Beschreibung</label>
-          <textarea class="rai-input" id="sell-desc" placeholder="" data-i18n-placeholder="desc_ph"></textarea>
-        </div>
-
+        <div class="rai-input-group"><label class="rai-label" data-i18n="label_description">Beschreibung</label><textarea class="rai-input" id="sell-desc" placeholder="" data-i18n-placeholder="desc_ph"></textarea></div>
         <button class="rai-btn" data-i18n="btn_publish" onclick="app.publishListing()">Veröffentlichen</button>
       </div>
     </section>
@@ -416,29 +301,20 @@
         </div>
 
         <div class="dash-stats">
-          <div class="stat-pill">
-            <span class="stat-val" id="stat-listings">0</span>
-            <span class="stat-lbl" data-i18n="lbl_listings">Inserate</span>
-          </div>
-          <div class="stat-pill">
-            <span class="stat-val">0</span>
-            <span class="stat-lbl" data-i18n="lbl_watchlist">Merkliste</span>
-          </div>
+          <div class="stat-pill"><span class="stat-val" id="stat-listings">0</span><span class="stat-lbl" data-i18n="lbl_listings">Inserate</span></div>
+          <div class="stat-pill"><span class="stat-val">0</span><span class="stat-lbl" data-i18n="lbl_watchlist">Merkliste</span></div>
         </div>
 
         <div class="dash-section-title" data-i18n="sec_settings">Einstellungen</div>
         <div class="list-group">
           <div class="list-item" onclick="app.openSettings()">
-            <div style="display:flex; align-items:center;">
-              <span class="list-icon">⚙️</span> <span data-i18n="menu_settings">Daten & Privatsphäre</span>
-            </div>
+            <div style="display:flex; align-items:center;"><span class="list-icon">⚙️</span> <span data-i18n="menu_settings">Daten & Privatsphäre</span></div>
             <span class="chevron">›</span>
           </div>
         </div>
 
         <div class="dash-section-title" data-i18n="sec_manage">Verwaltung</div>
-        <div class="list-group" id="dash-listings-container">
-          </div>
+        <div class="list-group" id="dash-listings-container"></div>
 
         <div style="text-align:center; margin-top:30px;">
           <button class="rai-btn secondary" style="color:var(--danger); width:auto; padding:0 30px;" data-i18n="btn_logout" onclick="app.logout()">Abmelden</button>
@@ -483,7 +359,6 @@
     const db = getFirestore(fbApp);
     const googleProvider = new GoogleAuthProvider();
 
-    // --- TRANSLATION DATABASE (FULL) ---
     const TRANSLATIONS = {
       de: {
         nav_market: "Markt", nav_sell: "Verkaufen", nav_profile: "Profil",
@@ -495,7 +370,7 @@
         region_ph: "Ort eingeben", title_ph: "Titel...", desc_ph: "Details...",
         btn_publish: "Veröffentlichen", btn_logout: "Abmelden", btn_login_register: "Anmelden / Registrieren",
         btn_cancel: "Abbrechen", btn_save: "Speichern", btn_remove_pic: "Bild entfernen",
-        opt_all: "Alle", opt_choose: "Wählen...",
+        opt_all: "Alle", opt_choose: "Wählen...", btn_close: "Schließen",
         lbl_listings: "Inserate", lbl_watchlist: "Merkliste", sec_settings: "Einstellungen", sec_manage: "Verwaltung",
         menu_settings: "Daten & Privatsphäre", guest_title: "Profil geschützt", guest_desc: "Melde dich an, um deine Inserate zu verwalten.",
         empty_results: "Keine Ergebnisse.", filter_km: "Kilometer bis", filter_year: "Jahr ab", filter_power: "PS",
@@ -507,7 +382,9 @@
         toast_login_ok: "Erfolgreich angemeldet!", toast_reg_ok: "Konto erstellt!", toast_logout: "Abgemeldet",
         toast_saved: "Gespeichert!", toast_deleted: "Gelöscht.", toast_published: "Inserat veröffentlicht!",
         toast_error: "Fehler: ", toast_wait: "Bitte warten...", toast_fill_all: "Bitte alles ausfüllen!",
-        alert_delete: "Wirklich löschen?", alert_remove_pic: "Bild wirklich entfernen?"
+        alert_delete: "Wirklich löschen?", alert_remove_pic: "Bild wirklich entfernen?",
+        btn_call: "📞 Anrufen", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Verkäufer auf ZONA",
+        msg_no_phone: "Keine Nummer angegeben.", msg_hidden_phone: "Nummer ist verborgen."
       },
       en: {
         nav_market: "Market", nav_sell: "Sell", nav_profile: "Profile",
@@ -517,7 +394,7 @@
         label_subcategory: "Subcategory", label_title: "Title", label_price: "Price",
         label_description: "Description", label_photos: "Photos", region_ph: "City", title_ph: "Title", desc_ph: "Details",
         btn_publish: "Publish", btn_logout: "Log out", btn_login_register: "Login / Register",
-        btn_cancel: "Cancel", btn_save: "Save", btn_remove_pic: "Remove Picture",
+        btn_cancel: "Cancel", btn_save: "Save", btn_remove_pic: "Remove Picture", btn_close: "Close",
         opt_all: "All", opt_choose: "Choose",
         lbl_listings: "Listings", lbl_watchlist: "Watchlist", sec_settings: "Settings", sec_manage: "Manage",
         menu_settings: "Data & Privacy", guest_title: "Profile Locked", guest_desc: "Login to manage listings.",
@@ -530,11 +407,19 @@
         toast_login_ok: "Logged in!", toast_reg_ok: "Account created!", toast_logout: "Logged out",
         toast_saved: "Saved!", toast_deleted: "Deleted.", toast_published: "Published!",
         toast_error: "Error: ", toast_wait: "Please wait...", toast_fill_all: "Fill all fields!",
-        alert_delete: "Really delete?", alert_remove_pic: "Really remove picture?"
+        alert_delete: "Really delete?", alert_remove_pic: "Really remove picture?",
+        btn_call: "📞 Call", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Seller on ZONA",
+        msg_no_phone: "No number provided.", msg_hidden_phone: "Number is hidden."
       },
-      sq: { nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan (€)", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Qyteti", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", btn_login_register: "Hyni / Regjistrohu", btn_cancel: "Anulo", btn_save: "Ruaj", btn_remove_pic: "Hiq Foton", opt_all: "Të gjitha", opt_choose: "Zgjidh", lbl_listings: "Njoftimet", lbl_watchlist: "Lista", sec_settings: "Cilësimet", sec_manage: "Menaxho", menu_settings: "Të dhënat & Privatësia", guest_title: "Profili i mbyllur", guest_desc: "Hyni për të menaxhuar.", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati", auth_welcome: "Mirësevini", auth_or: "OSE", btn_google: "Vazhdo me Google", label_email: "Email", label_password: "Fjalëkalimi", btn_login: "Hyni", btn_no_account: "Nuk keni llogari?", label_displayname: "Emri", label_phone: "Telefoni", label_privacy: "Privatësia", opt_registered: "Vetëm të regjistruarit", opt_public: "Publike", opt_hidden: "Fshehur", toast_login_ok: "Hyrje me sukses!", toast_reg_ok: "Llogaria u krijua!", toast_logout: "Dolët", toast_saved: "U ruajt!", toast_deleted: "U fshi.", toast_published: "U publikua!", toast_error: "Gabim: ", toast_wait: "Ju lutem prisni...", toast_fill_all: "Plotësoni të gjitha!", alert_delete: "A jeni i sigurt?", alert_remove_pic: "Hiq foton?" },
-      sr: { nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan (€)", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", btn_login_register: "Prijava / Registracija", btn_cancel: "Otkaži", btn_save: "Sačuvaj", btn_remove_pic: "Ukloni sliku", opt_all: "Sve", opt_choose: "Izaberi", lbl_listings: "Oglasi", lbl_watchlist: "Lista", sec_settings: "Podešavanja", sec_manage: "Upravljanje", menu_settings: "Podaci & Privatnost", guest_title: "Profil zaključan", guest_desc: "Prijavi se za upravljanje.", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat", auth_welcome: "Dobrodošli", auth_or: "ILI", btn_google: "Nastavi sa Google-om", label_email: "Email", label_password: "Lozinka", btn_login: "Prijava", btn_no_account: "Nemaš nalog?", label_displayname: "Ime", label_phone: "Telefon", label_privacy: "Privatnost", opt_registered: "Samo registrovani", opt_public: "Javno", opt_hidden: "Sakriveno", toast_login_ok: "Uspešna prijava!", toast_reg_ok: "Nalog kreiran!", toast_logout: "Odjavljen", toast_saved: "Sačuvano!", toast_deleted: "Obrisano.", toast_published: "Objavljeno!", toast_error: "Greška: ", toast_wait: "Sačekajte...", toast_fill_all: "Popuni sve!", alert_delete: "Sigurno obrisati?", alert_remove_pic: "Ukloniti sliku?" },
-      mk: { nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан (€)", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", btn_login_register: "Најава / Регистрација", btn_cancel: "Откажи", btn_save: "Зачувај", btn_remove_pic: "Тргни слика", opt_all: "Сите", opt_choose: "Избери", lbl_listings: "Огласи", lbl_watchlist: "Листа", sec_settings: "Поставки", sec_manage: "Управување", menu_settings: "Податоци & Приватност", guest_title: "Заклучен профил", guest_desc: "Најави се за управување.", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат", auth_welcome: "Добредојдовте", auth_or: "ИЛИ", btn_google: "Продолжи со Google", label_email: "Е-пошта", label_password: "Лозинка", btn_login: "Најава", btn_no_account: "Немаш сметка?", label_displayname: "Име", label_phone: "Телефон", label_privacy: "Приватност", opt_registered: "Само регистрирани", opt_public: "Јавно", opt_hidden: "Скриено", toast_login_ok: "Успешна најава!", toast_reg_ok: "Сметката е креирана!", toast_logout: "Одјавен", toast_saved: "Зачувано!", toast_deleted: "Избришано.", toast_published: "Објавено!", toast_error: "Грешка: ", toast_wait: "Почекајте...", toast_fill_all: "Пополнете се!", alert_delete: "Сигурно бришење?", alert_remove_pic: "Тргни слика?" }
+      sq: { 
+        nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan (€)", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Qyteti", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", btn_login_register: "Hyni / Regjistrohu", btn_cancel: "Anulo", btn_save: "Ruaj", btn_remove_pic: "Hiq Foton", btn_close: "Mbyll", opt_all: "Të gjitha", opt_choose: "Zgjidh", lbl_listings: "Njoftimet", lbl_watchlist: "Lista", sec_settings: "Cilësimet", sec_manage: "Menaxho", menu_settings: "Të dhënat & Privatësia", guest_title: "Profili i mbyllur", guest_desc: "Hyni për të menaxhuar.", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati", auth_welcome: "Mirësevini", auth_or: "OSE", btn_google: "Vazhdo me Google", label_email: "Email", label_password: "Fjalëkalimi", btn_login: "Hyni", btn_no_account: "Nuk keni llogari?", label_displayname: "Emri", label_phone: "Telefoni", label_privacy: "Privatësia", opt_registered: "Vetëm të regjistruarit", opt_public: "Publike", opt_hidden: "Fshehur", toast_login_ok: "Hyrje me sukses!", toast_reg_ok: "Llogaria u krijua!", toast_logout: "Dolët", toast_saved: "U ruajt!", toast_deleted: "U fshi.", toast_published: "U publikua!", toast_error: "Gabim: ", toast_wait: "Ju lutem prisni...", toast_fill_all: "Plotësoni të gjitha!", alert_delete: "A jeni i sigurt?", alert_remove_pic: "Hiq foton?", btn_call: "📞 Telefono", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Shitësi në ZONA", msg_no_phone: "S'ka numër.", msg_hidden_phone: "Numri i fshehur."
+      },
+      sr: { 
+        nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan (€)", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", btn_login_register: "Prijava / Registracija", btn_cancel: "Otkaži", btn_save: "Sačuvaj", btn_remove_pic: "Ukloni sliku", btn_close: "Zatvori", opt_all: "Sve", opt_choose: "Izaberi", lbl_listings: "Oglasi", lbl_watchlist: "Lista", sec_settings: "Podešavanja", sec_manage: "Upravljanje", menu_settings: "Podaci & Privatnost", guest_title: "Profil zaključan", guest_desc: "Prijavi se za upravljanje.", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat", auth_welcome: "Dobrodošli", auth_or: "ILI", btn_google: "Nastavi sa Google-om", label_email: "Email", label_password: "Lozinka", btn_login: "Prijava", btn_no_account: "Nemaš nalog?", label_displayname: "Ime", label_phone: "Telefon", label_privacy: "Privatnost", opt_registered: "Samo registrovani", opt_public: "Javno", opt_hidden: "Sakriveno", toast_login_ok: "Uspešna prijava!", toast_reg_ok: "Nalog kreiran!", toast_logout: "Odjavljen", toast_saved: "Sačuvano!", toast_deleted: "Obrisano.", toast_published: "Objavljeno!", toast_error: "Greška: ", toast_wait: "Sačekajte...", toast_fill_all: "Popuni sve!", alert_delete: "Sigurno obrisati?", alert_remove_pic: "Ukloniti sliku?", btn_call: "📞 Pozovi", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Prodavac na ZONA", msg_no_phone: "Nema broja.", msg_hidden_phone: "Broj sakriven."
+      },
+      mk: { 
+        nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан (€)", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", btn_login_register: "Најава / Регистрација", btn_cancel: "Откажи", btn_save: "Зачувај", btn_remove_pic: "Тргни слика", btn_close: "Затвори", opt_all: "Сите", opt_choose: "Избери", lbl_listings: "Огласи", lbl_watchlist: "Листа", sec_settings: "Поставки", sec_manage: "Управување", menu_settings: "Податоци & Приватност", guest_title: "Заклучен профил", guest_desc: "Најави се за управување.", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат", auth_welcome: "Добредојдовте", auth_or: "ИЛИ", btn_google: "Продолжи со Google", label_email: "Е-пошта", label_password: "Лозинка", btn_login: "Најава", btn_no_account: "Немаш сметка?", label_displayname: "Име", label_phone: "Телефон", label_privacy: "Приватност", opt_registered: "Само регистрирани", opt_public: "Јавно", opt_hidden: "Скриено", toast_login_ok: "Успешна најава!", toast_reg_ok: "Сметката е креирана!", toast_logout: "Одјавен", toast_saved: "Зачувано!", toast_deleted: "Избришано.", toast_published: "Објавено!", toast_error: "Грешка: ", toast_wait: "Почекајте...", toast_fill_all: "Пополнете се!", alert_delete: "Сигурно бришење?", alert_remove_pic: "Тргни слика?", btn_call: "📞 Јави се", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Продавач на ZONA", msg_no_phone: "Нема број.", msg_hidden_phone: "Бројот е скриен."
+      }
     };
 
     const COUNTRIES_DATA = { all: { de: "Alle", en: "All", sq: "Të gjitha", sr: "Sve", mk: "Сите" }, al: { de: "Albanien", en: "Albania", sq: "Shqipëria", sr: "Albanija", mk: "Албанија" }, xk: { de: "Kosovo", en: "Kosovo", sq: "Kosova", sr: "Kosovo", mk: "Косово" }, mk: { de: "Nordmazedonien", en: "North Macedonia", sq: "Maqedonia e V.", sr: "Severna Makedonija", mk: "Северна Македонија" }, rs: { de: "Serbien", en: "Serbia", sq: "Serbia", sr: "Srbija", mk: "Србија" }, ba: { de: "Bosnien & Herz.", en: "Bosnia & Herz.", sq: "Bosnja", sr: "Bosna", mk: "Босна" }, hr: { de: "Kroatien", en: "Croatia", sq: "Kroacia", sr: "Hrvatska", mk: "Хрватска" }, me: { de: "Montenegro", en: "Montenegro", sq: "Mali i Zi", sr: "Crna Gora", mk: "Црна Гора" } };
@@ -548,11 +433,12 @@
       home: { label: { de: "Haus & Garten", en: "Home & Garden", sq: "Shtëpia", sr: "Kuća", mk: "Дом" }, subs: [{k:"furn",de:"Möbel"},{k:"kitchen",de:"Küche"},{k:"garden",de:"Garten"},{k:"deco",de:"Deko"}], filters: [] }
     };
 
-    // --- HELPER ---
+    // --- MAIN APP ---
     window.app = {
       lang: 'de', user: null, authMode: 'login', uploadSlot: -1, images: [null, null, null, null],
+      currentListing: null, currentSeller: null,
 
-      t: (key) => TRANSLATIONS[app.lang][key] || key, // Translate helper
+      t: (key) => TRANSLATIONS[app.lang][key] || key,
 
       init: () => {
         app.loadTheme();
@@ -708,21 +594,67 @@
       loadListings: async () => {
         let q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(50));
         const country = document.getElementById('filter-country').value;
-        if(country && country !== "all") q = query(collection(db, "listings"), where("country", "==", country));
+        if(country && country !== "all") {
+            try {
+               q = query(collection(db, "listings"), where("country", "==", country), orderBy("createdAt", "desc"));
+            } catch(e) { console.log("Index needed link in console"); }
+        }
         
         const snapshot = await getDocs(q);
         const container = document.getElementById('market-listings');
-        if (snapshot.empty) {
-          container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`;
-          return;
-        }
+        if (snapshot.empty) { container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`; return; }
         let html = '';
         snapshot.forEach(doc => {
           const data = doc.data();
           const imgHtml = data.image ? `<img src="${data.image}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
-          html += `<div class="rai-card" style="padding:0; cursor:pointer;"><div style="height:180px; background:var(--bg-input); position:relative;">${imgHtml}<div style="position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.9); padding:2px 8px; border-radius:10px; font-size:10px; font-weight:bold; color:black;">${data.country || "Balkan"}</div></div><div style="padding:15px;"><div style="font-weight:700; font-size:16px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.title}</div><div style="color:var(--accent); font-weight:700;">€ ${data.price}</div></div></div>`;
+          html += `<div class="rai-card" style="padding:0; cursor:pointer;" onclick="app.openDetail('${doc.id}')"><div style="height:180px; background:var(--bg-input); position:relative;">${imgHtml}<div style="position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.9); padding:2px 8px; border-radius:10px; font-size:10px; font-weight:bold; color:black;">${data.country || "Balkan"}</div></div><div style="padding:15px;"><div style="font-weight:700; font-size:16px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.title}</div><div style="color:var(--accent); font-weight:700;">€ ${data.price}</div></div></div>`;
         });
         container.innerHTML = html;
+      },
+
+      // --- DETAIL & CONTACT ---
+      openDetail: async (id) => {
+        const snap = await getDoc(doc(db, "listings", id));
+        if(!snap.exists()) return;
+        const data = snap.data();
+        app.currentListing = data;
+        
+        // Fetch Seller
+        const sellerSnap = await getDoc(doc(db, "users", data.uid));
+        app.currentSeller = sellerSnap.exists() ? sellerSnap.data() : {};
+
+        // UI
+        document.getElementById('detail-title').innerText = data.title;
+        document.getElementById('detail-price').innerText = `€ ${data.price}`;
+        document.getElementById('detail-desc').innerText = data.desc;
+        document.getElementById('detail-loc').innerText = data.country;
+        document.getElementById('detail-cat').innerText = data.category;
+        document.getElementById('detail-date').innerText = new Date(data.createdAt.seconds * 1000).toLocaleDateString();
+        
+        const imgBox = document.getElementById('detail-img-box');
+        imgBox.innerHTML = data.image ? `<img src="${data.image}">` : `<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:50px;">📷</div>`;
+
+        document.getElementById('detail-seller-name').innerText = app.currentSeller.displayName || "User";
+        const av = document.getElementById('detail-seller-av');
+        av.style.backgroundImage = app.currentSeller.photoURL ? `url(${app.currentSeller.photoURL})` : "none";
+        av.innerText = app.currentSeller.photoURL ? "" : "👤";
+
+        document.getElementById('detail-modal').style.display = "flex";
+      },
+      contactSeller: (method) => {
+        if(!app.currentSeller) return;
+        const phone = app.currentSeller.phone;
+        const privacy = app.currentSeller.privacy || "registered";
+
+        if(privacy === "hidden") { app.showToast(app.t('msg_hidden_phone')); return; }
+        if(privacy === "registered" && !app.user) { app.showToast(app.t('guest_desc')); return; }
+        if(!phone) { app.showToast(app.t('msg_no_phone')); return; }
+
+        if(method === 'call') window.open(`tel:${phone}`);
+        if(method === 'whatsapp') {
+            const clean = phone.replace(/[^0-9]/g, '');
+            window.open(`https://wa.me/${clean}`);
+        }
       },
 
       // --- NAV & CONFIG ---
