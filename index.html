@@ -6,7 +6,7 @@
   <title>BALKO – Marktplatz</title>
   
   <style>
-    /* --- iOS DESIGN SYSTEM --- */
+    /* --- RAI DESIGN SYSTEM --- */
     :root {
       /* LIGHT MODE */
       --bg-body: #F2F2F7;       
@@ -26,7 +26,7 @@
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       
       --nav-height: 60px;
-      --max-width: 800px; /* Optimal für App-Feeling */
+      --max-width: 800px;
     }
 
     [data-theme="dark"] {
@@ -48,7 +48,7 @@
       color: var(--text-primary);
       font-family: var(--font);
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 120px; /* Mehr Platz für das Floating Dock */
+      padding-bottom: 120px; /* Platz für Dock */
       padding-top: env(safe-area-inset-top);
       transition: background-color 0.3s ease;
     }
@@ -58,12 +58,11 @@
     .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
     .hidden { display: none !important; }
 
-    /* --- CLEAN HEADER (No Links) --- */
+    /* --- CLEAN HEADER --- */
     .navbar {
       position: sticky; top: 0; z-index: 1000;
       height: var(--nav-height);
-      background: rgba(255, 255, 255, 0.0); /* Transparent für Glass effekt */
-      /* Backdrop-Filter entfernt für cleaner Look oben, content scrollt drunter */
+      background: rgba(255, 255, 255, 0.0);
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 10px;
     }
@@ -98,35 +97,35 @@
     }
     .theme-toggle:active { transform: scale(0.9); }
 
-    /* --- COMPONENTS --- */
-    .ios-input-group { margin-bottom: 20px; }
-    .ios-label {
+    /* --- RAI COMPONENTS --- */
+    .rai-input-group { margin-bottom: 20px; }
+    .rai-label {
       display: block; font-size: 11px; text-transform: uppercase; font-weight: 700;
       color: var(--text-secondary); margin-bottom: 8px; margin-left: 12px; letter-spacing: 0.5px;
     }
-    .ios-input {
+    .rai-input {
       width: 100%; height: 54px; padding: 0 16px;
       background: var(--bg-card); color: var(--text-primary);
       border-radius: var(--radius-m); font-size: 17px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.02);
       transition: 0.2s;
     }
-    .ios-input:focus { box-shadow: 0 0 0 2px var(--accent); transform: scale(1.01); }
-    textarea.ios-input { height: auto; padding-top: 16px; min-height: 140px; resize: none; }
+    .rai-input:focus { box-shadow: 0 0 0 2px var(--accent); transform: scale(1.01); }
+    textarea.rai-input { height: auto; padding-top: 16px; min-height: 140px; resize: none; }
     
-    select.ios-input {
+    select.rai-input {
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat; background-position: right 16px center; background-size: 18px;
     }
 
-    .ios-card {
+    .rai-card {
       background: var(--bg-card); border-radius: var(--radius-l);
       padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
       position: relative; overflow: hidden;
     }
 
-    .ios-btn {
+    .rai-btn {
       width: 100%; height: 56px;
       background: var(--accent); color: #fff;
       font-size: 17px; font-weight: 700;
@@ -135,8 +134,8 @@
       cursor: pointer; transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s;
       box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
     }
-    .ios-btn:active { transform: scale(0.96); opacity: 0.9; }
-    .ios-btn.secondary { 
+    .rai-btn:active { transform: scale(0.96); opacity: 0.9; }
+    .rai-btn.secondary { 
       background: var(--bg-input); color: var(--text-primary); box-shadow: none; 
     }
 
@@ -205,10 +204,10 @@
     .list-icon { margin-right: 16px; width: 24px; text-align: center; font-size: 18px; }
     .chevron { color: var(--text-secondary); font-size: 14px; font-weight: 700; opacity: 0.5; }
 
-    /* --- FLOATING DOCK (Touch Design) --- */
+    /* --- FLOATING DOCK (TOUCH DESIGN) --- */
     .tab-bar-container {
       position: fixed; bottom: 30px; left: 0; right: 0; z-index: 2000;
-      display: flex; justify-content: center; pointer-events: none; /* Container click-through */
+      display: flex; justify-content: center; pointer-events: none;
     }
 
     .tab-bar {
@@ -216,7 +215,7 @@
       height: 70px; 
       background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-      border-radius: 35px; /* Full Rounded Pill */
+      border-radius: 35px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 10px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.15);
@@ -277,28 +276,28 @@
 
       <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" class="ios-input search-input" id="search-input" placeholder="" data-i18n-placeholder="search_ph">
+        <input type="text" class="rai-input search-input" id="search-input" placeholder="" data-i18n-placeholder="search_ph">
       </div>
 
       <div class="grid-2" style="margin-bottom: 16px;">
-        <div class="ios-input-group" style="margin:0;">
-          <label class="ios-label" data-i18n="label_country">Land</label>
-          <select class="ios-input" id="filter-country"></select>
+        <div class="rai-input-group" style="margin:0;">
+          <label class="rai-label" data-i18n="label_country">Land</label>
+          <select class="rai-input" id="filter-country"></select>
         </div>
-        <div class="ios-input-group" style="margin:0;">
-          <label class="ios-label" data-i18n="label_category">Kategorie</label>
-          <select class="ios-input" id="filter-cat"></select>
+        <div class="rai-input-group" style="margin:0;">
+          <label class="rai-label" data-i18n="label_category">Kategorie</label>
+          <select class="rai-input" id="filter-cat"></select>
         </div>
       </div>
 
       <div class="grid-2">
-        <div class="ios-input-group" style="margin:0;">
-          <label class="ios-label" data-i18n="label_region">Region / Stadt</label>
-          <input type="text" class="ios-input" placeholder="" data-i18n-placeholder="region_ph">
+        <div class="rai-input-group" style="margin:0;">
+          <label class="rai-label" data-i18n="label_region">Region / Stadt</label>
+          <input type="text" class="rai-input" placeholder="" data-i18n-placeholder="region_ph">
         </div>
-        <div class="ios-input-group" style="margin:0;">
-          <label class="ios-label" data-i18n="label_subcategory">Unterkategorie</label>
-          <select class="ios-input" id="filter-sub" disabled>
+        <div class="rai-input-group" style="margin:0;">
+          <label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label>
+          <select class="rai-input" id="filter-sub" disabled>
             <option data-i18n="opt_all">Alle</option>
           </select>
         </div>
@@ -320,8 +319,8 @@
         <div class="market-subtitle" data-i18n="sell_subtitle">Inserat aufgeben</div>
       </div>
 
-      <div class="ios-card">
-        <div class="ios-label" style="margin-bottom:12px;" data-i18n="label_photos">Fotos (Max 8)</div>
+      <div class="rai-card">
+        <div class="rai-label" style="margin-bottom:12px;" data-i18n="label_photos">Fotos (Max 8)</div>
         <div class="grid-4">
           <div class="upload-box main">📷</div>
           <div class="upload-box">+</div>
@@ -334,31 +333,31 @@
         </div>
       </div>
 
-      <div class="ios-card">
-        <div class="ios-input-group">
-          <label class="ios-label" data-i18n="label_title">Titel</label>
-          <input type="text" class="ios-input" placeholder="" data-i18n-placeholder="title_ph">
+      <div class="rai-card">
+        <div class="rai-input-group">
+          <label class="rai-label" data-i18n="label_title">Titel</label>
+          <input type="text" class="rai-input" placeholder="" data-i18n-placeholder="title_ph">
         </div>
 
         <div class="grid-2">
-           <div class="ios-input-group">
-            <label class="ios-label" data-i18n="label_country">Land</label>
-            <select class="ios-input" id="sell-country"></select>
+           <div class="rai-input-group">
+            <label class="rai-label" data-i18n="label_country">Land</label>
+            <select class="rai-input" id="sell-country"></select>
           </div>
-          <div class="ios-input-group">
-            <label class="ios-label" data-i18n="label_price">Preis (€)</label>
-            <input type="number" class="ios-input" placeholder="0">
+          <div class="rai-input-group">
+            <label class="rai-label" data-i18n="label_price">Preis (€)</label>
+            <input type="number" class="rai-input" placeholder="0">
           </div>
         </div>
 
         <div class="grid-2">
-          <div class="ios-input-group">
-            <label class="ios-label" data-i18n="label_category">Kategorie</label>
-            <select class="ios-input" id="sell-cat"></select>
+          <div class="rai-input-group">
+            <label class="rai-label" data-i18n="label_category">Kategorie</label>
+            <select class="rai-input" id="sell-cat"></select>
           </div>
-          <div class="ios-input-group">
-            <label class="ios-label" data-i18n="label_subcategory">Unterkategorie</label>
-            <select class="ios-input" id="sell-sub" disabled>
+          <div class="rai-input-group">
+            <label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label>
+            <select class="rai-input" id="sell-sub" disabled>
               <option data-i18n="opt_choose">Wählen...</option>
             </select>
           </div>
@@ -366,12 +365,12 @@
 
         <div id="sell-dynamic-inputs" class="grid-2" style="margin-bottom: 20px; display:none;"></div>
 
-        <div class="ios-input-group">
-          <label class="ios-label" data-i18n="label_description">Beschreibung</label>
-          <textarea class="ios-input" placeholder="" data-i18n-placeholder="desc_ph"></textarea>
+        <div class="rai-input-group">
+          <label class="rai-label" data-i18n="label_description">Beschreibung</label>
+          <textarea class="rai-input" placeholder="" data-i18n-placeholder="desc_ph"></textarea>
         </div>
 
-        <button class="ios-btn" data-i18n="btn_publish">Veröffentlichen</button>
+        <button class="rai-btn" data-i18n="btn_publish">Veröffentlichen</button>
       </div>
     </section>
 
@@ -412,7 +411,7 @@
         </div>
       </div>
 
-      <button class="ios-btn secondary" style="color:var(--danger);" data-i18n="btn_logout">Abmelden</button>
+      <button class="rai-btn secondary" style="color:var(--danger);" data-i18n="btn_logout">Abmelden</button>
     </section>
   </main>
 
@@ -431,7 +430,7 @@
   </div>
 
   <script>
-    // --- TRANSLATION DATABASE ---
+    // --- TRANSLATIONS ---
     const TRANSLATIONS = {
       de: {
         nav_market: "Markt", nav_sell: "Verkaufen", nav_profile: "Profil",
@@ -541,33 +540,73 @@
       tr: { de: "Türkei", en: "Turkey", sq: "Turqia", sr: "Turska", mk: "Турција" }
     };
 
+    // --- RESTORED CATEGORY STRUCTURE ---
     const CATEGORIES_DATA = {
       vehicles: {
         label: { de: "Fahrzeuge", en: "Vehicles", sq: "Automjete", sr: "Vozila", mk: "Возила" },
         subs: [
-          { k: "small", de: "Kleinwagen", en: "Small Car" }, { k: "limo", de: "Limousine", en: "Sedan" },
-          { k: "wagon", de: "Kombi", en: "Wagon" }, { k: "suv", de: "SUV / Geländewagen", en: "SUV" },
-          { k: "moto", de: "Motorrad", en: "Motorcycle" }, { k: "truck", de: "Nutzfahrzeug", en: "Truck/Van" }
+          { k: "small", de: "Kleinwagen", en: "Small Car", sq: "Veturë e vogël", sr: "Mali auto", mk: "Мал автомобил" },
+          { k: "limo", de: "Limousine", en: "Sedan", sq: "Limuzinë", sr: "Limuzina", mk: "Лимузина" },
+          { k: "wagon", de: "Kombi", en: "Wagon", sq: "Karavan", sr: "Karavan", mk: "Караван" },
+          { k: "suv", de: "SUV / Geländewagen", en: "SUV / Offroad", sq: "SUV / Fuoristradë", sr: "SUV / Terenac", mk: "SUV / Теренец" },
+          { k: "coupe", de: "Sportwagen / Coupé", en: "Sports/Coupe", sq: "Sportive", sr: "Sportski", mk: "Спортски" },
+          { k: "cabrio", de: "Cabrio", en: "Convertible", sq: "Kabriolet", sr: "Kabriolet", mk: "Кабриолет" },
+          { k: "moto", de: "Motorrad", en: "Motorcycle", sq: "Motoçikletë", sr: "Motocikl", mk: "Мотоцикл" },
+          { k: "truck", de: "Nutzfahrzeug", en: "Truck/Van", sq: "Kamion/Furgon", sr: "Teretno vozilo", mk: "Товарно возило" }
         ],
-        // Default Filters
         filters: [ { id: "filter_km" }, { id: "filter_year" }, { id: "filter_power" } ]
       },
       realestate: {
         label: { de: "Immobilien", en: "Real Estate", sq: "Patundshmëri", sr: "Nekretnine", mk: "Недвижности" },
         subs: [
-          { k: "apt", de: "Wohnung", en: "Apartment" },
-          { k: "house", de: "Haus", en: "House" },
-          { k: "land", de: "Grundstück", en: "Land" },
-          { k: "comm", de: "Gewerbe", en: "Commercial" },
-          { k: "garage", de: "Garage", en: "Garage" }
+          { k: "apt_buy", de: "Wohnung (Kauf)", en: "Apartment (Buy)", sq: "Banesë (Blerje)", sr: "Stan (Prodaja)", mk: "Стан (Продажба)" },
+          { k: "apt_rent", de: "Wohnung (Miete)", en: "Apartment (Rent)", sq: "Banesë (Qira)", sr: "Stan (Izdavanje)", mk: "Стан (Изнајмување)" },
+          { k: "house_buy", de: "Haus (Kauf)", en: "House (Buy)", sq: "Shtëpi (Blerje)", sr: "Kuća (Prodaja)", mk: "Куќа (Продажба)" },
+          { k: "house_rent", de: "Haus (Miete)", en: "House (Rent)", sq: "Shtëpi (Qira)", sr: "Kuća (Izdavanje)", mk: "Куќа (Изнајмување)" },
+          { k: "land", de: "Grundstück", en: "Land", sq: "Truall", sr: "Zemljište", mk: "Земјиште" },
+          { k: "comm", de: "Gewerbe", en: "Commercial", sq: "Hapësirë afariste", sr: "Poslovni prostor", mk: "Деловен простор" },
+          { k: "garage", de: "Garage", en: "Garage", sq: "Garazhë", sr: "Garaža", mk: "Гаража" }
         ],
-        filters: [ { id: "filter_area" } ] // Base filter
+        filters: [ { id: "filter_area" } ] // Standard: Area only
       },
       electronics: {
         label: { de: "Elektronik", en: "Electronics", sq: "Elektronikë", sr: "Elektronika", mk: "Електроника" },
         subs: [
-          { k: "phone", de: "Smartphone", en: "Smartphone" }, { k: "laptop", de: "Laptop / PC", en: "Laptop" },
-          { k: "console", de: "Konsole", en: "Console" }, { k: "tv", de: "TV & Audio", en: "TV" }
+          { k: "phone", de: "Smartphone", en: "Smartphone", sq: "Telefon", sr: "Telefon", mk: "Телефон" },
+          { k: "laptop", de: "Laptop / PC", en: "Laptop / PC", sq: "Laptop / PC", sr: "Laptop / Računar", mk: "Лаптоп / Компјутер" },
+          { k: "console", de: "Konsole", en: "Console", sq: "Konzolë", sr: "Konzola", mk: "Конзола" },
+          { k: "tv", de: "TV & Audio", en: "TV & Audio", sq: "TV & Audio", sr: "TV & Audio", mk: "ТВ и Аудио" },
+          { k: "cam", de: "Kamera", en: "Camera", sq: "Kamera", sr: "Kamera", mk: "Камера" }
+        ],
+        filters: []
+      },
+      fashion: {
+        label: { de: "Mode", en: "Fashion", sq: "Moda", sr: "Moda", mk: "Мода" },
+        subs: [
+          { k: "women", de: "Damen", en: "Women", sq: "Femra", sr: "Žene", mk: "Жени" },
+          { k: "men", de: "Herren", en: "Men", sq: "Meshkuj", sr: "Muškarci", mk: "Мажи" },
+          { k: "kids", de: "Kinder", en: "Kids", sq: "Fëmijë", sr: "Deca", mk: "Деца" },
+          { k: "acc", de: "Accessoires", en: "Accessories", sq: "Aksesorë", sr: "Dodaci", mk: "Додатоци" }
+        ],
+        filters: []
+      },
+      services: {
+        label: { de: "Dienstleistung", en: "Services", sq: "Shërbime", sr: "Usluge", mk: "Услуги" },
+        subs: [
+          { k: "craft", de: "Handwerk", en: "Crafts", sq: "Zejtari", sr: "Zanatstvo", mk: "Занаетчиство" },
+          { k: "trans", de: "Transport", en: "Transport", sq: "Transport", sr: "Transport", mk: "Транспорт" },
+          { k: "tech", de: "IT & Tech", en: "IT & Tech", sq: "IT & Tech", sr: "IT & Tech", mk: "ИТ и Технологија" },
+          { k: "edu", de: "Unterricht", en: "Education", sq: "Arsim", sr: "Obrazovanje", mk: "Образование" }
+        ],
+        filters: []
+      },
+      home: {
+        label: { de: "Haus & Garten", en: "Home & Garden", sq: "Shtëpia & Kopshti", sr: "Kuća i Bašta", mk: "Дом и Градина" },
+        subs: [
+          { k: "furn", de: "Möbel", en: "Furniture", sq: "Mobilje", sr: "Nameštaj", mk: "Мебел" },
+          { k: "kitchen", de: "Küche", en: "Kitchen", sq: "Kuzhina", sr: "Kuhinja", mk: "Кујна" },
+          { k: "garden", de: "Garten", en: "Garden", sq: "Kopsht", sr: "Bašta", mk: "Градина" },
+          { k: "deco", de: "Deko", en: "Decoration", sq: "Dekorim", sr: "Dekoracija", mk: "Декорација" }
         ],
         filters: []
       }
@@ -589,7 +628,6 @@
         app.translatePage();
         app.populateDropdowns('filter');
         app.populateDropdowns('sell');
-        // Reset sub dropdowns
         app.resetSubDropdown('filter');
         app.resetSubDropdown('sell');
       },
@@ -615,8 +653,6 @@
 
       populateDropdowns: (prefix) => {
         const lang = app.lang;
-        
-        // Countries
         const countrySel = document.getElementById(prefix + '-country');
         countrySel.innerHTML = "";
         for (const code in COUNTRIES_DATA) {
@@ -626,9 +662,7 @@
           countrySel.appendChild(opt);
         }
 
-        // Categories
         const catSel = document.getElementById(prefix + '-cat');
-        const currentVal = catSel.value;
         catSel.innerHTML = "";
         const defOpt = document.createElement('option');
         defOpt.value = ""; 
@@ -641,14 +675,12 @@
           opt.textContent = CATEGORIES_DATA[catKey].label[lang];
           catSel.appendChild(opt);
         }
-        catSel.value = currentVal;
       },
 
       setupListeners: (prefix) => {
         const catSel = document.getElementById(prefix + '-cat');
         const subSel = document.getElementById(prefix + '-sub');
         
-        // Category Change
         catSel.addEventListener('change', () => {
           const val = catSel.value;
           const lang = app.lang;
@@ -664,12 +696,10 @@
             CATEGORIES_DATA[val].subs.forEach(item => {
               const opt = document.createElement('option');
               opt.value = item.k; 
-              // Translation fallback logic for simple subs
-              let txt = item[lang] || item['en']; 
-              opt.textContent = txt;
+              opt.textContent = item[lang] || item['en'];
               subSel.appendChild(opt);
             });
-            // Init filters with base category
+            // Init filters (default)
             app.renderContextFilters(prefix, val, null);
           } else {
             subSel.disabled = true;
@@ -677,11 +707,9 @@
           }
         });
 
-        // Subcategory Change (KEY CHANGE HERE)
+        // Smart Filter Listener
         subSel.addEventListener('change', () => {
-            const catVal = catSel.value;
-            const subVal = subSel.value;
-            app.renderContextFilters(prefix, catVal, subVal);
+            app.renderContextFilters(prefix, catSel.value, subSel.value);
         });
       },
 
@@ -694,18 +722,17 @@
 
         if (!categoryKey || !CATEGORIES_DATA[categoryKey]) return;
 
-        // Base Filters
         let filters = [...CATEGORIES_DATA[categoryKey].filters];
         
-        // DYNAMIC FILTER LOGIC (The Smart Part)
+        // --- SMART LOGIC ---
+        // If Real Estate AND (Apartment or House) -> Add Rooms & Floor
         if (categoryKey === 'realestate') {
-             // Default is Area. 
-             // IF sub is Apartment or House -> Add Rooms + Floor
-             if (subKey === 'apt' || subKey === 'house') {
-                 filters.push({ id: "filter_rooms" });
-                 filters.push({ id: "filter_floor" });
-             }
-             // IF sub is Land or Garage -> KEEP ONLY AREA (Default)
+            const isDwelling = subKey && (subKey.includes('apt') || subKey.includes('house'));
+            if (isDwelling) {
+                filters.push({ id: "filter_rooms" });
+                filters.push({ id: "filter_floor" });
+            }
+            // Else (e.g. Land, Commercial) -> keep default (Area only)
         }
 
         if (filters.length === 0) return;
@@ -720,9 +747,9 @@
           filters.forEach(f => {
             const label = t[f.id] || f.id;
             html += `
-              <div class="ios-input-group" style="margin:0">
-                <label class="ios-label">${label}</label>
-                <input type="number" class="ios-input" placeholder="0">
+              <div class="rai-input-group" style="margin:0">
+                <label class="rai-label">${label}</label>
+                <input type="number" class="rai-input" placeholder="0">
               </div>`;
           });
           html += '</div>';
@@ -732,10 +759,10 @@
           filters.forEach(f => {
             const label = t[f.id] || f.id;
             const div = document.createElement('div');
-            div.className = "ios-input-group";
+            div.className = "rai-input-group";
             div.innerHTML = `
-              <label class="ios-label">${label}</label>
-              <input type="number" class="ios-input" placeholder="0">
+              <label class="rai-label">${label}</label>
+              <input type="number" class="rai-input" placeholder="0">
             `;
             container.appendChild(div);
           });
