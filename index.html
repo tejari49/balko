@@ -9,31 +9,31 @@
     /* --- iOS DESIGN SYSTEM --- */
     :root {
       /* LIGHT MODE */
-      --bg-body: #F2F2F7;       /* Apple System Gray 6 */
+      --bg-body: #F2F2F7;       
       --bg-card: #FFFFFF;
-      --bg-input: #E5E5EA;      /* Apple System Gray 5 */
+      --bg-input: #E5E5EA;      
       --text-primary: #000000;
-      --text-secondary: #8E8E93;/* Apple System Gray */
-      --separator: #C6C6C8;     /* Apple Separator */
-      --accent: #007AFF;        /* Apple System Blue */
-      --danger: #FF3B30;        /* Apple System Red */
-      --success: #34C759;       /* Apple System Green */
+      --text-secondary: #8E8E93;
+      --separator: #C6C6C8;     
+      --accent: #007AFF;        
+      --danger: #FF3B30;        
+      --success: #34C759;       
       
-      --radius-l: 20px;         /* Große Karten */
-      --radius-m: 14px;         /* Inputs/Buttons */
-      --radius-s: 10px;         /* Kleine Elemente */
+      --radius-l: 20px;         
+      --radius-m: 14px;         
+      --radius-s: 10px;         
       
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
       --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       
       --nav-height: 60px;
-      --max-width: 960px;       /* Schmaler für mehr Symmetrie auf Desktop */
+      --max-width: 960px;       
     }
 
     [data-theme="dark"] {
       /* DARK MODE */
       --bg-body: #000000;
-      --bg-card: #1C1C1E;       /* Apple Dark Content Background */
+      --bg-card: #1C1C1E;       
       --bg-input: #2C2C2E;
       --text-primary: #FFFFFF;
       --text-secondary: #98989D;
@@ -50,7 +50,7 @@
       color: var(--text-primary);
       font-family: var(--font);
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 90px; /* Platz für Mobile Nav */
+      padding-bottom: 100px; /* Platz für Mobile Nav */
       transition: background-color 0.3s ease;
     }
 
@@ -58,31 +58,22 @@
     a { text-decoration: none; color: inherit; cursor: pointer; }
 
     /* --- LAYOUT CONTAINER --- */
-    .wrap { 
-      max-width: var(--max-width); 
-      margin: 0 auto; 
-      padding: 0 20px; 
-    }
+    .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    .hidden { display: none !important; }
 
-    /* --- NAVIGATION (Blurry Glass) --- */
+    /* --- NAVIGATION --- */
     .navbar {
       position: sticky; top: 0; z-index: 1000;
       height: var(--nav-height);
-      background: rgba(255, 255, 255, 0.85); /* Light Translucency */
+      background: rgba(255, 255, 255, 0.85); 
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 0.5px solid var(--separator);
       display: flex; align-items: center; justify-content: center;
     }
     [data-theme="dark"] .navbar { background: rgba(28, 28, 30, 0.85); }
 
-    .nav-inner { 
-      width: 100%; display: flex; justify-content: space-between; align-items: center; 
-    }
-
-    .logo { 
-      font-weight: 700; font-size: 20px; letter-spacing: -0.5px; 
-      color: var(--text-primary);
-    }
+    .nav-inner { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-weight: 700; font-size: 20px; letter-spacing: -0.5px; color: var(--text-primary); }
     .logo span { color: var(--accent); }
 
     .theme-toggle {
@@ -93,15 +84,14 @@
     }
     .theme-toggle:active { transform: scale(0.92); }
 
-    /* --- MOBILE BOTTOM BAR (Fixed & Symmetrical) --- */
+    /* --- MOBILE TAB BAR --- */
     .tab-bar {
       position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
-      height: 84px; /* iOS Standard Höhe inkl. Home Indicator */
-      background: rgba(255, 255, 255, 0.9);
+      height: 84px; background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-top: 0.5px solid var(--separator);
       display: grid; grid-template-columns: 1fr 1fr 1fr;
-      padding-bottom: 20px; /* Space for Home Indicator */
+      padding-bottom: 20px;
     }
     [data-theme="dark"] .tab-bar { background: rgba(28, 28, 30, 0.9); }
 
@@ -111,23 +101,19 @@
     }
     .tab-icon { font-size: 24px; margin-bottom: 4px; transition: transform 0.2s; }
     .tab-label { font-size: 10px; font-weight: 500; }
-    
     .tab-item.active { color: var(--accent); }
     .tab-item:active .tab-icon { transform: scale(0.85); }
 
-    /* --- DESKTOP NAV (Hidden on Mobile) --- */
+    /* --- DESKTOP NAV --- */
     @media (min-width: 769px) {
       .tab-bar { display: none; }
       .desktop-links { display: flex; gap: 30px; }
-      .d-link { font-size: 15px; font-weight: 500; color: var(--text-secondary); transition: 0.2s; }
+      .d-link { font-size: 15px; font-weight: 500; color: var(--text-secondary); transition: 0.2s; cursor: pointer;}
       .d-link:hover, .d-link.active { color: var(--text-primary); }
     }
     @media (max-width: 768px) { .desktop-links { display: none; } }
 
-
     /* --- COMPONENTS --- */
-    
-    /* Input Fields (iOS Style) */
     .ios-input-group { margin-bottom: 20px; }
     .ios-label {
       display: block; font-size: 12px; text-transform: uppercase; 
@@ -142,21 +128,18 @@
     .ios-input:focus { box-shadow: 0 0 0 2px var(--accent); }
     textarea.ios-input { height: auto; padding-top: 14px; min-height: 120px; resize: none; }
     
-    /* Select (Custom Arrow) */
     select.ios-input {
       appearance: none;
       background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat; background-position: right 16px center; background-size: 16px;
     }
 
-    /* Cards */
     .ios-card {
       background: var(--bg-card); border-radius: var(--radius-l);
       padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
       position: relative; overflow: hidden;
     }
 
-    /* Buttons */
     .ios-btn {
       width: 100%; height: 52px;
       background: var(--accent); color: #fff;
@@ -168,79 +151,48 @@
     .ios-btn:active { transform: scale(0.98); opacity: 0.9; }
     .ios-btn.secondary { background: var(--bg-input); color: var(--text-primary); }
 
-    /* --- VIEW 1: MARKET (SYMMETRICAL GRID) --- */
+    /* --- GRID SYSTEM --- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr 1fr; } }
+
+    /* --- VIEW: MARKET --- */
     .market-header { margin: 30px 0 20px 0; text-align: center; }
     .market-title { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
     .market-subtitle { color: var(--text-secondary); font-size: 17px; }
 
-    .search-bar {
-      position: relative; margin-bottom: 30px;
-    }
-    .search-input {
-      background: var(--bg-input); border-radius: 12px; 
-      padding-left: 44px; /* Space for icon */
-    }
-    .search-icon {
-      position: absolute; left: 14px; top: 16px; color: var(--text-secondary); font-size: 18px;
-    }
+    .search-wrapper { position: relative; margin-bottom: 24px; }
+    .search-input { background: var(--bg-input); border-radius: 12px; padding-left: 44px; }
+    .search-icon { position: absolute; left: 14px; top: 16px; color: var(--text-secondary); font-size: 18px; }
 
-    .filter-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;
+    .adv-filter-box {
+      margin-top: 16px; padding: 16px; background: rgba(0,122,255,0.05); 
+      border-radius: var(--radius-m); display: none; /* JS toggles this */
     }
-    
-    /* Listing Grid - Perfectly Symmetrical */
+    .adv-filter-box.show { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(-5px)} to{opacity:1; transform:translateY(0)} }
+
     .listing-grid {
-      display: grid; 
-      grid-template-columns: repeat(2, 1fr); /* Genau 2 Spalten auf Mobile */
-      gap: 16px; 
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 30px;
     }
     @media (min-width: 600px) { .listing-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 900px) { .listing-grid { grid-template-columns: repeat(4, 1fr); } }
 
-    .item-card {
-      background: var(--bg-card); border-radius: var(--radius-l);
-      overflow: hidden; box-shadow: var(--shadow);
-      display: flex; flex-direction: column;
-      aspect-ratio: 0.8; /* Einheitliches Seitenverhältnis */
-    }
-    .item-img {
-      flex: 1; background: var(--bg-input);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary);
-    }
-    .item-details {
-      padding: 12px; background: var(--bg-card);
-      height: 70px; /* Feste Höhe für Symmetrie */
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .item-price { font-weight: 700; font-size: 16px; color: var(--text-primary); }
-    .item-name { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    /* Empty State */
     .empty-state {
-      grid-column: 1 / -1; padding: 60px 0; text-align: center; color: var(--text-secondary);
+      grid-column: 1 / -1; padding: 80px 0; text-align: center; color: var(--text-secondary);
     }
     .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
 
-
-    /* --- VIEW 2: SELL (SYMMETRICAL UPLOAD) --- */
-    .upload-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px;
-    }
+    /* --- VIEW: SELL --- */
     .upload-box {
       aspect-ratio: 1; background: var(--bg-input); border-radius: var(--radius-m);
       display: flex; align-items: center; justify-content: center;
       font-size: 24px; color: var(--text-secondary); cursor: pointer;
     }
-    .upload-box.main {
-      border: 2px solid var(--accent); color: var(--accent);
-      background: rgba(0, 122, 255, 0.05);
-    }
+    .upload-box.main { border: 2px solid var(--accent); color: var(--accent); background: rgba(0, 122, 255, 0.05); }
 
-    /* --- VIEW 3: PROFILE (LIST LAYOUT) --- */
-    .profile-header {
-      text-align: center; padding: 30px 0;
-    }
+    /* --- VIEW: PROFILE --- */
+    .profile-header { text-align: center; padding: 30px 0; }
     .avatar-circle {
       width: 100px; height: 100px; border-radius: 50%;
       background: var(--bg-input); margin: 0 auto 16px;
@@ -248,23 +200,16 @@
       font-size: 40px; border: 1px solid var(--separator);
     }
     .list-group {
-      background: var(--bg-card); border-radius: var(--radius-l);
-      overflow: hidden; margin-bottom: 24px;
+      background: var(--bg-card); border-radius: var(--radius-l); overflow: hidden; margin-bottom: 24px;
     }
     .list-item {
-      padding: 16px 20px;
-      border-bottom: 0.5px solid var(--separator);
-      display: flex; align-items: center; justify-content: space-between;
-      cursor: pointer; font-size: 16px;
+      padding: 16px 20px; border-bottom: 0.5px solid var(--separator);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-size: 16px;
     }
     .list-item:last-child { border-bottom: none; }
     .list-item:active { background: var(--bg-input); }
-    
     .list-icon { margin-right: 12px; width: 24px; text-align: center; }
     .chevron { color: var(--text-secondary); font-size: 14px; font-weight: 700; }
-
-    /* UTILITY CLASSES */
-    .hidden { display: none !important; }
 
   </style>
 </head>
@@ -273,13 +218,11 @@
   <nav class="navbar">
     <div class="wrap nav-inner">
       <div class="logo" onclick="app.nav('market')">BALKO<span>.</span></div>
-      
       <div class="desktop-links">
         <div class="d-link active" id="d-market" onclick="app.nav('market')">Entdecken</div>
         <div class="d-link" id="d-sell" onclick="app.nav('sell')">Verkaufen</div>
         <div class="d-link" id="d-profile" onclick="app.nav('profile')">Profil</div>
       </div>
-
       <div class="theme-toggle" onclick="app.toggleTheme()">
         <span id="theme-icon">🌙</span>
       </div>
@@ -294,32 +237,42 @@
         <div class="market-subtitle">Balkan Region</div>
       </div>
 
-      <div class="search-bar">
+      <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" class="ios-input search-input" placeholder="Suchen...">
+        <input type="text" class="ios-input search-input" placeholder="Suche (z.B. Golf 7, Wohnung)...">
       </div>
 
-      <div class="filter-grid">
-        <select class="ios-input">
-          <option>Alle Kategorien</option>
-          <option>Fahrzeuge</option>
-          <option>Immobilien</option>
-          <option>Elektronik</option>
-          <option>Mode</option>
-        </select>
-        <select class="ios-input">
-          <option>Alle Regionen</option>
-          <option>Kosovo</option>
-          <option>Albanien</option>
-          <option>Nordmazedonien</option>
-          <option>Serbien</option>
-        </select>
+      <div class="grid-2" style="margin-bottom: 16px;">
+        <div class="ios-input-group" style="margin:0;">
+          <label class="ios-label">Land</label>
+          <select class="ios-input" id="filter-country"></select>
+        </div>
+        <div class="ios-input-group" style="margin:0;">
+          <label class="ios-label">Kategorie</label>
+          <select class="ios-input" id="filter-cat"></select>
+        </div>
       </div>
 
-      <div class="listing-grid" id="market-results">
+      <div class="grid-2">
+        <div class="ios-input-group" style="margin:0;">
+          <label class="ios-label">Region / Stadt</label>
+          <input type="text" class="ios-input" placeholder="Ort eingeben">
+        </div>
+        <div class="ios-input-group" style="margin:0;">
+          <label class="ios-label">Unterkategorie</label>
+          <select class="ios-input" id="filter-sub" disabled>
+            <option>Alle</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="dynamic-filters" class="adv-filter-box">
+        </div>
+
+      <div class="listing-grid">
         <div class="empty-state">
           <div class="empty-icon">🏷️</div>
-          <div>Keine Inserate gefunden.<br><small>Ändere den Filter oder suche erneut.</small></div>
+          <div>Keine Ergebnisse.<br><small>Wähle Filter um Angebote zu sehen.</small></div>
         </div>
       </div>
     </section>
@@ -332,7 +285,7 @@
 
       <div class="ios-card">
         <div class="ios-label" style="margin-bottom:12px;">Fotos (Max 8)</div>
-        <div class="upload-grid">
+        <div class="grid-4">
           <div class="upload-box main">📷</div>
           <div class="upload-box">+</div>
           <div class="upload-box">+</div>
@@ -349,24 +302,37 @@
           <label class="ios-label">Titel</label>
           <input type="text" class="ios-input" placeholder="Was verkaufst du?">
         </div>
-        
-        <div class="filter-grid"> <div class="ios-input-group">
+
+        <div class="grid-2">
+           <div class="ios-input-group">
+            <label class="ios-label">Land</label>
+            <select class="ios-input" id="sell-country"></select>
+          </div>
+          <div class="ios-input-group">
             <label class="ios-label">Preis (€)</label>
             <input type="number" class="ios-input" placeholder="0">
           </div>
+        </div>
+
+        <div class="grid-2">
           <div class="ios-input-group">
             <label class="ios-label">Kategorie</label>
-            <select class="ios-input">
+            <select class="ios-input" id="sell-cat"></select>
+          </div>
+          <div class="ios-input-group">
+            <label class="ios-label">Unterkategorie</label>
+            <select class="ios-input" id="sell-sub" disabled>
               <option>Wählen...</option>
-              <option>Fahrzeuge</option>
-              <option>Immobilien</option>
             </select>
           </div>
         </div>
 
+        <div id="sell-dynamic-inputs" class="grid-2" style="margin-bottom: 20px; display:none;">
+          </div>
+
         <div class="ios-input-group">
           <label class="ios-label">Beschreibung</label>
-          <textarea class="ios-input" placeholder="Details zum Artikel..."></textarea>
+          <textarea class="ios-input" placeholder="Details zum Artikel (Zustand, Mängel, Zubehör)..."></textarea>
         </div>
 
         <button class="ios-btn">Veröffentlichen</button>
@@ -377,7 +343,7 @@
       <div class="profile-header">
         <div class="avatar-circle">👤</div>
         <div class="market-title" style="font-size:24px;">Mein Profil</div>
-        <div class="market-subtitle">Nicht angemeldet</div>
+        <div class="market-subtitle">Gast</div>
       </div>
 
       <div class="list-group">
@@ -404,13 +370,7 @@
       <div class="list-group">
         <div class="list-item">
           <div style="display:flex; align-items:center;">
-            <span class="list-icon">🔒</span> Sicherheit & Passwort
-          </div>
-          <span class="chevron">›</span>
-        </div>
-        <div class="list-item">
-          <div style="display:flex; align-items:center;">
-            <span class="list-icon">🌍</span> Sprache / Region
+            <span class="list-icon">🔒</span> Sicherheit
           </div>
           <span class="chevron">›</span>
         </div>
@@ -418,70 +378,224 @@
 
       <button class="ios-btn secondary" style="color:var(--danger);">Abmelden</button>
     </section>
-
   </main>
 
   <div class="tab-bar">
     <div class="tab-item active" id="tab-market" onclick="app.nav('market')">
-      <div class="tab-icon">🔍</div>
-      <div class="tab-label">Markt</div>
+      <div class="tab-icon">🔍</div><div class="tab-label">Markt</div>
     </div>
     <div class="tab-item" id="tab-sell" onclick="app.nav('sell')">
-      <div class="tab-icon">📷</div>
-      <div class="tab-label">Verkaufen</div>
+      <div class="tab-icon">📷</div><div class="tab-label">Verkaufen</div>
     </div>
     <div class="tab-item" id="tab-profile" onclick="app.nav('profile')">
-      <div class="tab-icon">👤</div>
-      <div class="tab-label">Profil</div>
+      <div class="tab-icon">👤</div><div class="tab-label">Profil</div>
     </div>
   </div>
 
   <script>
-    // --- SIMPLE APP LOGIC ---
+    // --- DATA DEFINITIONS ---
+    
+    const COUNTRIES = [
+      "Alle / Egal",
+      "Albanien",
+      "Bosnien & Herzegowina",
+      "Bulgarien",
+      "Griechenland",
+      "Kosovo",
+      "Kroatien",
+      "Montenegro",
+      "Nordmazedonien",
+      "Rumänien",
+      "Serbien",
+      "Slowenien",
+      "Türkei"
+    ];
+
+    const DATA = {
+      "Fahrzeuge": {
+        subs: [
+          "Kleinwagen", "Limousine", "Kombi", "SUV / Geländewagen", 
+          "Cabrio / Roadster", "Sportwagen / Coupé", "Van / Kleinbus", 
+          "Motorrad", "Nutzfahrzeug / Transporter", "LKW / Bus"
+        ],
+        filters: [
+          { label: "Kilometer bis", placeholder: "z.B. 150000" },
+          { label: "Erstzulassung ab", placeholder: "z.B. 2018" }
+        ]
+      },
+      "Immobilien": {
+        subs: [
+          "Wohnung (Kauf)", "Wohnung (Miete)", 
+          "Haus (Kauf)", "Haus (Miete)", 
+          "Grundstück", "Gewerbe / Büro", 
+          "Ferienimmobilie", "Garage / Stellplatz", "Halle / Lager"
+        ],
+        filters: [
+          { label: "Fläche ab (m²)", placeholder: "z.B. 80" },
+          { label: "Zimmer ab", placeholder: "z.B. 3" }
+        ]
+      },
+      "Elektronik": {
+        subs: [
+          "Smartphone", "Laptop / Notebook", "PC / Rechner", 
+          "Tablet", "Konsole / Gaming", "TV / Video", 
+          "Audio / Hifi", "Fotografie", "Smartwatch / Wearables", "Haushaltsgeräte"
+        ],
+        filters: [] // Keine speziellen Filter für diese Demo
+      },
+      "Mode & Accessoires": {
+        subs: [
+          "Damenbekleidung", "Herrenbekleidung", "Kinderbekleidung", 
+          "Schuhe", "Taschen / Koffer", "Uhren & Schmuck", "Accessoires"
+        ],
+        filters: []
+      },
+      "Dienstleistungen": {
+        subs: [
+          "Handwerk / Bau", "Transport / Umzug", "Reinigung", 
+          "IT / Design / Marketing", "Unterricht / Nachhilfe", 
+          "Pflege / Betreuung", "Reparatur (KFZ/Elektronik)"
+        ],
+        filters: []
+      },
+      "Haus & Garten": {
+        subs: ["Möbel", "Küche", "Deko", "Garten", "Werkzeug / Heimwerker"],
+        filters: []
+      }
+    };
+
+    // --- APP LOGIC ---
     const app = {
       
       init: () => {
-        // Theme laden
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        app.updateThemeIcon(savedTheme);
+        app.loadTheme();
+        app.populateDropdowns('filter');
+        app.populateDropdowns('sell');
+        app.setupListeners('filter');
+        app.setupListeners('sell');
+      },
+
+      loadTheme: () => {
+        const saved = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
+        document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙';
       },
 
       nav: (view) => {
         window.scrollTo(0,0);
-        
-        // 1. Views umschalten
         ['market', 'sell', 'profile'].forEach(v => {
           document.getElementById('view-' + v).classList.add('hidden');
+          document.getElementById('tab-' + v).classList.remove('active');
+          const d = document.getElementById('d-' + v);
+          if(d) d.classList.remove('active');
         });
         document.getElementById('view-' + view).classList.remove('hidden');
-
-        // 2. Mobile Tabs aktualisieren
-        ['market', 'sell', 'profile'].forEach(v => {
-          document.getElementById('tab-' + v).classList.remove('active');
-        });
         document.getElementById('tab-' + view).classList.add('active');
-
-        // 3. Desktop Links aktualisieren
-        ['market', 'sell', 'profile'].forEach(v => {
-          const el = document.getElementById('d-' + v);
-          if(el) el.classList.remove('active');
-        });
-        const dLink = document.getElementById('d-' + view);
-        if(dLink) dLink.classList.add('active');
+        const activeD = document.getElementById('d-' + view);
+        if(activeD) activeD.classList.add('active');
       },
 
       toggleTheme: () => {
-        const root = document.documentElement;
-        const current = root.getAttribute('data-theme');
+        const current = document.documentElement.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
+        document.documentElement.setAttribute('data-theme', next);
         localStorage.setItem('theme', next);
-        app.updateThemeIcon(next);
+        document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙';
       },
 
-      updateThemeIcon: (theme) => {
-        document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+      // Dropdown Logic
+      populateDropdowns: (prefix) => {
+        // Countries
+        const countrySel = document.getElementById(prefix + '-country');
+        COUNTRIES.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c; opt.textContent = c;
+          countrySel.appendChild(opt);
+        });
+
+        // Categories
+        const catSel = document.getElementById(prefix + '-cat');
+        const defOpt = document.createElement('option');
+        defOpt.value = ""; defOpt.textContent = prefix === 'filter' ? "Alle Kategorien" : "Wählen...";
+        catSel.appendChild(defOpt);
+
+        for (const cat in DATA) {
+          const opt = document.createElement('option');
+          opt.value = cat; opt.textContent = cat;
+          catSel.appendChild(opt);
+        }
+      },
+
+      setupListeners: (prefix) => {
+        const catSel = document.getElementById(prefix + '-cat');
+        const subSel = document.getElementById(prefix + '-sub');
+        
+        catSel.addEventListener('change', () => {
+          const val = catSel.value;
+          subSel.innerHTML = ""; // Clear
+
+          // Default option
+          const def = document.createElement('option');
+          def.textContent = prefix === 'filter' ? "Alle" : "Wählen...";
+          subSel.appendChild(def);
+
+          if (val && DATA[val]) {
+            subSel.disabled = false;
+            DATA[val].subs.forEach(s => {
+              const opt = document.createElement('option');
+              opt.value = s; opt.textContent = s;
+              subSel.appendChild(opt);
+            });
+            // Trigger Context Filters
+            app.renderContextFilters(prefix, val);
+          } else {
+            subSel.disabled = true;
+            app.renderContextFilters(prefix, null);
+          }
+        });
+      },
+
+      renderContextFilters: (prefix, category) => {
+        const containerId = prefix === 'filter' ? 'dynamic-filters' : 'sell-dynamic-inputs';
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+        container.style.display = "none";
+        container.classList.remove('show');
+
+        if (!category || !DATA[category].filters.length) return;
+
+        const filters = DATA[category].filters;
+        
+        // Build HTML for extra inputs
+        if (prefix === 'filter') {
+          // Market View: Show inside a special box
+          container.style.display = "block";
+          setTimeout(() => container.classList.add('show'), 10);
+          
+          let html = '<div class="grid-2">';
+          filters.forEach(f => {
+            html += `
+              <div class="ios-input-group" style="margin:0">
+                <label class="ios-label">${f.label}</label>
+                <input type="number" class="ios-input" placeholder="${f.placeholder}">
+              </div>`;
+          });
+          html += '</div>';
+          container.innerHTML = html;
+
+        } else {
+          // Sell View: Show inline
+          container.style.display = "grid"; // grid-2 class takes over
+          filters.forEach(f => {
+            const div = document.createElement('div');
+            div.className = "ios-input-group";
+            div.innerHTML = `
+              <label class="ios-label">${f.label}</label>
+              <input type="number" class="ios-input" placeholder="${f.placeholder}">
+            `;
+            container.appendChild(div);
+          });
+        }
       }
     };
 
