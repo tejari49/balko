@@ -6,11 +6,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#ffffff">  <title>ZONA BALKO – Marktplatz</title>
+  <meta name="theme-color" content="#ffffff">
+  <title>ZONA BALKO – Marktplatz</title>
   
-  
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%9B%92%3C/text%3E%3C/svg%3E">
-<style>
+  <style>
     /* --- RAI DESIGN SYSTEM (ZONA BALKO) --- */
     :root {
       /* LIGHT MODE */
@@ -655,7 +654,7 @@
 
     
     import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-const firebaseConfig = {
+var firebaseConfig = {
       apiKey: "AIzaSyCgKSVhDFzoDUs2Sc9jkNoGBTR9Sspu2JE",
       authDomain: "zonabalko.firebaseapp.com",
       projectId: "zonabalko",
@@ -664,15 +663,20 @@ const firebaseConfig = {
       appId: "1:1095024300350:web:e436232a2b5cccda58dc6f"
     };
 
-    const fbApp = initializeApp(firebaseConfig);
-    const auth = getAuth(fbApp);
-    const db = getFirestore(fbApp);
+    var fbApp = initializeApp(firebaseConfig);
+    var auth = getAuth(fbApp);
+    var db = getFirestore(fbApp);
     
-    const storage = getStorage(fbApp);
-const googleProvider = new GoogleAuthProvider();
+    var storage = getStorage(fbApp);
+var googleProvider = new GoogleAuthProvider();
+
+    // --- SERVICE WORKER REGISTRATION (PWA) ---
+    , function() {}); 
+      });
+    }
 
     // --- TRANSLATION DATABASE ---
-    const TRANSLATIONS = {
+    var TRANSLATIONS = {
       de: {
         nav_market: "Markt", nav_sell: "Verkaufen", nav_profile: "Profil",
         market_title: "Entdecken", market_subtitle: "Finde Angebote im Balkan (Preise in €)",
@@ -878,9 +882,9 @@ const googleProvider = new GoogleAuthProvider();
         hint_phone_registered: "Телефонските броеви се видливи само за регистрирани корисници.",
 };
 
-    const COUNTRIES_DATA = { all: { de: "Alle", en: "All", sq: "Të gjitha", sr: "Sve", mk: "Сите" }, al: { de: "Albanien", en: "Albania", sq: "Shqipëria", sr: "Albanija", mk: "Албанија" }, xk: { de: "Kosovo", en: "Kosovo", sq: "Kosova", sr: "Kosovo", mk: "Косово" }, mk: { de: "Nordmazedonien", en: "North Macedonia", sq: "Maqedonia e V.", sr: "Severna Makedonija", mk: "Северна Македонија" }, rs: { de: "Serbien", en: "Serbia", sq: "Serbia", sr: "Srbija", mk: "Србија" }, ba: { de: "Bosnien & Herz.", en: "Bosnia & Herz.", sq: "Bosnja", sr: "Bosna", mk: "Босна" }, hr: { de: "Kroatien", en: "Croatia", sq: "Kroacia", sr: "Hrvatska", mk: "Хрватска" }, me: { de: "Montenegro", en: "Montenegro", sq: "Mali i Zi", sr: "Crna Gora", mk: "Црна Гора" } };
+    var COUNTRIES_DATA = { all: { de: "Alle", en: "All", sq: "Të gjitha", sr: "Sve", mk: "Сите" }, al: { de: "Albanien", en: "Albania", sq: "Shqipëria", sr: "Albanija", mk: "Албанија" }, xk: { de: "Kosovo", en: "Kosovo", sq: "Kosova", sr: "Kosovo", mk: "Косово" }, mk: { de: "Nordmazedonien", en: "North Macedonia", sq: "Maqedonia e V.", sr: "Severna Makedonija", mk: "Северна Македонија" }, rs: { de: "Serbien", en: "Serbia", sq: "Serbia", sr: "Srbija", mk: "Србија" }, ba: { de: "Bosnien & Herz.", en: "Bosnia & Herz.", sq: "Bosnja", sr: "Bosna", mk: "Босна" }, hr: { de: "Kroatien", en: "Croatia", sq: "Kroacia", sr: "Hrvatska", mk: "Хрватска" }, me: { de: "Montenegro", en: "Montenegro", sq: "Mali i Zi", sr: "Crna Gora", mk: "Црна Гора" } };
 
-    const CATEGORIES_DATA = {
+    var CATEGORIES_DATA = {
       vehicles: { label: { de: "Fahrzeuge", en: "Vehicles", sq: "Automjete", sr: "Vozila", mk: "Возила" }, subs: [{k:"small",de:"Kleinwagen"},{k:"limo",de:"Limousine"},{k:"wagon",de:"Kombi"},{k:"suv",de:"SUV"},{k:"coupe",de:"Sport/Coupe"},{k:"cabrio",de:"Cabrio"},{k:"moto",de:"Motorrad"},{k:"truck",de:"Nutzfahrzeug"}], filters: [{id:"filter_km"},{id:"filter_year"},{id:"filter_power"}] },
       realestate: { label: { de: "Immobilien", en: "Real Estate", sq: "Patundshmëri", sr: "Nekretnine", mk: "Недвижности" }, subs: [{k:"apt_buy",de:"Wohnung (Kauf)"},{k:"apt_rent",de:"Wohnung (Miete)"},{k:"house_buy",de:"Haus (Kauf)"},{k:"house_rent",de:"Haus (Miete)"},{k:"land",de:"Grundstück"},{k:"comm",de:"Gewerbe"},{k:"garage",de:"Garage"}], filters: [{id:"filter_area"}] },
       electronics: { label: { de: "Elektronik", en: "Electronics", sq: "Elektronikë", sr: "Elektronika", mk: "Електроника" }, subs: [{k:"phone",de:"Smartphone"},{k:"laptop",de:"Laptop/PC"},{k:"console",de:"Konsole"},{k:"tv",de:"TV/Audio"},{k:"cam",de:"Kamera"}], filters: [] },
@@ -892,7 +896,7 @@ const googleProvider = new GoogleAuthProvider();
     // --- MAIN APP ---
     
     // --- LEGAL CONTENT (per language) ---
-    const LEGAL_CONTENT = {
+    var LEGAL_CONTENT = {
       de: {
         imprint: `
           <p><strong>Betreiber</strong><br>
@@ -1270,8 +1274,8 @@ const googleProvider = new GoogleAuthProvider();
     };
 
     // Fallback: if a language lacks legal text, use EN with note.
-    const legalFallback = function(lang, type) {
-      const L = LEGAL_CONTENT[lang] || {};
+    var legalFallback = function(lang, type) {
+      var L = LEGAL_CONTENT[lang] || {};
       if (L[type]) return L[type];
       return (LEGAL_CONTENT.en[type] || "") + `<p class="muted">Informative translation. The German version prevails.</p>`;
     };
@@ -1292,7 +1296,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
       init: function() {
         app.loadTheme();
-        const savedLang = function(() { try { return localStorage.getItem('lang'); } catch(e) { return null; } })();
+        var savedLang = (function() { try { return localStorage.getItem('lang'); } catch(e) { return null; } })();
         app.setLanguage(savedLang || 'de'); 
         app.setupListeners();
         app.initAuthListener();
@@ -1300,16 +1304,16 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             app.applyRegisteredOnlyVisibility();
         document.getElementById('upload-input').addEventListener('change', app.handleFileSelect);
         document.getElementById('avatar-input').addEventListener('change', app.handleAvatarUpload);
-        const chatInp = document.getElementById('chat-input');
-        if(chatInp) chatInp.addEventListener('keydown', (e) { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
+        var chatInp = document.getElementById('chat-input');
+        if(chatInp) chatInp.addEventListener(function('keydown', (e) { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
               app.bindLegalLinks();
 },
 
       initAuthListener: function() {
-        onAuthStateChangedfunction(auth, async (user) {
+        onAuthStateChanged(function(auth, async (user) {
           app.user = user;
-          const li = document.getElementById("profile-content-logged-in");
-          const gu = document.getElementById("profile-content-guest");
+          var li = document.getElementById("profile-content-logged-in");
+          var gu = document.getElementById("profile-content-guest");
           if (user) { 
             li.style.display = "block"; gu.style.display = "none"; 
             app.loadProfileData();
@@ -1333,9 +1337,9 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       closeModal: function(id) { document.getElementById(id).style.display = "none"; },
 
       applyRegisteredOnlyVisibility: function() {
-        const isLoggedIn = !!app.user;
+        var isLoggedIn = !!app.user;
         document.querySelectorAll('.registered-only').forEach(function(el) {
-          const disp = el.getAttribute('data-display') || 'block';
+          var disp = el.getAttribute('data-display') || 'block';
           el.style.display = isLoggedIn ? disp : 'none';
         });
       },
@@ -1354,8 +1358,8 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
       
       handleAuth: async function() {
-        const email = document.getElementById('auth-email').value;
-        const pass = document.getElementById('auth-pass').value;
+        var email = document.getElementById('auth-email').value;
+        var pass = document.getElementById('auth-pass').value;
         if(!email || !pass) { app.showToast(app.t('toast_fill_all')); return; }
         try {
           if (app.authMode === 'login') { await signInWithEmailAndPassword(auth, email, pass); app.showToast(app.t('toast_login_ok')); } 
@@ -1370,11 +1374,11 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       logout: async function() { await signOut(auth); app.showToast(app.t('toast_logout')); window.location.reload(); },
       openDeleteAccount: function() {
         if(!app.user) { app.showToast(app.t('toast_reauth')); return; }
-        const providers = (app.user.providerData || []).map(function(p) { return p.providerId; });
-        const isPassword = providers.includes('password');
-        const passEl = document.getElementById('del-pass');
+        var providers = (app.user.providerData || []).map(function(p) { return p.providerId); };
+        var isPassword = providers.includes('password');
+        var passEl = document.getElementById('del-pass');
         if(passEl) passEl.value = "";
-        const wrap = document.getElementById('del-pass-wrap');
+        var wrap = document.getElementById('del-pass-wrap');
         if(wrap) wrap.style.display = isPassword ? "block" : "none";
         document.getElementById('delete-modal').style.display = "flex";
       },
@@ -1382,15 +1386,15 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       confirmDeleteAccount: async function() {
         if(!app.user) { app.showToast(app.t('toast_reauth')); return; }
         try {
-          const providers = (app.user.providerData || []).map(function(p) { return p.providerId; });
-          const isPassword = providers.includes('password');
+          var providers = (app.user.providerData || []).map(function(p) { return p.providerId); };
+          var isPassword = providers.includes('password');
 
           // Firebase requires a recent login for account deletion
           if (isPassword) {
-            const pass = (document.getElementById('del-pass')?.value || "").trim();
-            const email = app.user.email || "";
+            var pass = (document.getElementById('del-pass')?.value || "").trim();
+            var email = app.user.email || "";
             if(!email || pass.length < 6) { app.showToast(app.t('toast_reauth')); return; }
-            const cred = EmailAuthProvider.credential(email, pass);
+            var cred = EmailAuthProvider.credential(email, pass);
             await reauthenticateWithCredential(auth.currentUser, cred);
           } else {
             await reauthenticateWithPopup(auth.currentUser, googleProvider);
@@ -1406,7 +1410,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.showToast(app.t('toast_deleted'));
           window.location.reload();
         } catch (e) {
-          const msg = (e && e.message) ? e.message : String(e);
+          var msg = (e && e.message) ? e.message : String(e);
           app.showToast(app.t('toast_delete_fail') + " " + msg);
         }
       },
@@ -1420,13 +1424,13 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         // Listings created by the user (and their Storage images)
         try {
-          const ql = query(collection(db, "listings"), where("uid", "==", uid));
-          const snap = await getDocs(ql);
-          const tasks = [];
-          for (const d of snap.docs) {
-            const data = d.data() || {};
-            const paths = Array.isArray(data.imagePaths) ? data.imagePaths : [];
-            for (const p of paths) {
+          var ql = query(collection(db, "listings"), where("uid", "==", uid));
+          var snap = await getDocs(ql);
+          var tasks = [];
+          for (var d of snap.docs) {
+            var data = d.data() || {};
+            var paths = Array.isArray(data.imagePaths) ? data.imagePaths : [];
+            for (var p of paths) {
               try { await deleteObject(sRef(storage, p)); } catch(e) {}
             }
             tasks.push(deleteDoc(doc(db, "listings", d.id)));
@@ -1439,9 +1443,9 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       // --- PROFILE & WATCHLIST ---
       loadProfileData: async function() {
         if(!app.user) return;
-        const ref = doc(db, "users", app.user.uid);
-        const snap = await getDoc(ref);
-        let data = {};
+        var ref = doc(db, "users", app.user.uid);
+        var snap = await getDoc(ref);
+        var data = {};
         if (snap.exists()) data = snap.data();
         else {
             data = { email: app.user.email, displayName: app.user.displayName, photoURL: app.user.photoURL, privacy: 'registered', favorites: [], createdAt: new Date(), ratingCount: 0, ratingAvg: 0 };
@@ -1451,18 +1455,18 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         document.getElementById('dash-name').innerText = data.displayName || "User";
         document.getElementById('dash-email').innerText = data.email || "";
-        const av = document.getElementById('dash-avatar');
+        var av = document.getElementById('dash-avatar');
         av.style.backgroundImage = data.photoURL ? `url(${data.photoURL})` : "none";
         av.innerText = data.photoURL ? "" : "👤";
         
         if(app.user.emailVerified) document.getElementById('dash-verified').style.display = "inline-flex";
         
-        const date = data.createdAt ? new Date(data.createdAt.seconds * 1000) : new Date();
-        const dateStr = date.toLocaleDateString(app.lang, { year: 'numeric', month: 'long' });
+        var date = data.createdAt ? new Date(data.createdAt.seconds * 1000) : new Date();
+        var dateStr = date.toLocaleDateString(app.lang, { year: 'numeric', month: 'long' });
         document.getElementById('dash-since').innerText = app.t('lbl_member_since') + " " + dateStr;
 
-        const ratingEl = document.getElementById('dash-rating');
-        const sepEl = document.getElementById('dash-separator');
+        var ratingEl = document.getElementById('dash-rating');
+        var sepEl = document.getElementById('dash-separator');
 
         if (data.ratingCount && data.ratingCount > 0) {
             ratingEl.innerText = `${Number(data.ratingAvg).toFixed(1)} ★ (${data.ratingCount})`;
@@ -1475,17 +1479,17 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         document.getElementById('stat-watchlist').innerText = (data.favorites || []).length;
 
-        const q = query(collection(db, "listings"), where("uid", "==", app.user.uid));
-        const qSnap = await getDocs(q);
+        var q = query(collection(db, "listings"), where("uid", "==", app.user.uid));
+        var qSnap = await getDocs(q);
         document.getElementById('stat-listings').innerText = qSnap.size;
         
-        const listContainer = document.getElementById('dash-listings-container');
+        var listContainer = document.getElementById('dash-listings-container');
         listContainer.innerHTML = "";
         qSnap.forEach(function(d) {
-            const item = d.data();
-            const div = document.createElement('div');
+            var item = d.data();
+            var div = document.createElement('div');
             div.className = "list-item";
-            const statusLabel = item.status === 'sold' ? app.t('lbl_sold') : (item.status === 'reserved' ? app.t('lbl_reserved') : app.t('lbl_active'));
+            var statusLabel = item.status === 'sold' ? app.t('lbl_sold') : (item.status === 'reserved' ? app.t('lbl_reserved') : app.t('lbl_active'));
             div.innerHTML = `
               <div style="display:flex; flex-direction:column;">
                 <span style="font-weight:600">${item.title}</span>
@@ -1505,14 +1509,14 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
       openWatchlist: async function() {
         if(!app.userData.favorites || app.userData.favorites.length === 0) { app.showToast(app.t('empty_results')); return; }
-        const list = document.getElementById('my-listings-list');
+        var list = document.getElementById('my-listings-list');
         list.innerHTML = "";
         document.getElementById('modal-list-title').innerText = app.t('lbl_watchlist');
-        for(const favId of app.userData.favorites) {
-            const snap = await getDoc(doc(db, "listings", favId));
+        for(var favId of app.userData.favorites) {
+            var snap = await getDoc(doc(db, "listings", favId));
             if(snap.exists()) {
-                const item = snap.data();
-                const div = document.createElement('div');
+                var item = snap.data();
+                var div = document.createElement('div');
                 div.className = "rai-card"; div.style.padding="10px"; div.style.marginBottom="0";
                 div.innerHTML = `<div onclick="app.openDetail('${favId}')" style="cursor:pointer;font-weight:bold;">${item.title}</div><div style="color:var(--accent)">${item.price} €</div>`;
                 list.appendChild(div);
@@ -1527,12 +1531,12 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       deleteListing: async function(id) {
         if(!confirm(app.t('alert_delete'))) return;
         try {
-          const refDoc = doc(db, "listings", id);
-          const snap = await getDoc(refDoc);
+          var refDoc = doc(db, "listings", id);
+          var snap = await getDoc(refDoc);
           if(snap.exists()) {
-            const data = snap.data() || {};
-            const paths = Array.isArray(data.imagePaths) ? data.imagePaths : [];
-            for (const p of paths) {
+            var data = snap.data() || {};
+            var paths = Array.isArray(data.imagePaths) ? data.imagePaths : [];
+            for (var p of paths) {
               try { await deleteObject(sRef(storage, p)); } catch(e) {}
             }
           }
@@ -1547,7 +1551,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       toggleFav: async function(e, id) {
         e.stopPropagation();
         if(!app.user) { app.openAuth('login'); return; }
-        const userRef = doc(db, "users", app.user.uid);
+        var userRef = doc(db, "users", app.user.uid);
         if(app.userData.favorites && app.userData.favorites.includes(id)) {
             await updateDoc(userRef, { favorites: arrayRemove(id) });
             e.target.classList.remove('active'); e.target.innerHTML = "♡";
@@ -1573,31 +1577,31 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
       triggerAvatarUpload: function() { return document.getElementById('avatar-input').click(); },
       handleAvatarUpload: function(e) {
-        const file = e.target.files[0];
+        var file = e.target.files[0];
         if(!file) return;
 
-        const reader = new FileReader();
+        var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function(ev) {
-          const img = new Image();
+          var img = new Image();
           img.src = ev.target.result;
           img.onload = async function() {
             try {
-              const cvs = document.createElement('canvas');
-              const MAX = 360;
-              const scale = Math.min(1, MAX / img.width);
+              var cvs = document.createElement('canvas');
+              var MAX = 360;
+              var scale = Math.min(1, MAX / img.width);
               cvs.width = Math.round(img.width * scale);
               cvs.height = Math.round(img.height * scale);
-              const ctx = cvs.getContext('2d');
+              var ctx = cvs.getContext('2d');
               ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
 
-              cvs.toBlobfunction(async (blob) {
+              cvs.toBlob(function(async (blob) {
                 if(!blob) { app.showToast(app.t('toast_error')); return; }
 
-                const path = `avatars/${app.user.uid}.jpg`;
-                const r = sRef(storage, path);
+                var path = `avatars/${app.user.uid}.jpg`;
+                var r = sRef(storage, path);
                 await uploadBytes(r, blob, { contentType: "image/jpeg" });
-                const url = await getDownloadURL(r);
+                var url = await getDownloadURL(r);
 
                 await setDoc(doc(db, "users", app.user.uid), { photoURL: url, avatarPath: path }, { merge: true });
 
@@ -1614,10 +1618,10 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       removeAvatar: async function() {
         if(!confirm(app.t('alert_remove_pic'))) return;
         try {
-          const uref = doc(db, "users", app.user.uid);
-          const snap = await getDoc(uref);
-          const data = snap.exists() ? (snap.data() || {}) : {};
-          const p = data.avatarPath || `avatars/${app.user.uid}.jpg`;
+          var uref = doc(db, "users", app.user.uid);
+          var snap = await getDoc(uref);
+          var data = snap.exists() ? (snap.data() || {}) : {};
+          var p = data.avatarPath || `avatars/${app.user.uid}.jpg`;
           try { await deleteObject(sRef(storage, p)); } catch(e) {}
           await setDoc(uref, { photoURL: null, avatarPath: null }, { merge: true });
           app.loadProfileData();
@@ -1628,13 +1632,13 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         }
       
       openDetail: async function(id) {
-        const snap = await getDoc(doc(db, "listings", id));
+        var snap = await getDoc(doc(db, "listings", id));
         if(!snap.exists()) return;
 
-        const data = snap.data();
-        const status = data.status || "active";
-        const isOwner = !!(app.user && data.uid === app.user.uid);
-        const isAdmin = app.isAdmin();
+        var data = snap.data();
+        var status = data.status || "active";
+        var isOwner = !!(app.user && data.uid === app.user.uid);
+        var isAdmin = app.isAdmin();
 
         if(status === "hidden" && !isOwner && !isAdmin) { app.showToast(app.t('empty_results')); return; }
         if(status === 'sold') { app.showToast(app.t('lbl_sold')); return; }
@@ -1646,7 +1650,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         app.currentListing = { id: id, ...data };
 
-        const sellerSnap = await getDoc(doc(db, "users", data.uid));
+        var sellerSnap = await getDoc(doc(db, "users", data.uid));
         app.currentSeller = sellerSnap.exists() ? sellerSnap.data() : {};
 
         document.getElementById('detail-title').innerText = data.title || "";
@@ -1655,14 +1659,14 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         document.getElementById('detail-loc').innerText = data.region || data.country || "";
         document.getElementById('detail-cat').innerText = data.subcategory ? `${data.category} / ${data.subcategory}` : (data.category || "");
 
-        const dt = (data.createdAt && data.createdAt.toDate) ? data.createdAt.toDate() : (data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000) : null);
+        var dt = (data.createdAt && data.createdAt.toDate) ? data.createdAt.toDate() : (data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000) : null);
         document.getElementById('detail-date').innerText = dt ? dt.toLocaleDateString('de-CH') : "";
 
         // Gallery
-        const imgBox = document.getElementById('detail-img-box');
-        const thumbs = document.getElementById('detail-thumbs');
+        var imgBox = document.getElementById('detail-img-box');
+        var thumbs = document.getElementById('detail-thumbs');
 
-        const imgs = [];
+        var imgs = [];
         if(data.image) imgs.push(data.image);
         if(Array.isArray(data.images)) data.images.forEach(function(u) { if(u && !imgs.includes(u)) imgs.push(u); });
 
@@ -1674,7 +1678,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           imgBox.innerHTML = `<img src="${imgs[0]}">`;
           if(imgs.length > 1) {
             thumbs.style.display = "flex";
-            thumbs.innerHTML = imgs.mapfunction((u, idx) { return `; }
+            thumbs.innerHTML = imgs.map(function(u, idx) { return `; }
               <div class="detail-thumb ${idx===0?'active':''}" onclick="app.setDetailImage(${idx})"><img src="${u}"></div>
             `).join('');
           } else {
@@ -1686,16 +1690,16 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         app._detailIdx = 0;
 
         document.getElementById('detail-seller-name').innerText = app.currentSeller.displayName || "User";
-        const av = document.getElementById('detail-seller-av');
+        var av = document.getElementById('detail-seller-av');
         av.style.backgroundImage = app.currentSeller.photoURL ? `url(${app.currentSeller.photoURL})` : "none";
         av.innerText = app.currentSeller.photoURL ? "" : "👤";
 
-        const blockFab = document.querySelector('#detail-modal .block-fab');
+        var blockFab = document.querySelector('#detail-modal .block-fab');
         if(blockFab) blockFab.style.display = (app.user && data.uid === app.user.uid) ? "none" : "flex";
 
         // Admin actions
-        const adminBar = document.getElementById("admin-actions");
-        const adminBtn = document.getElementById("btn-admin-hide");
+        var adminBar = document.getElementById("admin-actions");
+        var adminBtn = document.getElementById("btn-admin-hide");
         if(adminBar && adminBtn) {
           adminBar.style.display = isAdmin ? "flex" : "none";
           adminBtn.textContent = (status === "hidden") ? app.t("btn_unhide") : app.t("btn_hide");
@@ -1705,12 +1709,12 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
       setDetailImage: function(idx) {
-        const imgs = app._detailImgs || [];
+        var imgs = app._detailImgs || [];
         if(!imgs[idx]) return;
         app._detailIdx = idx;
-        const imgBox = document.getElementById('detail-img-box');
+        var imgBox = document.getElementById('detail-img-box');
         imgBox.innerHTML = `<img src="${imgs[idx]}">`;
-        document.querySelectorAll('#detail-thumbs .detail-thumb').forEachfunction((el, i) { return el.classList.toggle('active'; }, i === idx));
+        document.querySelectorAll('#detail-thumbs .detail-thumb').forEach(function(el, i) { return el.classList.toggle('active', i === idx)); };
       },
 
       openReport: function() {
@@ -1721,8 +1725,8 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       submitReport: async function() {
         if(!app.currentListing) return;
         if(!app.user) { app.showToast(app.t('toast_report_login')); app.openAuth('login'); return; }
-        const reason = document.getElementById('report-reason').value;
-        const note = (document.getElementById('report-note')?.value || "").trim();
+        var reason = document.getElementById('report-reason').value;
+        var note = (document.getElementById('report-note')?.value || "").trim();
         try {
           await addDoc(collection(db, "reports"), {
             listingId: app.currentListing.id,
@@ -1745,15 +1749,15 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         // Phone contact is restricted to registered users (require login)
         if(!app.user) { app.showToast(app.t('guest_desc')); return; }
 
-        const phone = app.currentSeller.phone;
-        const privacy = app.currentSeller.privacy || "registered";
+        var phone = app.currentSeller.phone;
+        var privacy = app.currentSeller.privacy || "registered";
 
         if(privacy === "hidden") { app.showToast(app.t('msg_hidden_phone')); return; }
         if(!phone) { app.showToast(app.t('msg_no_phone')); return; }
 
         if(method === 'call') window.open(`tel:${phone}`);
         if(method === 'whatsapp') {
-            const clean = phone.replace(/[^0-9]/g, '');
+            var clean = phone.replace(/[^0-9]/g, '');
             window.open(`https://wa.me/${clean}`);
         }
       },
@@ -1762,9 +1766,9 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       loadBlocked: async function() {
         if(!app.user) { app.blockedUids = new Set(); return; }
         try {
-          const snap = await getDocs(collection(db, "users", app.user.uid, "blocked"));
-          const set = new Set();
-          snap.forEach(function(d) { return set.add(d.id; }));
+          var snap = await getDocs(collection(db, "users", app.user.uid, "blocked"));
+          var set = new Set();
+          snap.forEach(function(d) { return set.add(d.id)); };
           app.blockedUids = set;
         } catch(e) { app.blockedUids = new Set(); }
       },
@@ -1792,15 +1796,15 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         if(app.blockedUids && app.blockedUids.has(app.currentListing.uid)) { app.showToast(app.t('toast_blocked')); return; }
         if(app.currentListing.uid === app.user.uid) { app.showToast(app.t('toast_error')); return; }
 
-        const listingId = app.currentListing.id;
-        const sellerUid = app.currentListing.uid;
-        const pair = [app.user.uid, sellerUid].sort().join("_");
-        const convId = `${listingId}__${pair}`;
+        var listingId = app.currentListing.id;
+        var sellerUid = app.currentListing.uid;
+        var pair = [app.user.uid, sellerUid].sort().join("_");
+        var convId = `${listingId}__${pair}`;
 
         app.chat = { convId, listingId, sellerUid, listingTitle: app.currentListing.title || "", unsub: null };
 
-        const convRef = doc(db, "conversations", convId);
-        const convSnap = await getDoc(convRef);
+        var convRef = doc(db, "conversations", convId);
+        var convSnap = await getDoc(convRef);
         if(!convSnap.exists()) {
           await setDoc(convRef, {
             listingId,
@@ -1817,12 +1821,12 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         document.getElementById('chat-sub').textContent = app.chat.listingTitle;
 
-        const chips = [
+        var chips = [
           app.t('tpl_available'),
           app.t('tpl_price'),
           app.t('tpl_meet')
         ];
-        document.getElementById('chat-chips').innerHTML = chips.map(function(t) { return `<div class="chip" onclick="app.useTemplate(${JSON.stringify(t; })})">${t}</div>`).join('');
+        document.getElementById('chat-chips').innerHTML = chips.map(function(t) { return `<div class="chip" onclick="app.useTemplate(${JSON.stringify(t)})">${t}</div>`).join(''); };
 
         document.getElementById('chat-scroll').innerHTML = "";
         document.getElementById('chat-input').value = "";
@@ -1832,24 +1836,24 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
       useTemplate: function(text) {
-        const inp = document.getElementById('chat-input');
+        var inp = document.getElementById('chat-input');
         inp.value = text; inp.focus();
       },
 
       subscribeChat: function() {
         if(!app.chat.convId) return;
         if(app.chat.unsub) { try{ app.chat.unsub(); }catch(e){} app.chat.unsub = null; }
-        const qref = query(collection(db, "conversations", app.chat.convId, "messages"), orderBy("createdAt","asc"), limit(200));
-        app.chat.unsub = onSnapshotfunction(qref, (snap) {
-          const sc = document.getElementById('chat-scroll');
+        var qref = query(collection(db, "conversations", app.chat.convId, "messages"), orderBy("createdAt","asc"), limit(200));
+        app.chat.unsub = onSnapshot(function(qref, (snap) {
+          var sc = document.getElementById('chat-scroll');
           sc.innerHTML = "";
           snap.forEach(function(d) {
-            const msg = d.data() || {};
-            const isMe = msg.senderUid === (app.user?.uid || "");
-            const created = (msg.createdAt && msg.createdAt.toDate) ? msg.createdAt.toDate() : null;
-            const timeTxt = created ? created.toLocaleString('de-CH', { hour:'2-digit', minute:'2-digit' }) : "";
-            const safe = String(msg.text||"").replace(/</g,'&lt;');
-            const div = document.createElement('div');
+            var msg = d.data() || {};
+            var isMe = msg.senderUid === (app.user?.uid || "");
+            var created = (msg.createdAt && msg.createdAt.toDate) ? msg.createdAt.toDate() : null;
+            var timeTxt = created ? created.toLocaleString('de-CH', { hour:'2-digit', minute:'2-digit' }) : "";
+            var safe = String(msg.text||"").replace(/</g,'&lt;');
+            var div = document.createElement('div');
             div.className = "bubble" + (isMe ? " me" : "");
             div.innerHTML = `<div>${safe}</div>${timeTxt ? `<div class="bubble-meta">${timeTxt}</div>` : ``}`;
             sc.appendChild(div);
@@ -1860,8 +1864,8 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
       sendChat: async function() {
         if(!app.user || !app.chat.convId) return;
-        const inp = document.getElementById('chat-input');
-        const text = (inp.value || "").trim();
+        var inp = document.getElementById('chat-input');
+        var text = (inp.value || "").trim();
         if(!text) return;
         inp.value = "";
         try {
@@ -1875,7 +1879,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
       closeChat: function() {
-        const modal = document.getElementById('chat-modal');
+        var modal = document.getElementById('chat-modal');
         if(modal) modal.style.display = "none";
         if(app.chat.unsub) { try{ app.chat.unsub(); }catch(e){} }
         app.chat = { convId: null, listingId: null, sellerUid: null, listingTitle: "", unsub: null };
@@ -1892,9 +1896,9 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       adminToggleHidden: async function() {
         if(!app.isAdmin() || !app.currentListing?.id) return;
         try {
-          const refDoc = doc(db, "listings", app.currentListing.id);
-          const current = app.currentListing.status || "active";
-          const next = (current === "hidden") ? "active" : "hidden";
+          var refDoc = doc(db, "listings", app.currentListing.id);
+          var current = app.currentListing.status || "active";
+          var next = (current === "hidden") ? "active" : "hidden";
           await updateDoc(refDoc, { status: next, updatedAt: serverTimestamp() });
           app.currentListing.status = next;
           app.showToast(next === "hidden" ? app.t("toast_hidden") : app.t("toast_visible"));
@@ -1911,34 +1915,34 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       // --- LISTINGS ---
       triggerUpload: function(index) { app.uploadSlot = index; document.getElementById('upload-input').click(); },
       handleFileSelect: function(event) {
-        const file = event.target.files[0];
+        var file = event.target.files[0];
         if (!file) return;
 
-        const slot = app.uploadSlot;
+        var slot = app.uploadSlot;
         if (slot < 0 || slot > 7) return;
 
-        const reader = new FileReader();
+        var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function(e) {
-          const img = new Image();
+          var img = new Image();
           img.src = e.target.result;
           img.onload = function() {
-            const cvs = document.createElement('canvas');
-            const MAX_W = 900;
-            const scale = Math.min(1, MAX_W / img.width);
+            var cvs = document.createElement('canvas');
+            var MAX_W = 900;
+            var scale = Math.min(1, MAX_W / img.width);
             cvs.width = Math.round(img.width * scale);
             cvs.height = Math.round(img.height * scale);
-            const ctx = cvs.getContext('2d');
+            var ctx = cvs.getContext('2d');
             ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
 
             // Preview (UI)
-            const preview = cvs.toDataURL('image/jpeg', 0.75);
+            var preview = cvs.toDataURL('image/jpeg', 0.75);
             app.images[slot] = preview;
-            const box = document.querySelectorAll('.upload-box')[slot];
+            var box = document.querySelectorAll('.upload-box')[slot];
             if (box) box.innerHTML = `<img src="${preview}">`;
 
             // Blob for Firebase Storage upload at publish time
-            cvs.toBlobfunction((blob) {
+            cvs.toBlob(function(blob) {
               if(!blob) { app.showToast(app.t('toast_error')); return; }
               app.imageBlobs[slot] = blob;
             }, 'image/jpeg', 0.75);
@@ -1948,15 +1952,15 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       publishListing: async function() {
         if (!app.user) { app.showToast(app.t('toast_chat_login') || "Bitte erst anmelden!"); app.openAuth('login'); return; }
 
-        const title = (document.getElementById('sell-title')?.value || "").trim();
-        const priceRaw = (document.getElementById('sell-price')?.value || "").trim();
-        const price = Number(priceRaw);
+        var title = (document.getElementById('sell-title')?.value || "").trim();
+        var priceRaw = (document.getElementById('sell-price')?.value || "").trim();
+        var price = Number(priceRaw);
         if(!title || !priceRaw || !Number.isFinite(price) || price <= 0) { app.showToast("Titel/Preis prüfen."); return; }
 
         try {
           // Create listing id first (used for Storage path) and persist ownership BEFORE uploads
-          const listingRef = doc(collection(db, "listings"));
-          const listingId = listingRef.id;
+          var listingRef = doc(collection(db, "listings"));
+          var listingId = listingRef.id;
 
           // Draft stub so Storage rules can validate owner via Firestore
           await setDoc(listingRef, {
@@ -1967,24 +1971,24 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           }, { merge: true });
 
           // Upload images to Firebase Storage
-          const uploads = [];
-          for (let i = 0; i < 8; i++) {
-            const blob = app.imageBlobs?.[i];
+          var uploads = [];
+          for (var i = 0; i < 8; i++) {
+            var blob = app.imageBlobs?.[i];
             if(!blob) continue;
-            const path = `listings/${listingId}/img_${i}_${Date.now()}.jpg`;
-            const r = sRef(storage, path);
+            var path = `listings/${listingId}/img_${i}_${Date.now()}.jpg`;
+            var r = sRef(storage, path);
             await uploadBytes(r, blob, {
               contentType: "image/jpeg",
               customMetadata: { ownerUid: app.user.uid, listingId: listingId }
             });
-            const url = await getDownloadURL(r);
+            var url = await getDownloadURL(r);
             uploads.push({ url, path });
           }
 
-          const imageUrls = uploads.map(function(u) { return u.url; });
-          const imagePaths = uploads.map(function(u) { return u.path; });
+          var imageUrls = uploads.map(function(u) { return u.url); };
+          var imagePaths = uploads.map(function(u) { return u.path); };
 
-          const payload = {
+          var payload = {
             title,
             price,
             category: document.getElementById('sell-cat')?.value || "",
@@ -2007,12 +2011,12 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           document.getElementById('sell-title').value = "";
           document.getElementById('sell-price').value = "";
           document.getElementById('sell-desc').value = "";
-          const sr = document.getElementById('sell-region'); if(sr) sr.value = "";
+          var sr = document.getElementById('sell-region'); if(sr) sr.value = "";
           app.images = [null, null, null, null, null, null, null, null];
           app.imageBlobs = [null, null, null, null, null, null, null, null];
 
-          const boxes = document.querySelectorAll('.upload-box');
-          boxes.forEachfunction((b, idx) { b.innerHTML = (idx === 0) ? "📷" : "+"; });
+          var boxes = document.querySelectorAll('.upload-box');
+          boxes.forEach(function(b, idx) { b.innerHTML = (idx === 0) ? "📷" : "+"; });
 
           app.nav('market');
           app.loadListings();
@@ -2023,66 +2027,66 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
       
       loadListings: async function() {
-        let q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(80));
-        const country = document.getElementById('filter-country')?.value || "all";
+        var q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(80));
+        var country = document.getElementById('filter-country')?.value || "all";
         if(country && country !== "all") {
           try { q = query(collection(db, "listings"), where("country", "==", country), orderBy("createdAt", "desc"), limit(80)); } catch(e) {}
         }
 
-        const snapshot = await getDocs(q);
-        const container = document.getElementById('market-listings');
+        var snapshot = await getDocs(q);
+        var container = document.getElementById('market-listings');
 
         if (snapshot.empty) {
           container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`;
           return;
         }
 
-        const search = (document.getElementById('search-input')?.value || "").trim().toLowerCase();
-        const regionF = (document.getElementById('filter-region')?.value || "").trim().toLowerCase();
-        const catF = document.getElementById('filter-cat')?.value || "";
-        const subF = document.getElementById('filter-sub')?.value || "";
+        var search = (document.getElementById('search-input')?.value || "").trim().toLowerCase();
+        var regionF = (document.getElementById('filter-region')?.value || "").trim().toLowerCase();
+        var catF = document.getElementById('filter-cat')?.value || "";
+        var subF = document.getElementById('filter-sub')?.value || "";
 
-        let items = [];
+        var items = [];
         snapshot.forEach(function(d) {
-          const data = d.data() || {};
+          var data = d.data() || {};
           items.push({ id: d.id, ...data });
         });
 
         items = items.filter(function(it) {
-          const st = it.status || "active";
+          var st = it.status || "active";
           if(st !== "hidden") return true;
-          const isOwner = !!(app.user && it.uid === app.user.uid);
+          var isOwner = !!(app.user && it.uid === app.user.uid);
           return isOwner || app.isAdmin();
         });
 
         if(app.user && app.blockedUids && app.blockedUids.size) {
-          items = items.filter(function(it) { return !app.blockedUids.has(it.uid; }));
+          items = items.filter(function(it) { return !app.blockedUids.has(it.uid)); };
         }
 
-        if(catF) items = items.filter(function(it) { return String(it.category||""; }) === String(catF));
-        if(subF && subF !== app.t('opt_all')) items = items.filter(function(it) { return String(it.subcategory||""; }) === String(subF));
+        if(catF) items = items.filter(function(it) { return String(it.category||"") === String(catF)); };
+        if(subF && subF !== app.t('opt_all')) items = items.filter(function(it) { return String(it.subcategory||"") === String(subF)); };
 
-        if(regionF) items = items.filter(function(it) { return String(it.region||""; }).toLowerCase().includes(regionF));
+        if(regionF) items = items.filter(function(it) { return String(it.region||"").toLowerCase().includes(regionF)); };
 
-        if(search) items = items.filter(function(it) { return (String(it.title||""; }).toLowerCase().includes(search) || String(it.desc||"").toLowerCase().includes(search)));
+        if(search) items = items.filter(function(it) { return (String(it.title||"").toLowerCase().includes(search) || String(it.desc||"").toLowerCase().includes(search))); };
 
         if(items.length === 0) {
           container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`;
           return;
         }
 
-        let htmlCards = '';
+        var htmlCards = '';
         items.forEach(function(it) {
-          const isFav = app.userData.favorites && app.userData.favorites.includes(it.id);
-          const imgHtml = it.image ? `<img src="${it.image}">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
+          var isFav = app.userData.favorites && app.userData.favorites.includes(it.id);
+          var imgHtml = it.image ? `<img src="${it.image}">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
 
-          let badges = "";
+          var badges = "";
           if(it.status === 'sold') badges = `<div class="status-badge sold">${app.t('lbl_sold')}</div>`;
           else if(it.status === 'reserved') badges = `<div class="status-badge reserved">${app.t('lbl_reserved')}</div>`;
           else if(it.status === 'hidden') badges = `<div class="status-badge reserved">HIDDEN</div>`;
 
-          const overlay = it.status === 'sold' ? `<div class="card-overlay" style="display:flex">${app.t('lbl_sold')}</div>` : '';
-          const opacity = it.status === 'sold' ? '0.6' : '1';
+          var overlay = it.status === 'sold' ? `<div class="card-overlay" style="display:flex">${app.t('lbl_sold')}</div>` : '';
+          var opacity = it.status === 'sold' ? '0.6' : '1';
 
           htmlCards += `
             <div class="rai-card" style="padding:0; cursor:pointer; opacity:${opacity}" onclick="app.openDetail('${it.id}')">
@@ -2112,68 +2116,68 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             app.applyRegisteredOnlyVisibility();
       },
       showToast: function(text) {
-        const c = document.getElementById('toast-container'); const el = document.createElement('div'); el.className = 'toast show'; el.innerText = text; c.appendChild(el);
-        setTimeoutfunction(() { el.classList.remove('show'); setTimeoutfunction(() { return el.remove(; }), 300); }, 3000);
+        var c = document.getElementById('toast-container'); var el = document.createElement('div'); el.className = 'toast show'; el.innerText = text; c.appendChild(el);
+        setTimeout(function() { el.classList.remove('show'); setTimeout(function() { return el.remove(), 300); }; }, 3000);
       },
       
       bindLegalLinks: function() {
         // any element with data-i18n lnk_impressum / lnk_privacy will open the modals
-        document.querySelectorAll('[data-i18n="lnk_impressum"]').forEachfunction(function(a) {
+        document.querySelectorAll('[data-i18n="lnk_impressum"]').forEach(function(function(a) {
           a.addEventListener('click', (e) { e.preventDefault(); app.openLegal('imprint'); });
         });
-        document.querySelectorAll('[data-i18n="lnk_privacy"]').forEachfunction(function(a) {
+        document.querySelectorAll('[data-i18n="lnk_privacy"]').forEach(function(function(a) {
           a.addEventListener('click', (e) { e.preventDefault(); app.openLegal('privacy'); });
         });
       },
 
       setLanguage: function(langCode) { app.lang = langCode; try{ localStorage.setItem('lang', langCode); }catch(e){} app.translatePage(); app.populateDropdowns('filter'); app.populateDropdowns('sell'); },
       translatePage: function() {
-        const t = TRANSLATIONS[app.lang];
+        var t = TRANSLATIONS[app.lang];
         document.querySelectorAll('[data-i18n]').forEach(function(el) { if (t[el.getAttribute('data-i18n')]) el.innerHTML = t[el.getAttribute('data-i18n')]; });
         document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) { if (t[el.getAttribute('data-i18n-placeholder')]) el.placeholder = t[el.getAttribute('data-i18n-placeholder')]; });
       },
       setupListeners: function() {
-        const catSel = document.getElementById('filter-cat'); const subSel = document.getElementById('filter-sub');
-        catSel.addEventListener('change', () { 
+        var catSel = document.getElementById('filter-cat'); var subSel = document.getElementById('filter-sub');
+        catSel.addEventListener(function('change', () { 
            subSel.disabled = false; subSel.innerHTML = `<option>${app.t('opt_all')}</option>`; 
-           if(CATEGORIES_DATA[catSel.value]) CATEGORIES_DATA[catSel.value].subs.forEach(function(s) { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; subSel.appendChild(o); });
+           if(CATEGORIES_DATA[catSel.value]) CATEGORIES_DATA[catSel.value].subs.forEach(function(s) { var o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; subSel.appendChild(o); });
            app.renderContextFilters('filter', catSel.value, null); app.loadListings();
         });
-        subSel.addEventListener('change', () { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
+        subSel.addEventListener(function('change', () { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
         
-        const sellCat = document.getElementById('sell-cat'); const sellSub = document.getElementById('sell-sub');
-        sellCat.addEventListener('change', () {
+        var sellCat = document.getElementById('sell-cat'); var sellSub = document.getElementById('sell-sub');
+        sellCat.addEventListener(function('change', () {
            sellSub.disabled = false; sellSub.innerHTML = `<option>${app.t('opt_choose')}</option>`;
-           if(CATEGORIES_DATA[sellCat.value]) CATEGORIES_DATA[sellCat.value].subs.forEach(function(s) { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; sellSub.appendChild(o); });
+           if(CATEGORIES_DATA[sellCat.value]) CATEGORIES_DATA[sellCat.value].subs.forEach(function(s) { var o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; sellSub.appendChild(o); });
            app.renderContextFilters('sell', sellCat.value, null);
         });
-        sellSub.addEventListener('change', () { return app.renderContextFilters('sell'; }, sellCat.value, sellSub.value));
+        sellSub.addEventListener(function('change', () { return app.renderContextFilters('sell', sellCat.value, sellSub.value)); };
       },
       populateDropdowns: function(prefix) {
-        const lang = app.lang;
-        const countrySel = document.getElementById(prefix + '-country'); countrySel.innerHTML = "";
-        for (const code in COUNTRIES_DATA) { const opt = document.createElement('option'); opt.value = code; opt.textContent = COUNTRIES_DATA[code][lang] || COUNTRIES_DATA[code]['en']; countrySel.appendChild(opt); }
-        const catSel = document.getElementById(prefix + '-cat'); const prev = catSel.value; catSel.innerHTML = "";
-        const def = document.createElement('option'); def.value = ""; def.textContent = prefix==='filter'?app.t('opt_all'):app.t('opt_choose'); catSel.appendChild(def);
-        for (const catKey in CATEGORIES_DATA) { const opt = document.createElement('option'); opt.value = catKey; opt.textContent = CATEGORIES_DATA[catKey].label[lang] || CATEGORIES_DATA[catKey].label['de']; catSel.appendChild(opt); }
+        var lang = app.lang;
+        var countrySel = document.getElementById(prefix + '-country'); countrySel.innerHTML = "";
+        for (var code in COUNTRIES_DATA) { var opt = document.createElement('option'); opt.value = code; opt.textContent = COUNTRIES_DATA[code][lang] || COUNTRIES_DATA[code]['en']; countrySel.appendChild(opt); }
+        var catSel = document.getElementById(prefix + '-cat'); var prev = catSel.value; catSel.innerHTML = "";
+        var def = document.createElement('option'); def.value = ""; def.textContent = prefix==='filter'?app.t('opt_all'):app.t('opt_choose'); catSel.appendChild(def);
+        for (var catKey in CATEGORIES_DATA) { var opt = document.createElement('option'); opt.value = catKey; opt.textContent = CATEGORIES_DATA[catKey].label[lang] || CATEGORIES_DATA[catKey].label['de']; catSel.appendChild(opt); }
         catSel.value = prev;
       },
       renderContextFilters: function(prefix, categoryKey, subKey) {
-        const container = document.getElementById(prefix === 'filter' ? 'dynamic-filters' : 'sell-dynamic-inputs');
+        var container = document.getElementById(prefix === 'filter' ? 'dynamic-filters' : 'sell-dynamic-inputs');
         container.innerHTML = ""; container.style.display = "none"; container.classList.remove('show');
         if (!categoryKey || !CATEGORIES_DATA[categoryKey]) return;
-        let filters = [...CATEGORIES_DATA[categoryKey].filters];
+        var filters = [...CATEGORIES_DATA[categoryKey].filters];
         if (categoryKey === 'realestate' && subKey && (subKey.includes('apt') || subKey.includes('house'))) { filters.push({ id: "filter_rooms" }); filters.push({ id: "filter_floor" }); }
         if (filters.length === 0) return;
         container.style.display = prefix === 'filter' ? "block" : "grid";
-        if(prefix === 'filter') { setTimeoutfunction(() { return container.classList.add('show'; }), 10); container.innerHTML = `<div class="grid-2">${filters.map(function(f) { return `<div class="rai-input-group" style="margin:0"><label class="rai-label">${app.t(f.id; })}</label><input type="number" class="rai-input" placeholder="0"></div>`).join('')}</div>`; }
-        else { container.innerHTML = filters.map(function(f) { return `<div class="rai-input-group"><label class="rai-label">${app.t(f.id; })}</label><input type="number" class="rai-input" placeholder="0"></div>`).join(''); }
+        if(prefix === 'filter') { setTimeout(function() { return container.classList.add('show'), 10); }; container.innerHTML = `<div class="grid-2">${filters.map(function(f) { return `<div class="rai-input-group" style="margin:0"><label class="rai-label">${app.t(f.id)}</label><input type="number" class="rai-input" placeholder="0"></div>`).join('')}</div>`; }; }
+        else { container.innerHTML = filters.map(function(f) { return `<div class="rai-input-group"><label class="rai-label">${app.t(f.id)}</label><input type="number" class="rai-input" placeholder="0"></div>`).join(''); }; }
       },
-      loadTheme: function() { const saved = localStorage.getItem('theme') || 'light'; document.documentElement.setAttribute('data-theme', saved); document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙'; },
-      toggleTheme: function() { const current = document.documentElement.getAttribute('data-theme'); const next = current === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙'; }
+      loadTheme: function() { var saved = localStorage.getItem('theme') || 'light'; document.documentElement.setAttribute('data-theme', saved); document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙'; },
+      toggleTheme: function() { var current = document.documentElement.getAttribute('data-theme'); var next = current === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙'; }
     };
 
-    document.getElementById('btn-auth-switch').addEventListener('click', () { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
+    document.getElementById('btn-auth-switch').addEventListener(function('click', () { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
     document.getElementById('btn-auth-action').addEventListener('click', app.handleAuth);
 
     app.init();
