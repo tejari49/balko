@@ -62,6 +62,7 @@
     a { text-decoration: none; color: inherit; cursor: pointer; }
     .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
     .hidden { display: none !important; }
+    .registered-only { display: none !important; }
 
     /* TOAST */
     .toast-container {
@@ -260,6 +261,14 @@
     .legal-footer { text-align: center; margin-top: 20px; font-size: 12px; color: var(--text-secondary); display: flex; gap: 15px; justify-content: center; }
     .legal-link { color: var(--text-secondary); text-decoration: none; }
 
+    
+    /* LEGAL CONTENT */
+    .legal-content { font-size: 14px; line-height: 1.6; color: var(--text-primary); }
+    .legal-content h3 { margin-top: 16px; font-size: 15px; }
+    .legal-content p { margin-top: 10px; color: var(--text-primary); }
+    .legal-content ul { margin-top: 10px; padding-left: 18px; }
+    .legal-content li { margin-top: 6px; }
+    .legal-content .muted { color: var(--text-secondary); font-size: 12px; margin-top: 12px; }
     /* DOCK */
     .tab-bar-container { position: fixed; bottom: 30px; left: 0; right: 0; z-index: 2000; display: flex; justify-content: center; pointer-events: none; }
     .tab-bar { pointer-events: auto; height: 70px; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 35px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.2); min-width: 280px; }
@@ -367,6 +376,25 @@
       <div class="auth-title" id="modal-list-title">Liste</div>
       <div id="my-listings-list" style="display:flex; flex-direction:column; gap:10px;"></div>
       <button class="rai-btn secondary" style="margin-top:20px;" onclick="app.closeModal('my-listings-modal')" data-i18n="btn_close">Schließen</button>
+    </div>
+  </div>
+
+  
+  <!-- IMPRESSUM MODAL -->
+  <div class="modal-overlay" id="imprint-modal">
+    <div class="modal-box">
+      <div class="auth-title" data-i18n="imprint_title">Impressum</div>
+      <div class="legal-content" id="imprint-content"></div>
+      <button class="rai-btn secondary" style="margin-top:10px; background:transparent;" onclick="app.closeModal('imprint-modal')" data-i18n="btn_close">Schließen</button>
+    </div>
+  </div>
+
+  <!-- PRIVACY MODAL -->
+  <div class="modal-overlay" id="privacy-modal">
+    <div class="modal-box">
+      <div class="auth-title" data-i18n="privacy_title">Datenschutz</div>
+      <div class="legal-content" id="privacy-content"></div>
+      <button class="rai-btn secondary" style="margin-top:10px; background:transparent;" onclick="app.closeModal('privacy-modal')" data-i18n="btn_close">Schließen</button>
     </div>
   </div>
 
@@ -492,8 +520,8 @@
           </div>
           <div class="list-item">
             <div style="display:flex; align-items:center; gap: 15px;">
-               <a href="#" style="font-size:14px; text-decoration:none; color:var(--text-primary);" data-i18n="lnk_impressum">Impressum</a>
-               <a href="#" style="font-size:14px; text-decoration:none; color:var(--text-primary);" data-i18n="lnk_privacy">Datenschutz</a>
+               <a href="#" class="legal-link" style="font-size:14px; text-decoration:none; color:var(--text-primary);" data-i18n="lnk_impressum">Impressum</a>
+               <a href="#" class="legal-link" style="font-size:14px; text-decoration:none; color:var(--text-primary);" data-i18n="lnk_privacy">Datenschutz</a>
             </div>
           </div>
         </div>
@@ -585,7 +613,8 @@
         msg_no_phone: "Keine Nummer angegeben.", msg_hidden_phone: "Nummer ist verborgen.",
         lbl_sold: "VERKAUFT", lbl_reserved: "RESERVIERT", lbl_active: "AKTIV", lbl_member_since: "Dabei seit",
         title_report: "Inserat melden", desc_report: "Warum möchtest du dieses Inserat melden?", btn_submit_report: "Melden",
-        lnk_impressum: "Impressum", lnk_privacy: "Datenschutz"
+        lnk_impressum: "Impressum", lnk_privacy: "Datenschutz",
+        imprint_title: "Impressum", privacy_title: "Datenschutz"
       },
       en: {
         nav_market: "Market", nav_sell: "Sell", nav_profile: "Profile",
@@ -613,11 +642,18 @@
         msg_no_phone: "No number provided.", msg_hidden_phone: "Number is hidden.",
         lbl_sold: "SOLD", lbl_reserved: "RESERVED", lbl_active: "ACTIVE", lbl_member_since: "Member since",
         title_report: "Report Listing", desc_report: "Why are you reporting this?", btn_submit_report: "Report",
-        lnk_impressum: "Imprint", lnk_privacy: "Privacy Policy"
+        lnk_impressum: "Imprint", lnk_privacy: "Privacy Policy",
+        imprint_title: "Legal notice", privacy_title: "Privacy policy"
       },
-      sq: { nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan (€)", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Qyteti", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", btn_login_register: "Hyni / Regjistrohu", btn_cancel: "Anulo", btn_save: "Ruaj", btn_remove_pic: "Hiq Foton", btn_close: "Mbyll", btn_delete_account: "Fshi Llogarinë", opt_all: "Të gjitha", opt_choose: "Zgjidh", lbl_listings: "Njoftimet", lbl_watchlist: "Lista", sec_settings: "Cilësimet", sec_manage: "Menaxho", menu_settings: "Të dhënat & Privatësia", guest_title: "Profili i mbyllur", guest_desc: "Hyni për të menaxhuar.", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati", auth_welcome: "Mirësevini", auth_or: "OSE", btn_google: "Vazhdo me Google", label_email: "Email", label_password: "Fjalëkalimi", btn_login: "Hyni", btn_no_account: "Nuk keni llogari?", label_displayname: "Emri", label_phone: "Telefoni", label_privacy: "Privatësia", opt_registered: "Vetëm të regjistruarit", opt_public: "Publike", opt_hidden: "Fshehur", toast_login_ok: "Hyrje me sukses!", toast_reg_ok: "Llogaria u krijua!", toast_logout: "Dolët", toast_saved: "U ruajt!", toast_deleted: "U fshi.", toast_published: "U publikua!", toast_error: "Gabim: ", toast_wait: "Ju lutem prisni...", toast_fill_all: "Plotësoni të gjitha!", alert_delete: "A jeni i sigurt?", alert_remove_pic: "Hiq foton?", alert_delete_acc: "Kujdes: Të gjitha njoftimet do fshihen! Vazhdo?", btn_call: "📞 Telefono", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Shitësi në ZONA", msg_no_phone: "S'ka numër.", msg_hidden_phone: "Numri i fshehur.", lbl_sold: "SHITUR", lbl_reserved: "RESERVUAR", lbl_active: "AKTIV", lbl_member_since: "Anëtar që nga", title_report: "Raporto", desc_report: "Pse po e raportoni?", btn_submit_report: "Raporto", lnk_impressum: "Imprint", lnk_privacy: "Privatësia" },
-      sr: { nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan (€)", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", btn_login_register: "Prijava / Registracija", btn_cancel: "Otkaži", btn_save: "Sačuvaj", btn_remove_pic: "Ukloni sliku", btn_close: "Zatvori", btn_delete_account: "Obriši Nalog", opt_all: "Sve", opt_choose: "Izaberi", lbl_listings: "Oglasi", lbl_watchlist: "Lista", sec_settings: "Podešavanja", sec_manage: "Upravljanje", menu_settings: "Podaci & Privatnost", guest_title: "Profil zaključan", guest_desc: "Prijavi se za upravljanje.", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat", auth_welcome: "Dobrodošli", auth_or: "ILI", btn_google: "Nastavi sa Google-om", label_email: "Email", label_password: "Lozinka", btn_login: "Prijava", btn_no_account: "Nemaš nalog?", label_displayname: "Ime", label_phone: "Telefon", label_privacy: "Privatnost", opt_registered: "Samo registrovani", opt_public: "Javno", opt_hidden: "Sakriveno", toast_login_ok: "Uspešna prijava!", toast_reg_ok: "Nalog kreiran!", toast_logout: "Odjavljen", toast_saved: "Sačuvano!", toast_deleted: "Obrisano.", toast_published: "Objavljeno!", toast_error: "Greška: ", toast_wait: "Sačekajte...", toast_fill_all: "Popuni sve!", alert_delete: "Sigurno obrisati?", alert_remove_pic: "Ukloniti sliku?", alert_delete_acc: "Pažnja: Svi oglasi će biti obrisani! Nastavi?", btn_call: "📞 Pozovi", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Prodavac na ZONA", msg_no_phone: "Nema broja.", msg_hidden_phone: "Broj sakriven.", lbl_sold: "PRODATO", lbl_reserved: "REZERVISANO", lbl_active: "AKTIVNO", lbl_member_since: "Član od", title_report: "Prijavi", desc_report: "Zašto prijavljuješ?", btn_submit_report: "Prijavi", lnk_impressum: "Impresum", lnk_privacy: "Privatnost" },
-      mk: { nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан (€)", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", btn_login_register: "Најава / Регистрација", btn_cancel: "Откажи", btn_save: "Зачувај", btn_remove_pic: "Тргни слика", btn_close: "Затвори", btn_delete_account: "Избриши сметка", opt_all: "Сите", opt_choose: "Избери", lbl_listings: "Огласи", lbl_watchlist: "Листа", sec_settings: "Поставки", sec_manage: "Управување", menu_settings: "Податоци & Приватност", guest_title: "Заклучен профил", guest_desc: "Најави се за управување.", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат", auth_welcome: "Добредојдовте", auth_or: "ИЛИ", btn_google: "Продолжи со Google", label_email: "Е-пошта", label_password: "Лозинка", btn_login: "Најава", btn_no_account: "Немаш сметка?", label_displayname: "Име", label_phone: "Телефон", label_privacy: "Приватност", opt_registered: "Само регистрирани", opt_public: "Јавно", opt_hidden: "Скриено", toast_login_ok: "Успешна најава!", toast_reg_ok: "Сметката е креирана!", toast_logout: "Одјавен", toast_saved: "Зачувано!", toast_deleted: "Избришано.", toast_published: "Објавено!", toast_error: "Грешка: ", toast_wait: "Почекајте...", toast_fill_all: "Пополнете се!", alert_delete: "Сигурно бришење?", alert_remove_pic: "Тргни слика?", alert_delete_acc: "Внимание: Сите огласи ќе бидат избришани! Продолжи?", btn_call: "📞 Јави се", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Продавач на ZONA", msg_no_phone: "Нема број.", msg_hidden_phone: "Бројот е скриен.", lbl_sold: "ПРОДАДЕНО", lbl_reserved: "РЕЗЕРВИРАНО", lbl_active: "АКТИВНО", lbl_member_since: "Член од", title_report: "Пријави", desc_report: "Зошто пријавуваш?", btn_submit_report: "Пријави", lnk_impressum: "Импресум", lnk_privacy: "Приватност" }
+      sq: { nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan (€)", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Qyteti", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", btn_login_register: "Hyni / Regjistrohu", btn_cancel: "Anulo", btn_save: "Ruaj", btn_remove_pic: "Hiq Foton", btn_close: "Mbyll", btn_delete_account: "Fshi Llogarinë", opt_all: "Të gjitha", opt_choose: "Zgjidh", lbl_listings: "Njoftimet", lbl_watchlist: "Lista", sec_settings: "Cilësimet", sec_manage: "Menaxho", menu_settings: "Të dhënat & Privatësia", guest_title: "Profili i mbyllur", guest_desc: "Hyni për të menaxhuar.", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati", auth_welcome: "Mirësevini", auth_or: "OSE", btn_google: "Vazhdo me Google", label_email: "Email", label_password: "Fjalëkalimi", btn_login: "Hyni", btn_no_account: "Nuk keni llogari?", label_displayname: "Emri", label_phone: "Telefoni", label_privacy: "Privatësia", opt_registered: "Vetëm të regjistruarit", opt_public: "Publike", opt_hidden: "Fshehur", toast_login_ok: "Hyrje me sukses!", toast_reg_ok: "Llogaria u krijua!", toast_logout: "Dolët", toast_saved: "U ruajt!", toast_deleted: "U fshi.", toast_published: "U publikua!", toast_error: "Gabim: ", toast_wait: "Ju lutem prisni...", toast_fill_all: "Plotësoni të gjitha!", alert_delete: "A jeni i sigurt?", alert_remove_pic: "Hiq foton?", alert_delete_acc: "Kujdes: Të gjitha njoftimet do fshihen! Vazhdo?", btn_call: "📞 Telefono", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Shitësi në ZONA", msg_no_phone: "S'ka numër.", msg_hidden_phone: "Numri i fshehur.",
+ lbl_sold: "SHITUR", lbl_reserved: "RESERVUAR", lbl_active: "AKTIV", lbl_member_since: "Anëtar që nga", title_report: "Raporto", desc_report: "Pse po e raportoni?", btn_submit_report: "Raporto", lnk_impressum: "Imprint", lnk_privacy: "Privatësia",
+        imprint_title: "Impresum", privacy_title: "Privatësia" },
+      sr: { nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan (€)", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", btn_login_register: "Prijava / Registracija", btn_cancel: "Otkaži", btn_save: "Sačuvaj", btn_remove_pic: "Ukloni sliku", btn_close: "Zatvori", btn_delete_account: "Obriši Nalog", opt_all: "Sve", opt_choose: "Izaberi", lbl_listings: "Oglasi", lbl_watchlist: "Lista", sec_settings: "Podešavanja", sec_manage: "Upravljanje", menu_settings: "Podaci & Privatnost", guest_title: "Profil zaključan", guest_desc: "Prijavi se za upravljanje.", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat", auth_welcome: "Dobrodošli", auth_or: "ILI", btn_google: "Nastavi sa Google-om", label_email: "Email", label_password: "Lozinka", btn_login: "Prijava", btn_no_account: "Nemaš nalog?", label_displayname: "Ime", label_phone: "Telefon", label_privacy: "Privatnost", opt_registered: "Samo registrovani", opt_public: "Javno", opt_hidden: "Sakriveno", toast_login_ok: "Uspešna prijava!", toast_reg_ok: "Nalog kreiran!", toast_logout: "Odjavljen", toast_saved: "Sačuvano!", toast_deleted: "Obrisano.", toast_published: "Objavljeno!", toast_error: "Greška: ", toast_wait: "Sačekajte...", toast_fill_all: "Popuni sve!", alert_delete: "Sigurno obrisati?", alert_remove_pic: "Ukloniti sliku?", alert_delete_acc: "Pažnja: Svi oglasi će biti obrisani! Nastavi?", btn_call: "📞 Pozovi", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Prodavac na ZONA", msg_no_phone: "Nema broja.", msg_hidden_phone: "Broj sakriven.", lbl_sold
+: "PRODATO", lbl_reserved: "REZERVISANO", lbl_active: "AKTIVNO", lbl_member_since: "Član od", title_report: "Prijavi", desc_report: "Zašto prijavljuješ?", btn_submit_report: "Prijavi", lnk_impressum: "Impresum", lnk_privacy: "Privatnost",
+        imprint_title: "Impresum", privacy_title: "Politika privatnosti" },
+      mk: { nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан (€)", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", btn_login_register: "Најава / Регистрација", btn_cancel: "Откажи", btn_save: "Зачувај", btn_remove_pic: "Тргни слика", btn_close: "Затвори", btn_delete_account: "Избриши сметка", opt_all: "Сите", opt_choose: "Избери", lbl_listings: "Огласи", lbl_watchlist: "Листа", sec_settings: "Поставки", sec_manage: "Управување", menu_settings: "Податоци & Приватност", guest_title: "Заклучен профил", guest_desc: "Најави се за управување.", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат", auth_welcome: "Добредојдовте", auth_or: "ИЛИ", btn_google: "Продолжи со Google", label_email: "Е-пошта", label_password: "Лозинка", btn_login: "Најава", btn_no_account: "Немаш сметка?", label_displayname: "Име", label_phone: "Телефон", label_privacy: "Приватност", opt_registered: "Само регистрирани", opt_public: "Јавно", opt_hidden: "Скриено", toast_login_ok: "Успешна најава!", toast_reg_ok: "Сметката е креирана!", toast_logout: "Одјавен", toast_saved: "Зачувано!", toast_deleted: "Избришано.", toast_published: "Објавено!", toast_error: "Грешка: ", toast_wait: "Почекајте...", toast_fill_all: "Пополнете се!", alert_delete: "Сигурно бришење?", alert_remove_pic: "Тргни слика?", alert_delete_acc: "Внимание: Сите огласи ќе бидат избришани! Продолжи?", btn_call: "📞 Јави се", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Продавач на ZONA", msg_no_phone: "Нема број.", msg_hidden_phone: "Бројот е скриен.", lbl_sold: 
+"ПРОДАДЕНО", lbl_reserved: "РЕЗЕРВИРАНО", lbl_active: "АКТИВНО", lbl_member_since: "Член од", title_report: "Пријави", desc_report: "Зошто пријавуваш?", btn_submit_report: "Пријави", lnk_impressum: "Импресум", lnk_privacy: "Приватност",
+        imprint_title: "Импресум", privacy_title: "Политика за приватност" }
     };
 
     const COUNTRIES_DATA = { all: { de: "Alle", en: "All", sq: "Të gjitha", sr: "Sve", mk: "Сите" }, al: { de: "Albanien", en: "Albania", sq: "Shqipëria", sr: "Albanija", mk: "Албанија" }, xk: { de: "Kosovo", en: "Kosovo", sq: "Kosova", sr: "Kosovo", mk: "Косово" }, mk: { de: "Nordmazedonien", en: "North Macedonia", sq: "Maqedonia e V.", sr: "Severna Makedonija", mk: "Северна Македонија" }, rs: { de: "Serbien", en: "Serbia", sq: "Serbia", sr: "Srbija", mk: "Србија" }, ba: { de: "Bosnien & Herz.", en: "Bosnia & Herz.", sq: "Bosnja", sr: "Bosna", mk: "Босна" }, hr: { de: "Kroatien", en: "Croatia", sq: "Kroacia", sr: "Hrvatska", mk: "Хрватска" }, me: { de: "Montenegro", en: "Montenegro", sq: "Mali i Zi", sr: "Crna Gora", mk: "Црна Гора" } };
@@ -632,7 +668,387 @@
     };
 
     // --- MAIN APP ---
-    window.app = {
+    
+    // --- LEGAL CONTENT (per language) ---
+    const LEGAL_CONTENT = {
+      de: {
+        imprint: `
+          <p><strong>Betreiber</strong><br>
+          Irajet Ramadani<br>
+          Sandackerstrasse 7<br>
+          9245 Oberbüren SG<br>
+          Schweiz</p>
+
+          <p><strong>Kontakt</strong><br>
+          <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a><br>
+          <span class="registered-only" data-display="inline">Telefon: <a href="tel:+41764843486">+41 76 484 34 86</a></span></p>
+
+          <p><strong>Haftungsausschluss</strong><br>
+          Die Inhalte dieser Plattform werden mit angemessener Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte übernehmen wir jedoch keine Gewähr.
+          Für Inhalte und Angebote von Nutzerinnen und Nutzern (z. B. Inserate, Bilder, Beschreibungen) sind ausschliesslich die jeweiligen Anbieter verantwortlich.</p>
+
+          <p><strong>Urheberrecht</strong><br>
+          Inhalte und Werke auf dieser Website unterliegen dem Urheberrecht. Eine Weiterverwendung ausserhalb der Grenzen des Urheberrechts bedarf der vorgängigen Zustimmung der Rechteinhaber.</p>
+
+          <p class="muted">Stand: 31.01.2026</p>
+        `,
+        privacy: `
+          <p class="muted">Stand: 31.01.2026</p>
+
+          <h3>1. Verantwortliche Stelle</h3>
+          <p>Irajet Ramadani, Sandackerstrasse 7, 9245 Oberbüren SG, Schweiz<br>
+          E-Mail: <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a></p>
+
+          <h3>2. Zweck dieser Datenschutzerklärung</h3>
+          <p>Diese Datenschutzerklärung erläutert, welche Personendaten wir im Zusammenhang mit dem Betrieb des Marktplatzes verarbeiten und zu welchen Zwecken.</p>
+
+          <h3>3. Welche Daten wir verarbeiten</h3>
+          <ul>
+            <li><strong>Account- und Anmeldedaten:</strong> E-Mail-Adresse, Firebase-User-ID (UID), Login-Status; bei Google-Login ggf. Name und Profilbild, soweit von Google bereitgestellt.</li>
+            <li><strong>Profildaten:</strong> Anzeigename, Telefonnummer (optional) und deine Privatsphäre-Einstellung.</li>
+            <li><strong>Inserate & Inhalte:</strong> Titel, Preis, Land/Kategorie, Beschreibung sowie von dir hochgeladene Fotos (in der App als Bilddaten gespeichert).</li>
+            <li><strong>Technische Daten:</strong> Geräte-/Browserinformationen und Logdaten, die bei der Nutzung unserer Infrastruktur anfallen (z. B. IP-Adresse in Server-Logs des Hosting-/Cloud-Providers).</li>
+            <li><strong>Lokale App-Daten:</strong> Einstellungen im Browser (z. B. Theme/Sprache via localStorage).</li>
+          </ul>
+
+          <h3>4. Wofür wir die Daten verwenden</h3>
+          <ul>
+            <li>Bereitstellung der Plattform-Funktionen (Login, Profil, Inserate, Verwaltung).</li>
+            <li>Missbrauchs- und Sicherheitsprävention (z. B. Schutz vor Spam/Manipulation).</li>
+            <li>Kommunikation bei Support-Anfragen.</li>
+          </ul>
+
+          <h3>5. Keine Analytics / kein Newsletter / keine Payments</h3>
+          <p>Wir verwenden gemäss aktuellem Setup keine Analytics- oder Tracking-Tools und versenden keine Newsletter. Zahlungsabwicklung ist derzeit nicht integriert.</p>
+
+          <h3>6. Empfänger und Dienstleister (Firebase / Google)</h3>
+          <p>Für Authentifizierung und Datenspeicherung nutzen wir Firebase (Google). Dabei können Personendaten in Rechenzentren ausserhalb der Schweiz verarbeitet werden.
+          Wir achten auf angemessene datenschutzrechtliche Garantien (z. B. Standardvertragsklauseln, soweit anwendbar).</p>
+
+          <h3>7. Speicherdauer</h3>
+          <p>Personendaten werden grundsätzlich <strong>bis zur Löschung</strong> gespeichert. Wenn du dein Konto oder Inhalte löschst, werden diese danach im Regelfall direkt entfernt (vorbehältlich technischer Lösch- und Backup-Zyklen des Cloud-Providers).</p>
+
+          <h3>8. Deine Rechte</h3>
+          <p>Du kannst Auskunft, Berichtigung oder Löschung deiner Personendaten verlangen. Bei Fragen oder Anliegen kontaktiere uns unter der oben genannten E-Mail-Adresse.</p>
+
+          <h3>9. Datensicherheit</h3>
+          <p>Wir treffen angemessene technische und organisatorische Massnahmen, um Daten vor unbefugtem Zugriff, Verlust oder Missbrauch zu schützen. Ein vollständiger Schutz kann jedoch nicht garantiert werden.</p>
+
+          <h3>10. Änderungen</h3>
+          <p>Wir können diese Datenschutzerklärung bei Bedarf aktualisieren.</p>
+
+<h3>11. EU/EWR: Rechte nach DSGVO</h3>
+          <p>Wenn du dich in der EU/dem EWR befindest, gelten zusätzlich die Rechte gemäss DSGVO, u. a.:</p>
+          <ul>
+            <li>Auskunft, Berichtigung, Löschung</li>
+            <li>Einschränkung der Verarbeitung</li>
+            <li>Datenübertragbarkeit</li>
+            <li>Widerspruch gegen Verarbeitungen auf Basis berechtigter Interessen</li>
+            <li>Widerruf einer Einwilligung mit Wirkung für die Zukunft</li>
+            <li>Beschwerde bei einer Datenschutz-Aufsichtsbehörde (insb. am Wohn-/Arbeitsort)</li>
+          </ul>
+
+          <h3>12. EU/EWR: Rechtsgrundlagen (DSGVO)</h3>
+          <p>Sofern die DSGVO anwendbar ist, stützen wir die Verarbeitung insbesondere auf:</p>
+          <ul>
+            <li><strong>Art. 6 Abs. 1 lit. b DSGVO</strong> (Vertrag/Anbahnung) – Betrieb von Konto, Inseraten und Plattformfunktionen.</li>
+            <li><strong>Art. 6 Abs. 1 lit. f DSGVO</strong> (berechtigte Interessen) – Sicherheit, Missbrauchsprävention, technische Stabilität.</li>
+            <li><strong>Art. 6 Abs. 1 lit. a DSGVO</strong> (Einwilligung) – freiwillige Profilangaben (z. B. Telefonnummer), soweit du sie setzt.</li>
+          </ul>
+
+          <h3>13. Telefonnummern – Sichtbarkeit</h3>
+          <p>Telefonnummern (z. B. für Anruf/WhatsApp) werden in der App <strong>nur registrierten Nutzerinnen und Nutzern</strong> zugänglich gemacht. Du kannst deine Telefonnummer im Profil zusätzlich verbergen.</p>
+
+        `
+      },
+
+      en: {
+        imprint: `
+          <p><strong>Operator</strong><br>
+          Irajet Ramadani<br>
+          Sandackerstrasse 7<br>
+          9245 Oberbüren SG<br>
+          Switzerland</p>
+
+          <p><strong>Contact</strong><br>
+          <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a><br>
+          <span class="registered-only" data-display="inline">Phone: <a href="tel:+41764843486">+41 76 484 34 86</a></span></p>
+
+          <p><strong>Disclaimer</strong><br>
+          We create content with reasonable care, but do not guarantee accuracy, completeness or timeliness.
+          Users are solely responsible for their own content (e.g., listings, images, descriptions).</p>
+
+          <p><strong>Copyright</strong><br>
+          Content and works on this website are subject to copyright. Any use beyond applicable limits requires permission from the rights holders.</p>
+
+          <p class="muted">Last updated: 31.01.2026</p>
+        `,
+        privacy: `
+          <p class="muted">Last updated: 31.01.2026</p>
+
+          <h3>1. Controller</h3>
+          <p>Irajet Ramadani, Sandackerstrasse 7, 9245 Oberbüren SG, Switzerland<br>
+          Email: <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a></p>
+
+          <h3>2. Scope</h3>
+          <p>This policy explains which personal data we process when operating the marketplace and for what purposes.</p>
+
+          <h3>3. Data we process</h3>
+          <ul>
+            <li><strong>Account & login:</strong> email address, Firebase user ID (UID), login status; for Google sign-in, possibly name and profile picture provided by Google.</li>
+            <li><strong>Profile data:</strong> display name, phone number (optional) and your privacy setting.</li>
+            <li><strong>Listings & content:</strong> title, price, country/category, description and photos you upload (stored as image data in the app).</li>
+            <li><strong>Technical data:</strong> device/browser data and logs (e.g., IP address in server logs of the hosting/cloud provider).</li>
+            <li><strong>Local app data:</strong> settings stored in your browser (e.g., theme/language via localStorage).</li>
+          </ul>
+
+          <h3>4. Purposes</h3>
+          <ul>
+            <li>Provide core features (sign-in, profile, listings, admin tools).</li>
+            <li>Security and abuse prevention.</li>
+            <li>Support communication.</li>
+          </ul>
+
+          <h3>5. No analytics / no newsletter / no payments</h3>
+          <p>We currently do not use analytics or tracking tools and do not send newsletters. Payments are not integrated at this time.</p>
+
+          <h3>6. Processors (Firebase / Google)</h3>
+          <p>We use Firebase (Google) for authentication and data storage. Data may be processed outside Switzerland.
+          We rely on appropriate safeguards where applicable (e.g., Standard Contractual Clauses).</p>
+
+          <h3>7. Retention</h3>
+          <p>Data is stored <strong>until deletion</strong>. When you delete your account or content, it is generally removed immediately (subject to technical deletion and backup cycles of the cloud provider).</p>
+
+          <h3>8. Your rights</h3>
+          <p>You may request access, correction or deletion of your data. Contact us via the email above.</p>
+
+          <h3>9. Security</h3>
+          <p>We apply reasonable technical and organisational measures to protect data. Absolute security cannot be guaranteed.</p>
+
+          <h3>10. Changes</h3>
+          <p>We may update this policy from time to time.</p>
+
+          <p class="muted">Convenience translation. The German version prevails.</p>
+
+<h3>11. EU/EEA: Your rights under the GDPR</h3>
+          <p>If you are located in the EU/EEA, the GDPR applies in addition. This includes, among others:</p>
+          <ul>
+            <li>Right of access, rectification, erasure</li>
+            <li>Restriction of processing</li>
+            <li>Data portability</li>
+            <li>Objection to processing based on legitimate interests</li>
+            <li>Withdrawal of consent with effect for the future</li>
+            <li>Right to lodge a complaint with a supervisory authority (especially where you live/work)</li>
+          </ul>
+
+          <h3>12. EU/EEA: Legal bases (GDPR)</h3>
+          <p>Where the GDPR applies, we mainly rely on:</p>
+          <ul>
+            <li><strong>Art. 6(1)(b) GDPR</strong> (contract/pre-contract) – operating accounts, listings and platform features.</li>
+            <li><strong>Art. 6(1)(f) GDPR</strong> (legitimate interests) – security, fraud/spam prevention, technical stability.</li>
+            <li><strong>Art. 6(1)(a) GDPR</strong> (consent) – optional profile data (e.g., phone number) if you provide it.</li>
+          </ul>
+
+          <h3>13. Phone numbers – visibility</h3>
+          <p>Phone numbers (e.g., for call/WhatsApp) are made available <strong>only to registered users</strong> within the app. You can also hide your phone number in your profile.</p>
+
+        `
+      },
+
+      // Convenience translations; German remains authoritative.
+      sq: { imprint: `
+          <p><strong>Operatori</strong><br>
+          Irajet Ramadani<br>
+          Sandackerstrasse 7<br>
+          9245 Oberbüren SG<br>
+          Zvicër</p>
+
+          <p><strong>Kontakt</strong><br>
+          <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a><br>
+          <span class="registered-only" data-display="inline">Telefon: <a href="tel:+41764843486">+41 76 484 34 86</a></span></p>
+
+          <p><strong>Përgjegjësia</strong><br>
+          Përmbajtja përgatitet me kujdes të arsyeshëm, por nuk garantojmë saktësinë, plotësinë ose aktualitetin.
+          Përdoruesit janë përgjegjës për përmbajtjen e tyre (p.sh. njoftime, foto, përshkrime).</p>
+
+          <p><strong>E drejta e autorit</strong><br>
+          Përmbajtjet dhe veprat në këtë faqe mbrohen nga e drejta e autorit. Përdorimi jashtë kufijve ligjorë kërkon leje nga mbajtësit e të drejtave.</p>
+
+          <p class="muted">Përditësuar më: 31.01.2026. Versioni gjerman është vendimtar.</p>
+`, privacy: `
+          <p class="muted">Përditësuar më: 31.01.2026. Versioni gjerman është vendimtar.</p>
+
+          <h3>1. Përgjegjësi</h3>
+          <p>Irajet Ramadani, Sandackerstrasse 7, 9245 Oberbüren SG, Zvicër<br>
+          E-mail: <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a></p>
+
+          <h3>2. Qëllimi</h3>
+          <p>Kjo politikë shpjegon cilat të dhëna personale përpunojmë gjatë operimit të tregut online dhe për çfarë qëllimesh.</p>
+
+          <h3>3. Të dhënat që përpunojmë</h3>
+          <ul>
+            <li><strong>Llogaria & hyrja:</strong> adresa e email-it, UID (Firebase), statusi i hyrjes; me Google sign-in mund të merret emri/fotoja e profilit (nëse ofrohet nga Google).</li>
+            <li><strong>Profili:</strong> emri i shfaqjes, numri i telefonit (opsional) dhe cilësimi i privatësisë.</li>
+            <li><strong>Njoftime & përmbajtje:</strong> titulli, çmimi, vendi/kategoria, përshkrimi dhe fotot e ngarkuara.</li>
+            <li><strong>Të dhëna teknike:</strong> të dhëna të pajisjes/shfletuesit dhe log-e (p.sh. IP në log-e të ofruesit cloud).</li>
+            <li><strong>Të dhëna lokale:</strong> cilësime në shfletues (p.sh. tema/gjuha via localStorage).</li>
+          </ul>
+
+          <h3>4. Qëllimet e përpunimit</h3>
+          <ul>
+            <li>Ofrimi i funksioneve (hyrje, profil, njoftime, menaxhim).</li>
+            <li>Siguria dhe parandalimi i abuzimit.</li>
+            <li>Komunikim për mbështetje.</li>
+          </ul>
+
+          <h3>5. Pa analytics / pa newsletter / pa pagesa</h3>
+          <p>Aktualisht nuk përdorim mjete analytics/tracking dhe nuk dërgojmë newsletter. Pagesat nuk janë të integruara.</p>
+
+          <h3>6. Shërbime të jashtme (Firebase / Google)</h3>
+          <p>Përdorim Firebase (Google) për autentikim dhe ruajtje të të dhënave. Të dhënat mund të përpunohen jashtë Zvicrës.
+          Aty ku aplikohet, mbështetemi në garanci të përshtatshme (p.sh. klauzola standarde kontraktuale).</p>
+
+          <h3>7. Ruajtja</h3>
+          <p>Të dhënat ruhen <strong>deri në fshirje</strong>. Pas fshirjes së llogarisë ose përmbajtjes, ato hiqen zakonisht menjëherë (duke marrë parasysh ciklet teknike/backup të cloud-it).</p>
+
+          <h3>8. Të drejtat</h3>
+          <p>Mund të kërkoni qasje, korrigjim ose fshirje të të dhënave. Na kontaktoni me email.</p>
+
+          <h3>9. Siguria</h3>
+          <p>Zbatojmë masa të arsyeshme teknike dhe organizative, por siguria absolute nuk mund të garantohet.</p>
+` },
+      sr: { imprint: `
+          <p><strong>Operator</strong><br>
+          Irajet Ramadani<br>
+          Sandackerstrasse 7<br>
+          9245 Oberbüren SG<br>
+          Švajcarska</p>
+
+          <p><strong>Kontakt</strong><br>
+          <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a><br>
+          <span class="registered-only" data-display="inline">Telefon: <a href="tel:+41764843486">+41 76 484 34 86</a></span></p>
+
+          <p><strong>Odricanje od odgovornosti</strong><br>
+          Sadržaj pripremamo sa razumnom pažnjom, ali ne garantujemo tačnost, potpunost ili ažurnost.
+          Korisnici su isključivo odgovorni za sopstveni sadržaj (npr. oglase, slike, opise).</p>
+
+          <p><strong>Autorska prava</strong><br>
+          Sadržaji i dela na ovoj stranici su zaštićeni autorskim pravom. Korišćenje izvan zakonskih okvira zahteva dozvolu nosilaca prava.</p>
+
+          <p class="muted">Ažurirano: 31.01.2026. Nemačka verzija je merodavna.</p>
+`, privacy: `
+          <p class="muted">Ažurirano: 31.01.2026. Nemačka verzija je merodavna.</p>
+
+          <h3>1. Rukovalac (odgovorno lice)</h3>
+          <p>Irajet Ramadani, Sandackerstrasse 7, 9245 Oberbüren SG, Švajcarska<br>
+          Email: <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a></p>
+
+          <h3>2. Svrha</h3>
+          <p>Ova politika objašnjava koje lične podatke obrađujemo prilikom rada marketplace-a i u koje svrhe.</p>
+
+          <h3>3. Podaci koje obrađujemo</h3>
+          <ul>
+            <li><strong>Nalog i prijava:</strong> email adresa, Firebase UID, status prijave; kod Google prijave mogu se preuzeti ime i profilna slika (ako ih Google prosledi).</li>
+            <li><strong>Profil:</strong> prikazno ime, broj telefona (opciono) i podešavanje privatnosti.</li>
+            <li><strong>Oglasi i sadržaj:</strong> naslov, cena, država/kategorija, opis i fotografije koje otpremite.</li>
+            <li><strong>Tehnički podaci:</strong> podaci o uređaju/pregledaču i logovi (npr. IP adresa u logovima cloud provajdera).</li>
+            <li><strong>Lokalni podaci aplikacije:</strong> podešavanja u pregledaču (npr. tema/jezik preko localStorage).</li>
+          </ul>
+
+          <h3>4. Svrhe obrade</h3>
+          <ul>
+            <li>Obezbeđivanje funkcionalnosti (prijava, profil, oglasi, upravljanje).</li>
+            <li>Bezbednost i sprečavanje zloupotrebe.</li>
+            <li>Komunikacija za podršku.</li>
+          </ul>
+
+          <h3>5. Nema analytics / nema newsletter / nema plaćanja</h3>
+          <p>Trenutno ne koristimo analytics/tracking alate i ne šaljemo newsletter. Plaćanja nisu integrisana.</p>
+
+          <h3>6. Pružaoci usluga (Firebase / Google)</h3>
+          <p>Koristimo Firebase (Google) za autentifikaciju i skladištenje podataka. Podaci se mogu obrađivati van Švajcarske.
+          Gde je primenljivo, oslanjamo se na odgovarajuće zaštitne mere (npr. standardne ugovorne klauzule).</p>
+
+          <h3>7. Period čuvanja</h3>
+          <p>Podaci se čuvaju <strong>do brisanja</strong>. Nakon brisanja naloga ili sadržaja, podaci se u pravilu uklanjaju odmah (uz tehničke backup/cycle procese cloud provajdera).</p>
+
+          <h3>8. Vaša prava</h3>
+          <p>Možete tražiti pristup, ispravku ili brisanje podataka. Kontaktirajte nas putem email-a.</p>
+
+          <h3>9. Bezbednost</h3>
+          <p>Primjenjujemo razumne tehničke i organizacione mjere, ali apsolutna sigurnost nije moguća.</p>
+` },
+      mk: { imprint: `
+          <p><strong>Оператор</strong><br>
+          Irajet Ramadani<br>
+          Sandackerstrasse 7<br>
+          9245 Oberbüren SG<br>
+          Швајцарија</p>
+
+          <p><strong>Контакт</strong><br>
+          <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a><br>
+          <span class="registered-only" data-display="inline">Телефон: <a href="tel:+41764843486">+41 76 484 34 86</a></span></p>
+
+          <p><strong>Одрекување од одговорност</strong><br>
+          Содржините ги подготвуваме со разумна внимателност, но не гарантираме точност, целосност или ажурност.
+          Корисниците се единствено одговорни за сопствената содржина (на пр. огласи, слики, описи).</p>
+
+          <p><strong>Авторски права</strong><br>
+          Содржините и делата на оваа страница се заштитени со авторско право. Користење надвор од законските рамки бара дозвола од носителите на правата.</p>
+
+          <p class="muted">Ажурирано: 31.01.2026. Германската верзија е меродавна.</p>
+`, privacy: `
+          <p class="muted">Ажурирано: 31.01.2026. Германската верзија е меродавна.</p>
+
+          <h3>1. Одговорно лице</h3>
+          <p>Irajet Ramadani, Sandackerstrasse 7, 9245 Oberbüren SG, Швајцарија<br>
+          Е-пошта: <a href="mailto:Irajet.ramadani@gmail.com">Irajet.ramadani@gmail.com</a></p>
+
+          <h3>2. Опсег</h3>
+          <p>Оваа политика објаснува кои лични податоци ги обработуваме при работењето на маркетплејсот и за кои цели.</p>
+
+          <h3>3. Податоци што ги обработуваме</h3>
+          <ul>
+            <li><strong>Сметка и најава:</strong> е-пошта, Firebase UID, статус на најава; при Google најава можни се име и профилна слика (ако ги достави Google).</li>
+            <li><strong>Профил:</strong> прикажано име, телефон (опционално) и поставка за приватност.</li>
+            <li><strong>Огласи и содржина:</strong> наслов, цена, држава/категорија, опис и отпремени фотографии.</li>
+            <li><strong>Технички податоци:</strong> податоци за уред/прелистувач и логови (на пр. IP во логови на cloud провајдер).</li>
+            <li><strong>Локални податоци:</strong> поставки во прелистувач (на пр. тема/јазик преку localStorage).</li>
+          </ul>
+
+          <h3>4. Цели</h3>
+          <ul>
+            <li>Обезбедување на функциите (најава, профил, огласи, управување).</li>
+            <li>Безбедност и спречување злоупотреби.</li>
+            <li>Комуникација за поддршка.</li>
+          </ul>
+
+          <h3>5. Без analytics / без newsletter / без плаќања</h3>
+          <p>Моментално не користиме analytics/tracking алатки и не испраќаме newsletter. Плаќања не се интегрирани.</p>
+
+          <h3>6. Даватели на услуги (Firebase / Google)</h3>
+          <p>Користиме Firebase (Google) за автентикација и складирање. Податоците може да се обработуваат надвор од Швајцарија.
+          Каде што е применливо, се потпираме на соодветни заштитни мерки (на пр. стандардни договорни клаузули).</p>
+
+          <h3>7. Чување</h3>
+          <p>Податоците се чуваат <strong>до бришење</strong>. По бришење на сметка или содржина, податоците вообичаено се отстрануваат веднаш (со оглед на технички backup/циклуси на cloud провајдерот).</p>
+
+          <h3>8. Ваши права</h3>
+          <p>Можете да побарате пристап, исправка или бришење. Контактирајте нè преку е-пошта.</p>
+
+          <h3>9. Безбедност</h3>
+          <p>Применуваме разумни технички и организациски мерки, но апсолутна безбедност не може да се гарантира.</p>
+` }
+    };
+
+    // Fallback: if a language lacks legal text, use EN with note.
+    const legalFallback = (lang, type) => {
+      const L = LEGAL_CONTENT[lang] || {};
+      if (L[type]) return L[type];
+      return (LEGAL_CONTENT.en[type] || "") + `<p class="muted">Informative translation. The German version prevails.</p>`;
+    };
+
+window.app = {
       lang: 'de', user: null, authMode: 'login', uploadSlot: -1, images: [null, null, null, null],
       userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
@@ -644,9 +1060,11 @@
         app.setupListeners();
         app.initAuthListener();
         app.loadListings();
+            app.applyRegisteredOnlyVisibility();
         document.getElementById('upload-input').addEventListener('change', app.handleFileSelect);
         document.getElementById('avatar-input').addEventListener('change', app.handleAvatarUpload);
-      },
+              app.bindLegalLinks();
+},
 
       initAuthListener: () => {
         onAuthStateChanged(auth, async (user) => {
@@ -655,7 +1073,8 @@
           const gu = document.getElementById("profile-content-guest");
           if (user) { 
             li.style.display = "block"; gu.style.display = "none"; 
-            app.loadProfileData(); 
+            app.loadProfileData();
+            app.applyRegisteredOnlyVisibility(); 
           } else { 
             li.style.display = "none"; gu.style.display = "block"; 
             app.userData = { favorites: [] };
@@ -671,6 +1090,27 @@
         document.getElementById('auth-title').innerText = app.t(mode === 'login' ? 'btn_login' : 'btn_no_account');
       },
       closeModal: (id) => { document.getElementById(id).style.display = "none"; },
+
+      applyRegisteredOnlyVisibility: () => {
+        const isLoggedIn = !!app.user;
+        document.querySelectorAll('.registered-only').forEach(el => {
+          const disp = el.getAttribute('data-display') || 'block';
+          el.style.display = isLoggedIn ? disp : 'none';
+        });
+      },
+
+      openLegal: (type) => {
+        if (type === 'imprint') {
+          document.getElementById('imprint-content').innerHTML = legalFallback(app.lang, 'imprint');
+          document.getElementById('imprint-modal').style.display = "flex";
+          app.applyRegisteredOnlyVisibility();
+        } else if (type === 'privacy') {
+          document.getElementById('privacy-content').innerHTML = legalFallback(app.lang, 'privacy');
+          document.getElementById('privacy-modal').style.display = "flex";
+          app.applyRegisteredOnlyVisibility();
+        }
+      },
+
       
       handleAuth: async () => {
         const email = document.getElementById('auth-email').value;
@@ -787,7 +1227,8 @@
             await updateDoc(userRef, { favorites: arrayUnion(id) });
             e.target.classList.add('active'); e.target.innerHTML = "♥";
         }
-        app.loadProfileData(); 
+        app.loadProfileData();
+            app.applyRegisteredOnlyVisibility(); 
       },
       openSettings: async () => {
         document.getElementById('set-name').value = app.userData.displayName || "";
@@ -799,6 +1240,7 @@
         try {
             await setDoc(doc(db, "users", app.user.uid), { displayName: document.getElementById('set-name').value, phone: document.getElementById('set-phone').value, privacy: document.getElementById('set-privacy').value }, { merge: true });
             app.showToast(app.t('toast_saved')); app.closeModal('settings-modal'); app.loadProfileData();
+            app.applyRegisteredOnlyVisibility();
         } catch(e) { app.showToast(app.t('toast_error')); }
       },
       triggerAvatarUpload: () => document.getElementById('avatar-input').click(),
@@ -811,12 +1253,15 @@
                 const cvs = document.createElement('canvas'); const scale = 300 / img.width; cvs.width = 300; cvs.height = img.height * scale;
                 const ctx = cvs.getContext('2d'); ctx.drawImage(img,0,0,cvs.width,cvs.height);
                 await setDoc(doc(db, "users", app.user.uid), { photoURL: cvs.toDataURL('image/jpeg', 0.6) }, { merge: true });
-                app.loadProfileData(); app.showToast(app.t('toast_saved'));
+                app.loadProfileData();
+            app.applyRegisteredOnlyVisibility(); app.showToast(app.t('toast_saved'));
             };
         };
       },
-      removeAvatar: async () => { if(!confirm(app.t('alert_remove_pic'))) return; await setDoc(doc(db, "users", app.user.uid), { photoURL: null }, { merge: true }); app.loadProfileData(); },
-      deleteListing: async (id) => { if(!confirm(app.t('alert_delete'))) return; await deleteDoc(doc(db, "listings", id)); app.showToast(app.t('toast_deleted')); app.loadProfileData(); app.loadListings(); },
+      removeAvatar: async () => { if(!confirm(app.t('alert_remove_pic'))) return; await setDoc(doc(db, "users", app.user.uid), { photoURL: null }, { merge: true }); app.loadProfileData();
+            app.applyRegisteredOnlyVisibility(); },
+      deleteListing: async (id) => { if(!confirm(app.t('alert_delete'))) return; await deleteDoc(doc(db, "listings", id)); app.showToast(app.t('toast_deleted')); app.loadProfileData();
+            app.applyRegisteredOnlyVisibility(); app.loadListings(); },
       deleteAccount: async () => {
         if(!confirm(app.t('alert_delete_acc'))) return;
         app.showToast(app.t('toast_wait'));
@@ -873,11 +1318,14 @@
       },
       contactSeller: (method) => {
         if(!app.currentSeller) return;
+
+        // Phone contact is restricted to registered users (require login)
+        if(!app.user) { app.showToast(app.t('guest_desc')); return; }
+
         const phone = app.currentSeller.phone;
         const privacy = app.currentSeller.privacy || "registered";
 
         if(privacy === "hidden") { app.showToast(app.t('msg_hidden_phone')); return; }
-        if(privacy === "registered" && !app.user) { app.showToast(app.t('guest_desc')); return; }
         if(!phone) { app.showToast(app.t('msg_no_phone')); return; }
 
         if(method === 'call') window.open(`tel:${phone}`);
@@ -886,6 +1334,7 @@
             window.open(`https://wa.me/${clean}`);
         }
       },
+
 
       // --- LISTINGS ---
       triggerUpload: (index) => { app.uploadSlot = index; document.getElementById('upload-input').click(); },
@@ -968,11 +1417,23 @@
         ['market', 'sell', 'profile'].forEach(v => { document.getElementById('view-' + v).classList.add('hidden'); document.getElementById('tab-' + v).classList.remove('active'); });
         document.getElementById('view-' + view).classList.remove('hidden'); document.getElementById('tab-' + view).classList.add('active');
         if(view === 'profile' && app.user) app.loadProfileData();
+            app.applyRegisteredOnlyVisibility();
       },
       showToast: (text) => {
         const c = document.getElementById('toast-container'); const el = document.createElement('div'); el.className = 'toast show'; el.innerText = text; c.appendChild(el);
         setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
       },
+      
+      bindLegalLinks: () => {
+        // any element with data-i18n lnk_impressum / lnk_privacy will open the modals
+        document.querySelectorAll('[data-i18n="lnk_impressum"]').forEach(a => {
+          a.addEventListener('click', (e) => { e.preventDefault(); app.openLegal('imprint'); });
+        });
+        document.querySelectorAll('[data-i18n="lnk_privacy"]').forEach(a => {
+          a.addEventListener('click', (e) => { e.preventDefault(); app.openLegal('privacy'); });
+        });
+      },
+
       setLanguage: (langCode) => { app.lang = langCode; app.translatePage(); app.populateDropdowns('filter'); app.populateDropdowns('sell'); },
       translatePage: () => {
         const t = TRANSLATIONS[app.lang];
