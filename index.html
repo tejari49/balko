@@ -6,11 +6,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIlpPTkEgQkFMS08g4oCTIE1hcmt0cGxhdHoiLCAic2hvcnRfbmFtZSI6ICJaT05BIEJBTEtPIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNGMkYyRjciLCAidGhlbWVfY29sb3IiOiAiIzAwN0FGRiJ9" id="pwa-manifest"> 
-  <title>ZONA BALKO – Marktplatz</title>
+  <meta name="theme-color" content="#ffffff">  <title>ZONA BALKO – Marktplatz</title>
   
-  <style>
+  
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%9B%92%3C/text%3E%3C/svg%3E">
+<style>
     /* --- RAI DESIGN SYSTEM (ZONA BALKO) --- */
     :root {
       /* LIGHT MODE */
@@ -671,16 +671,6 @@ const firebaseConfig = {
     const storage = getStorage(fbApp);
 const googleProvider = new GoogleAuthProvider();
 
-    // --- SERVICE WORKER REGISTRATION (PWA) ---
-    if ('serviceWorker' in navigator) {
-      window.addEventListenerfunction('load', () {
-        // Minimal Service Worker inline registration for simple PWA behavior
-        // In a real file setup, you would create a sw.js file.
-        // This is a placeholder to trigger the browser PWA heuristics.
-        navigator.serviceWorker.register('data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgKGUpID0+IHsgY29uc29sZS5sb2coJ1NXIGluc3RhbGxlZCcpOyB9KTs=').thenfunction(() {}, function() {}); 
-      });
-    }
-
     // --- TRANSLATION DATABASE ---
     const TRANSLATIONS = {
       de: {
@@ -1311,7 +1301,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         document.getElementById('upload-input').addEventListener('change', app.handleFileSelect);
         document.getElementById('avatar-input').addEventListener('change', app.handleAvatarUpload);
         const chatInp = document.getElementById('chat-input');
-        if(chatInp) chatInp.addEventListenerfunction('keydown', (e) { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
+        if(chatInp) chatInp.addEventListener('keydown', (e) { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
               app.bindLegalLinks();
 },
 
@@ -2144,20 +2134,20 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
       setupListeners: function() {
         const catSel = document.getElementById('filter-cat'); const subSel = document.getElementById('filter-sub');
-        catSel.addEventListenerfunction('change', () { 
+        catSel.addEventListener('change', () { 
            subSel.disabled = false; subSel.innerHTML = `<option>${app.t('opt_all')}</option>`; 
            if(CATEGORIES_DATA[catSel.value]) CATEGORIES_DATA[catSel.value].subs.forEach(function(s) { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; subSel.appendChild(o); });
            app.renderContextFilters('filter', catSel.value, null); app.loadListings();
         });
-        subSel.addEventListenerfunction('change', () { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
+        subSel.addEventListener('change', () { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
         
         const sellCat = document.getElementById('sell-cat'); const sellSub = document.getElementById('sell-sub');
-        sellCat.addEventListenerfunction('change', () {
+        sellCat.addEventListener('change', () {
            sellSub.disabled = false; sellSub.innerHTML = `<option>${app.t('opt_choose')}</option>`;
            if(CATEGORIES_DATA[sellCat.value]) CATEGORIES_DATA[sellCat.value].subs.forEach(function(s) { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; sellSub.appendChild(o); });
            app.renderContextFilters('sell', sellCat.value, null);
         });
-        sellSub.addEventListenerfunction('change', () { return app.renderContextFilters('sell'; }, sellCat.value, sellSub.value));
+        sellSub.addEventListener('change', () { return app.renderContextFilters('sell'; }, sellCat.value, sellSub.value));
       },
       populateDropdowns: function(prefix) {
         const lang = app.lang;
@@ -2183,7 +2173,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       toggleTheme: function() { const current = document.documentElement.getAttribute('data-theme'); const next = current === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙'; }
     };
 
-    document.getElementById('btn-auth-switch').addEventListenerfunction('click', () { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
+    document.getElementById('btn-auth-switch').addEventListener('click', () { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
     document.getElementById('btn-auth-action').addEventListener('click', app.handleAuth);
 
     app.init();
