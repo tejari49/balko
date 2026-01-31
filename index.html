@@ -1957,18 +1957,25 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         };
       },
       publishListing: async () => {
-        if (!app.user) { app.showToast(app.t('guest_desc')); app.openAuth('login'); return; }
+        if (!app.user) { app.showToast(app.t('toast_chat_login') || "Bitte erst anmelden!"); app.openAuth('login'); return; }
 
         const title = (document.getElementById('sell-title')?.value || "").trim();
-        const price = (document.getElementById('sell-price')?.value || "").trim();
-        if(!title || !price) { app.showToast(app.t('toast_fill_all')); return; }
+        const priceRaw = (document.getElementById('sell-price')?.value || "").trim();
+        const price = Number(priceRaw);
+        if(!title || !priceRaw || !Number.isFinite(price) || price <= 0) { app.showToast("Titel/Preis prüfen."); return; }
 
         try {
-          app.showToast(app.t('toast_wait'));
-
-          // Create listing id first (used for Storage path)
+          // Create listing id first (used for Storage path) and persist ownership BEFORE uploads
           const listingRef = doc(collection(db, "listings"));
           const listingId = listingRef.id;
+
+          // Draft stub so Storage rules can validate owner via Firestore
+          await setDoc(listingRef, {
+            uid: app.user.uid,
+            status: "draft",
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          }, { merge: true });
 
           // Upload images to Firebase Storage
           const uploads = [];
@@ -1977,7 +1984,10 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             if(!blob) continue;
             const path = `listings/${listingId}/img_${i}_${Date.now()}.jpg`;
             const r = sRef(storage, path);
-            await uploadBytes(r, blob, { contentType: "image/jpeg" });
+            await uploadBytes(r, blob, {
+              contentType: "image/jpeg",
+              customMetadata: { ownerUid: app.user.uid, listingId: listingId }
+            });
             const url = await getDownloadURL(r);
             uploads.push({ url, path });
           }
@@ -1987,7 +1997,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
           const payload = {
             title,
-            price: Number(price),
+            price,
             category: document.getElementById('sell-cat')?.value || "",
             subcategory: document.getElementById('sell-sub')?.value || "",
             country: document.getElementById('sell-country')?.value || "",
@@ -1996,15 +2006,13 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             image: imageUrls[0] || null,
             images: imageUrls,
             imagePaths: imagePaths,
-            uid: app.user.uid,
             status: 'active',
-            createdAt: serverTimestamp(),
             updatedAt: serverTimestamp()
           };
 
           await setDoc(listingRef, payload, { merge: true });
 
-          app.showToast(app.t('toast_published'));
+          app.showToast("Inserat veröffentlicht!");
 
           // reset form + state
           document.getElementById('sell-title').value = "";
@@ -2015,11 +2023,8 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.imageBlobs = [null, null, null, null, null, null, null, null];
 
           const boxes = document.querySelectorAll('.upload-box');
-          boxes.forEach((b, idx) => {
-            b.innerHTML = (idx === 0) ? "📷" : "+";
-          });
+          boxes.forEach((b, idx) => { b.innerHTML = (idx === 0) ? "📷" : "+"; });
 
-          app.closeModal('detail-modal');
           app.nav('market');
           app.loadListings();
           if(app.user) app.loadProfileData();
