@@ -278,6 +278,39 @@
     .tab-item.active { color: #fff; background: var(--accent); transform: translateY(-10px) scale(1.1); box-shadow: 0 6px 15px rgba(0, 122, 255, 0.4); }
     .tab-item:active { transform: scale(0.9); }
 
+
+    /* DETAIL GALLERY + CHAT */
+    .detail-thumbs { display:flex; gap:10px; padding: 12px; overflow-x:auto; background: var(--bg-card); border-bottom: 1px solid rgba(0,0,0,0.06); }
+    [data-theme="dark"] .detail-thumbs { border-bottom-color: rgba(255,255,255,0.10); }
+    .detail-thumb { width: 68px; height: 68px; border-radius: 14px; background: var(--bg-input); overflow:hidden; flex:0 0 auto; cursor:pointer; border: 2px solid transparent; }
+    .detail-thumb.active { border-color: var(--accent); }
+    .detail-thumb img { width:100%; height:100%; object-fit:cover; }
+
+    .detail-actions { flex-wrap: wrap; }
+    .rai-btn.whatsapp { background: #25D366; color: #fff; }
+    .rai-btn.whatsapp:active { transform: scale(0.96); opacity: 0.9; }
+
+    .chat-scroll { background: var(--bg-input); border-radius: 18px; padding: 12px; max-height: 55vh; overflow-y:auto; display:flex; flex-direction:column; gap:10px; }
+    .bubble { max-width: 82%; padding: 10px 12px; border-radius: 16px; background: var(--bg-card); box-shadow: 0 2px 10px rgba(0,0,0,0.04); line-height:1.35; word-break: break-word; }
+    .bubble.me { margin-left:auto; background: rgba(0,122,255,0.16); }
+    .bubble-meta { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+
+    .chip-row { display:flex; gap:8px; flex-wrap:wrap; margin: 10px 0 12px; }
+    .chip { background: var(--bg-card); border: 1px solid rgba(0,0,0,0.08); padding: 8px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    [data-theme="dark"] .chip { border-color: rgba(255,255,255,0.12); }
+    .chat-compose { display:flex; gap:10px; margin-top: 12px; }
+    .chat-compose input { flex:1; height: 48px; border-radius: 16px; background: var(--bg-input); padding: 0 14px; }
+    .chat-compose button { height: 48px; border-radius: 16px; width: 110px; }
+
+    .block-fab {
+      position: absolute; top: 16px; right: 64px;
+      width: 42px; height: 42px; border-radius: 21px;
+      background: rgba(255, 149, 0, 0.95); color: #fff;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+      cursor:pointer; z-index: 10;
+    }
+
   </style>
 </head>
 <body>
@@ -336,6 +369,9 @@
           <option value="offensive">Unangemessener Inhalt</option>
         </select>
       </div>
+      <div class="rai-input-group">
+        <textarea id="report-note" class="rai-input" data-i18n-placeholder="report_note_ph" placeholder="Details…" style="min-height:110px;"></textarea>
+      </div>
       <button class="rai-btn danger" onclick="app.submitReport()" data-i18n="btn_submit_report">Melden</button>
       <button class="rai-btn secondary" style="margin-top:10px; background:transparent;" onclick="app.closeModal('report-modal')" data-i18n="btn_cancel">Abbrechen</button>
     </div>
@@ -344,9 +380,11 @@
   <div class="modal-overlay" id="detail-modal">
     <div class="modal-box large" style="height: 100%; max-height: 100%; border-radius: 0; max-width: 100%; position: relative;">
       <div class="close-fab" onclick="app.closeModal('detail-modal')">✕</div>
+      <div class="block-fab" onclick="app.blockCurrentSeller()">⛔</div>
       <div class="report-fab" onclick="app.openReport()">⚠️</div>
       <div style="overflow-y: auto; flex: 1;">
         <div class="detail-img-container" id="detail-img-box"></div>
+        <div class="detail-thumbs" id="detail-thumbs" style="display:none;"></div>
         <div class="detail-content">
           <div class="detail-price" id="detail-price">€ 0</div>
           <div class="detail-title" id="detail-title">Titel</div>
@@ -363,14 +401,40 @@
             </div>
           </div>
           <div class="detail-desc" id="detail-desc">Beschreibung...</div>
+          <div id="admin-actions" style="display:none; gap:10px; margin-top:16px;">
+            <button class="rai-btn secondary small" id="btn-admin-hide" onclick="app.adminToggleHidden()" data-i18n="btn_hide">Unsichtbar schalten</button>
+          </div>
         </div>
       </div>
       <div class="detail-actions">
-        <button class="rai-btn secondary" style="flex:1" onclick="app.contactSeller('call')" data-i18n="btn_call">📞 Anrufen</button>
-        <button class="rai-btn whatsapp" style="flex:1" onclick="app.contactSeller('whatsapp')" data-i18n="btn_whatsapp">💬 WhatsApp</button>
+        <button class="rai-btn" style="flex:1" onclick="app.openChat()" data-i18n="btn_message">💬 Nachricht</button>
+        <button class="rai-btn secondary registered-only" data-display="flex" style="flex:1" onclick="app.contactSeller('call')" data-i18n="btn_call">📞 Anrufen</button>
+        <button class="rai-btn whatsapp registered-only" data-display="flex" style="flex:1" onclick="app.contactSeller('whatsapp')" data-i18n="btn_whatsapp">💬 WhatsApp</button>
       </div>
     </div>
   </div>
+
+
+  <div class="modal-overlay" id="chat-modal">
+    <div class="modal-box" style="max-width:520px;">
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap: 10px; margin-bottom: 12px;">
+        <div style="display:flex; flex-direction:column;">
+          <div style="font-size:18px; font-weight:900;" data-i18n="chat_title">Nachrichten</div>
+          <div style="font-size:12px; color:var(--text-secondary);" id="chat-sub"></div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;"><button class="rai-btn secondary small" onclick="app.openReportFromChat()" data-i18n="btn_report">Melden</button><button class="rai-btn secondary small" onclick="app.blockChatSeller()" data-i18n="btn_block">Blockieren</button><button class="rai-btn secondary small" onclick="app.closeChat()" data-i18n="btn_close">Schliessen</button></div>
+      </div>
+
+      <div class="chip-row" id="chat-chips"></div>
+      <div class="chat-scroll" id="chat-scroll"></div>
+
+      <div class="chat-compose">
+        <input type="text" id="chat-input" maxlength="700" data-i18n-placeholder="chat_ph" placeholder="Nachricht…">
+        <button class="rai-btn" onclick="app.sendChat()" data-i18n="btn_send">Senden</button>
+      </div>
+    </div>
+  </div>
+
 
   <div class="modal-overlay" id="my-listings-modal">
     <div class="modal-box">
@@ -481,6 +545,10 @@
           <div class="upload-box" onclick="app.triggerUpload(1)">+</div>
           <div class="upload-box" onclick="app.triggerUpload(2)">+</div>
           <div class="upload-box" onclick="app.triggerUpload(3)">+</div>
+          <div class="upload-box" onclick="app.triggerUpload(4)">+</div>
+          <div class="upload-box" onclick="app.triggerUpload(5)">+</div>
+          <div class="upload-box" onclick="app.triggerUpload(6)">+</div>
+          <div class="upload-box" onclick="app.triggerUpload(7)">+</div>
         </div>
       </div>
 
@@ -490,6 +558,11 @@
            <div class="rai-input-group"><label class="rai-label" data-i18n="label_country">Land</label><select class="rai-input" id="sell-country"></select></div>
            <div class="rai-input-group"><label class="rai-label" data-i18n="label_price">Preis (€)</label><input type="number" class="rai-input" id="sell-price" placeholder="0"></div>
         </div>
+        <div class="rai-input-group" style="margin-top:16px;">
+          <label class="rai-label" data-i18n="label_region">Region / Stadt</label>
+          <input type="text" class="rai-input" id="sell-region" placeholder="" data-i18n-placeholder="region_ph">
+        </div>
+
         <div class="grid-2">
           <div class="rai-input-group"><label class="rai-label" data-i18n="label_category">Kategorie</label><select class="rai-input" id="sell-cat"></select></div>
           <div class="rai-input-group"><label class="rai-label" data-i18n="label_subcategory">Unterkategorie</label><select class="rai-input" id="sell-sub" disabled><option data-i18n="opt_choose">Wählen...</option></select></div>
@@ -577,9 +650,11 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider, deleteUser, EmailAuthProvider, reauthenticateWithCredential, reauthenticateWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, doc, setDoc, getDoc, deleteDoc, updateDoc, where, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit, doc, setDoc, getDoc, deleteDoc, updateDoc, where, arrayUnion, arrayRemove, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
+    
+    import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+const firebaseConfig = {
       apiKey: "AIzaSyCgKSVhDFzoDUs2Sc9jkNoGBTR9Sspu2JE",
       authDomain: "zonabalko.firebaseapp.com",
       projectId: "zonabalko",
@@ -591,7 +666,9 @@
     const fbApp = initializeApp(firebaseConfig);
     const auth = getAuth(fbApp);
     const db = getFirestore(fbApp);
-    const googleProvider = new GoogleAuthProvider();
+    
+    const storage = getStorage(fbApp);
+const googleProvider = new GoogleAuthProvider();
 
     // --- SERVICE WORKER REGISTRATION (PWA) ---
     if ('serviceWorker' in navigator) {
@@ -640,7 +717,27 @@
         del_btn: "Jetzt löschen",
         toast_reauth: "Bitte erneut anmelden, um den Account zu löschen.",
         toast_delete_fail: "Löschen fehlgeschlagen:",
-        hint_phone_registered: "Telefonnummern sind nur für registrierte Nutzer sichtbar."
+        hint_phone_registered: "Telefonnummern sind nur für registrierte Nutzer sichtbar.",
+        btn_message: "Nachricht",
+        chat_title: "Nachrichten",
+        chat_ph: "Nachricht…",
+        btn_send: "Senden",
+        tpl_available: "Ist das noch verfügbar?",
+        tpl_price: "Geht der Preis noch etwas?",
+        tpl_meet: "Wann könnten wir uns treffen?",
+        toast_chat_login: "Bitte anmelden, um Nachrichten zu senden.",
+        toast_blocked: "Verkäufer blockiert.",
+        toast_block_fail: "Blockieren fehlgeschlagen.",
+        report_note_ph: "Details…",
+        toast_report_login: "Bitte anmelden, um zu melden.",
+        toast_report_sent: "Danke. Meldung wurde erfasst.",
+        toast_report_fail: "Meldung fehlgeschlagen.",
+        btn_report: "Melden",
+        btn_block: "Blockieren",
+        btn_hide: "Unsichtbar schalten",
+        btn_unhide: "Sichtbar schalten",
+        toast_hidden: "Inserat wurde unsichtbar geschaltet.",
+        toast_visible: "Inserat ist wieder sichtbar.",
 },
       en: {
         nav_market: "Market", nav_sell: "Sell", nav_profile: "Profile",
@@ -676,7 +773,27 @@
         del_btn: "Delete now",
         toast_reauth: "Please re-authenticate to delete the account.",
         toast_delete_fail: "Delete failed:",
-        hint_phone_registered: "Phone numbers are visible to registered users only."
+        hint_phone_registered: "Phone numbers are visible to registered users only.",
+        btn_message: "Message",
+        chat_title: "Messages",
+        chat_ph: "Message…",
+        btn_send: "Send",
+        tpl_available: "Is this still available?",
+        tpl_price: "Can you do a better price?",
+        tpl_meet: "When can we meet?",
+        toast_chat_login: "Please sign in to message.",
+        toast_blocked: "Seller blocked.",
+        toast_block_fail: "Blocking failed.",
+        report_note_ph: "Details…",
+        toast_report_login: "Please sign in to report.",
+        toast_report_sent: "Thanks. Report submitted.",
+        toast_report_fail: "Report failed.",
+        btn_report: "Report",
+        btn_block: "Block",
+        btn_hide: "Hide listing",
+        btn_unhide: "Unhide listing",
+        toast_hidden: "Listing has been hidden.",
+        toast_visible: "Listing is visible again.",
 },
       sq: { nav_market: "Tregu", nav_sell: "Shit", nav_profile: "Profili", market_title: "Zbulo", market_subtitle: "Ballkan (€)", sell_subtitle: "Shit", profile_title: "Profili", profile_subtitle: "Mysafir", search_ph: "Kërko...", label_country: "Shteti", label_category: "Kategoria", label_region: "Qyteti", label_subcategory: "Nënkategoria", label_title: "Titulli", label_price: "Çmimi", label_description: "Përshkrimi", label_photos: "Foto", region_ph: "Qyteti", title_ph: "Titulli", desc_ph: "Detajet", btn_publish: "Publiko", btn_logout: "Dil", btn_login_register: "Hyni / Regjistrohu", btn_cancel: "Anulo", btn_save: "Ruaj", btn_remove_pic: "Hiq Foton", btn_close: "Mbyll", btn_delete_account: "Fshi Llogarinë", opt_all: "Të gjitha", opt_choose: "Zgjidh", lbl_listings: "Njoftimet", lbl_watchlist: "Lista", sec_settings: "Cilësimet", sec_manage: "Menaxho", menu_settings: "Të dhënat & Privatësia", guest_title: "Profili i mbyllur", guest_desc: "Hyni për të menaxhuar.", empty_results: "Asnjë rezultat.", filter_km: "KM", filter_year: "Viti", filter_power: "KF", filter_area: "m²", filter_rooms: "Dhoma", filter_floor: "Kati", auth_welcome: "Mirësevini", auth_or: "OSE", btn_google: "Vazhdo me Google", label_email: "Email", label_password: "Fjalëkalimi", btn_login: "Hyni", btn_no_account: "Nuk keni llogari?", label_displayname: "Emri", label_phone: "Telefoni", label_privacy: "Privatësia", opt_registered: "Vetëm të regjistruarit", opt_public: "Publike", opt_hidden: "Fshehur", toast_login_ok: "Hyrje me sukses!", toast_reg_ok: "Llogaria u krijua!", toast_logout: "Dolët", toast_saved: "U ruajt!", toast_deleted: "U fshi.", toast_published: "U publikua!", toast_error: "Gabim: ", toast_wait: "Ju lutem prisni...", toast_fill_all: "Plotësoni të gjitha!", alert_delete: "A jeni i sigurt?", alert_remove_pic: "Hiq foton?", alert_delete_acc: "Kujdes: Të gjitha njoftimet do fshihen! Vazhdo?", btn_call: "📞 Telefono", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Shitësi në ZONA", msg_no_phone: "S'ka numër.", msg_hidden_phone: "Numri i fshehur.", lbl_sold: "SHITUR", lbl_reserved: "RESERVUAR", lbl_active: "AKTIV", lbl_member_since: "Anëtar që nga", title_report: "Raporto", desc_report: "Pse po e raportoni?", btn_submit_report: "Raporto", lnk_impressum: "Imprint", lnk_privacy: "Privatësia",
         imprint_title: "Impresum", privacy_title: "Privatësia",
@@ -686,7 +803,27 @@
         del_btn: "Fshi tani",
         toast_reauth: "Rilogohu për ta fshirë llogarinë.",
         toast_delete_fail: "Fshirja dështoi:",
-        hint_phone_registered: "Numrat e telefonit shfaqen vetëm për përdorues të regjistruar."
+        hint_phone_registered: "Numrat e telefonit shfaqen vetëm për përdorues të regjistruar.",
+        btn_message: "Mesazh",
+        chat_title: "Mesazhe",
+        chat_ph: "Mesazh…",
+        btn_send: "Dërgo",
+        tpl_available: "A është ende në dispozicion?",
+        tpl_price: "A mundet pak më lirë?",
+        tpl_meet: "Kur mund të takohemi?",
+        toast_chat_login: "Hyr për të dërguar mesazh.",
+        toast_blocked: "Shitësi u bllokua.",
+        toast_block_fail: "Bllokimi dështoi.",
+        report_note_ph: "Detaje…",
+        toast_report_login: "Hyr për të raportuar.",
+        toast_report_sent: "Faleminderit. Raporti u dërgua.",
+        toast_report_fail: "Raportimi dështoi.",
+        btn_report: "Raporto",
+        btn_block: "Blloko",
+        btn_hide: "Fshihe",
+        btn_unhide: "Shfaq",
+        toast_hidden: "Njoftimi u fsheh.",
+        toast_visible: "Njoftimi u shfaq përsëri.",
 },
       sr: { nav_market: "Pijaca", nav_sell: "Prodaj", nav_profile: "Profil", market_title: "Otkrij", market_subtitle: "Balkan (€)", sell_subtitle: "Prodaj", profile_title: "Profil", profile_subtitle: "Gost", search_ph: "Pretraži...", label_country: "Država", label_category: "Kategorija", label_region: "Grad", label_subcategory: "Podkategorija", label_title: "Naslov", label_price: "Cena", label_description: "Opis", label_photos: "Slike", region_ph: "Grad", title_ph: "Naslov", desc_ph: "Detalji", btn_publish: "Objavi", btn_logout: "Odjavi se", btn_login_register: "Prijava / Registracija", btn_cancel: "Otkaži", btn_save: "Sačuvaj", btn_remove_pic: "Ukloni sliku", btn_close: "Zatvori", btn_delete_account: "Obriši Nalog", opt_all: "Sve", opt_choose: "Izaberi", lbl_listings: "Oglasi", lbl_watchlist: "Lista", sec_settings: "Podešavanja", sec_manage: "Upravljanje", menu_settings: "Podaci & Privatnost", guest_title: "Profil zaključan", guest_desc: "Prijavi se za upravljanje.", empty_results: "Nema rezultata.", filter_km: "KM", filter_year: "Godište", filter_power: "KS", filter_area: "m²", filter_rooms: "Soba", filter_floor: "Sprat", auth_welcome: "Dobrodošli", auth_or: "ILI", btn_google: "Nastavi sa Google-om", label_email: "Email", label_password: "Lozinka", btn_login: "Prijava", btn_no_account: "Nemaš nalog?", label_displayname: "Ime", label_phone: "Telefon", label_privacy: "Privatnost", opt_registered: "Samo registrovani", opt_public: "Javno", opt_hidden: "Sakriveno", toast_login_ok: "Uspešna prijava!", toast_reg_ok: "Nalog kreiran!", toast_logout: "Odjavljen", toast_saved: "Sačuvano!", toast_deleted: "Obrisano.", toast_published: "Objavljeno!", toast_error: "Greška: ", toast_wait: "Sačekajte...", toast_fill_all: "Popuni sve!", alert_delete: "Sigurno obrisati?", alert_remove_pic: "Ukloniti sliku?", alert_delete_acc: "Pažnja: Svi oglasi će biti obrisani! Nastavi?", btn_call: "📞 Pozovi", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Prodavac na ZONA", msg_no_phone: "Nema broja.", msg_hidden_phone: "Broj sakriven.", lbl_sold: "PRODATO", lbl_reserved: "REZERVISANO", lbl_active: "AKTIVNO", lbl_member_since: "Član od", title_report: "Prijavi", desc_report: "Zašto prijavljuješ?", btn_submit_report: "Prijavi", lnk_impressum: "Impresum", lnk_privacy: "Privatnost",
         imprint_title: "Impresum", privacy_title: "Politika privatnosti",
@@ -696,17 +833,58 @@
         del_btn: "Obriši sada",
         toast_reauth: "Ponovo se prijavi za brisanje naloga.",
         toast_delete_fail: "Brisanje nije uspjelo:",
-        hint_phone_registered: "Brojevi telefona su vidljivi samo registrovanim korisnicima."
+        hint_phone_registered: "Brojevi telefona su vidljivi samo registrovanim korisnicima.",
+        btn_message: "Poruka",
+        chat_title: "Poruke",
+        chat_ph: "Poruka…",
+        btn_send: "Pošalji",
+        tpl_available: "Da li je još dostupno?",
+        tpl_price: "Može li niža cijena?",
+        tpl_meet: "Kada možemo da se nađemo?",
+        toast_chat_login: "Prijavi se za poruke.",
+        toast_blocked: "Prodavac blokiran.",
+        toast_block_fail: "Blokiranje nije uspjelo.",
+        report_note_ph: "Detalji…",
+        toast_report_login: "Prijavi se za prijavu.",
+        toast_report_sent: "Hvala. Prijava je poslata.",
+        toast_report_fail: "Prijava nije uspjela.",
+        btn_report: "Prijavi",
+        btn_block: "Blokiraj",
+        btn_hide: "Sakrij oglas",
+        btn_unhide: "Prikaži oglas",
+        toast_hidden: "Oglas je sakriven.",
+        toast_visible: "Oglas je ponovo vidljiv.",
 },
       mk: { nav_market: "Пазар", nav_sell: "Продај", nav_profile: "Профил", market_title: "Откриј", market_subtitle: "Балкан (€)", sell_subtitle: "Продај", profile_title: "Профил", profile_subtitle: "Гостин", search_ph: "Барај...", label_country: "Држава", label_category: "Категорија", label_region: "Град", label_subcategory: "Поткатегорија", label_title: "Наслов", label_price: "Цена", label_description: "Опис", label_photos: "Слики", region_ph: "Град", title_ph: "Наслов", desc_ph: "Детали", btn_publish: "Објави", btn_logout: "Одјави се", btn_login_register: "Најава / Регистрација", btn_cancel: "Откажи", btn_save: "Зачувај", btn_remove_pic: "Тргни слика", btn_close: "Затвори", btn_delete_account: "Избриши сметка", opt_all: "Сите", opt_choose: "Избери", lbl_listings: "Огласи", lbl_watchlist: "Листа", sec_settings: "Поставки", sec_manage: "Управување", menu_settings: "Податоци & Приватност", guest_title: "Заклучен профил", guest_desc: "Најави се за управување.", empty_results: "Нема резултати.", filter_km: "КМ", filter_year: "Година", filter_power: "КС", filter_area: "m²", filter_rooms: "Соби", filter_floor: "Кат", auth_welcome: "Добредојдовте", auth_or: "ИЛИ", btn_google: "Продолжи со Google", label_email: "Е-пошта", label_password: "Лозинка", btn_login: "Најава", btn_no_account: "Немаш сметка?", label_displayname: "Име", label_phone: "Телефон", label_privacy: "Приватност", opt_registered: "Само регистрирани", opt_public: "Јавно", opt_hidden: "Скриено", toast_login_ok: "Успешна најава!", toast_reg_ok: "Сметката е креирана!", toast_logout: "Одјавен", toast_saved: "Зачувано!", toast_deleted: "Избришано.", toast_published: "Објавено!", toast_error: "Грешка: ", toast_wait: "Почекајте...", toast_fill_all: "Пополнете се!", alert_delete: "Сигурно бришење?", alert_remove_pic: "Тргни слика?", alert_delete_acc: "Внимание: Сите огласи ќе бидат избришани! Продолжи?", btn_call: "📞 Јави се", btn_whatsapp: "💬 WhatsApp", lbl_seller: "Продавач на ZONA", msg_no_phone: "Нема број.", msg_hidden_phone: "Бројот е скриен.", lbl_sold: "ПРОДАДЕНО", lbl_reserved: "РЕЗЕРВИРАНО", lbl_active: "АКТИВНО", lbl_member_since: "Член од", title_report: "Пријави", desc_report: "Зошто пријавуваш?", btn_submit_report: "Пријави", lnk_impressum: "Импресум", lnk_privacy: "Приватност",
-        imprint_title: "Импресум", privacy_title: "Политика за приватност" },
+        imprint_title: "Импресум", privacy_title: "Политика за приватност",
+        btn_message: "Порака",
+        chat_title: "Пораки",
+        chat_ph: "Порака…",
+        btn_send: "Испрати",
+        tpl_available: "Дали е сè уште достапно?",
+        tpl_price: "Може ли пониска цена?",
+        tpl_meet: "Кога можеме да се видиме?",
+        toast_chat_login: "Најави се за пораки.",
+        toast_blocked: "Продавачот е блокиран.",
+        toast_block_fail: "Блокирањето не успеа.",
+        report_note_ph: "Детали…",
+        toast_report_login: "Најави се за пријава.",
+        toast_report_sent: "Фала. Пријавата е пратена.",
+        toast_report_fail: "Пријавата не успеа.",
+        btn_report: "Пријави",
+        btn_block: "Блокирај",
+        btn_hide: "Сокриј оглас",
+        btn_unhide: "Прикажи оглас",
+        toast_hidden: "Огласот е сокриен.",
+        toast_visible: "Огласот е повторно видлив.",
+},
         del_title: "Избриши профил",
         del_desc: "Оваа акција е конечна. Профилот и огласите ќе бидат избришани.",
         del_pass_lbl: "Лозинка за потврда",
         del_btn: "Избриши сега",
         toast_reauth: "Повторно најави се за бришење.",
         toast_delete_fail: "Бришењето не успеа:",
-        hint_phone_registered: "Телефонските броеви се видливи само за регистрирани корисници."
+        hint_phone_registered: "Телефонските броеви се видливи само за регистрирани корисници.",
 };
 
     const COUNTRIES_DATA = { all: { de: "Alle", en: "All", sq: "Të gjitha", sr: "Sve", mk: "Сите" }, al: { de: "Albanien", en: "Albania", sq: "Shqipëria", sr: "Albanija", mk: "Албанија" }, xk: { de: "Kosovo", en: "Kosovo", sq: "Kosova", sr: "Kosovo", mk: "Косово" }, mk: { de: "Nordmazedonien", en: "North Macedonia", sq: "Maqedonia e V.", sr: "Severna Makedonija", mk: "Северна Македонија" }, rs: { de: "Serbien", en: "Serbia", sq: "Serbia", sr: "Srbija", mk: "Србија" }, ba: { de: "Bosnien & Herz.", en: "Bosnia & Herz.", sq: "Bosnja", sr: "Bosna", mk: "Босна" }, hr: { de: "Kroatien", en: "Croatia", sq: "Kroacia", sr: "Hrvatska", mk: "Хрватска" }, me: { de: "Montenegro", en: "Montenegro", sq: "Mali i Zi", sr: "Crna Gora", mk: "Црна Гора" } };
@@ -1108,8 +1286,16 @@
     };
 
 window.app = {
-      lang: 'de', user: null, authMode: 'login', uploadSlot: -1, images: [null, null, null, null],
-      userData: { favorites: [] }, currentListing: null, currentSeller: null,
+      lang: 'de', user: null, authMode: 'login', uploadSlot: -1, images: [null, null, null, null, null, null, null, null],
+      
+      imageBlobs: [null, null, null, null, null, null, null, null],
+userData: { favorites: [] }, currentListing: null, currentSeller: null,
+
+      adminEmails: ["irajet.ramadani@gmail.com"],
+      isAdmin: () => !!(app.user && app.adminEmails.includes(String(app.user.email||"").toLowerCase())),
+      blockedUids: new Set(),
+      chat: { convId: null, listingId: null, sellerUid: null, listingTitle: "", unsub: null },
+
 
       t: (key) => TRANSLATIONS[app.lang][key] || key,
 
@@ -1123,6 +1309,8 @@ window.app = {
             app.applyRegisteredOnlyVisibility();
         document.getElementById('upload-input').addEventListener('change', app.handleFileSelect);
         document.getElementById('avatar-input').addEventListener('change', app.handleAvatarUpload);
+        const chatInp = document.getElementById('chat-input');
+        if(chatInp) chatInp.addEventListener('keydown', (e) => { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
               app.bindLegalLinks();
 },
 
@@ -1134,6 +1322,7 @@ window.app = {
           if (user) { 
             li.style.display = "block"; gu.style.display = "none"; 
             app.loadProfileData();
+            await app.loadBlocked();
             app.applyRegisteredOnlyVisibility(); 
           } else { 
             li.style.display = "none"; gu.style.display = "block";
@@ -1232,15 +1421,25 @@ window.app = {
       },
 
       _purgeUserData: async (uid) => {
+        // Storage cleanup (avatar + listing images)
+        try { await deleteObject(sRef(storage, `avatars/${uid}.jpg`)); } catch(e) {}
+
         // Profile document
         try { await deleteDoc(doc(db, "users", uid)); } catch(e) {}
 
-        // Listings created by the user
+        // Listings created by the user (and their Storage images)
         try {
           const ql = query(collection(db, "listings"), where("uid", "==", uid));
           const snap = await getDocs(ql);
           const tasks = [];
-          snap.forEach(d => tasks.push(deleteDoc(doc(db, "listings", d.id))));
+          for (const d of snap.docs) {
+            const data = d.data() || {};
+            const paths = Array.isArray(data.imagePaths) ? data.imagePaths : [];
+            for (const p of paths) {
+              try { await deleteObject(sRef(storage, p)); } catch(e) {}
+            }
+            tasks.push(deleteDoc(doc(db, "listings", d.id)));
+          }
           await Promise.all(tasks);
         } catch(e) {}
       },
@@ -1334,6 +1533,26 @@ window.app = {
         await updateDoc(doc(db, "listings", id), { status: status });
         app.showToast(app.t('toast_saved'));
       },
+      deleteListing: async (id) => {
+        if(!confirm(app.t('alert_delete'))) return;
+        try {
+          const refDoc = doc(db, "listings", id);
+          const snap = await getDoc(refDoc);
+          if(snap.exists()) {
+            const data = snap.data() || {};
+            const paths = Array.isArray(data.imagePaths) ? data.imagePaths : [];
+            for (const p of paths) {
+              try { await deleteObject(sRef(storage, p)); } catch(e) {}
+            }
+          }
+          await deleteDoc(refDoc);
+          app.showToast(app.t('toast_deleted'));
+          app.loadProfileData();
+          app.loadListings();
+        } catch(e) {
+          app.showToast(app.t('toast_error'));
+        }
+      },
       toggleFav: async (e, id) => {
         e.stopPropagation();
         if(!app.user) { app.openAuth('login'); return; }
@@ -1363,68 +1582,174 @@ window.app = {
       },
       triggerAvatarUpload: () => document.getElementById('avatar-input').click(),
       handleAvatarUpload: (e) => {
-        const file = e.target.files[0]; if(!file) return;
-        const reader = new FileReader(); reader.readAsDataURL(file);
-        reader.onload = async (ev) => {
-            const img = new Image(); img.src = ev.target.result;
-            img.onload = async () => {
-                const cvs = document.createElement('canvas'); const scale = 300 / img.width; cvs.width = 300; cvs.height = img.height * scale;
-                const ctx = cvs.getContext('2d'); ctx.drawImage(img,0,0,cvs.width,cvs.height);
-                await setDoc(doc(db, "users", app.user.uid), { photoURL: cvs.toDataURL('image/jpeg', 0.6) }, { merge: true });
+        const file = e.target.files[0];
+        if(!file) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.src = ev.target.result;
+          img.onload = async () => {
+            try {
+              const cvs = document.createElement('canvas');
+              const MAX = 360;
+              const scale = Math.min(1, MAX / img.width);
+              cvs.width = Math.round(img.width * scale);
+              cvs.height = Math.round(img.height * scale);
+              const ctx = cvs.getContext('2d');
+              ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+
+              cvs.toBlob(async (blob) => {
+                if(!blob) { app.showToast(app.t('toast_error')); return; }
+
+                const path = `avatars/${app.user.uid}.jpg`;
+                const r = sRef(storage, path);
+                await uploadBytes(r, blob, { contentType: "image/jpeg" });
+                const url = await getDownloadURL(r);
+
+                await setDoc(doc(db, "users", app.user.uid), { photoURL: url, avatarPath: path }, { merge: true });
+
                 app.loadProfileData();
-            app.applyRegisteredOnlyVisibility(); app.showToast(app.t('toast_saved'));
-            };
+                app.applyRegisteredOnlyVisibility();
+                app.showToast(app.t('toast_saved'));
+              }, 'image/jpeg', 0.75);
+            } catch(err) {
+              app.showToast(app.t('toast_error'));
+            }
+          };
         };
       },
-      removeAvatar: async () => { if(!confirm(app.t('alert_remove_pic'))) return; await setDoc(doc(db, "users", app.user.uid), { photoURL: null }, { merge: true }); app.loadProfileData();
-            app.applyRegisteredOnlyVisibility(); },
-      deleteListing: async (id) => { if(!confirm(app.t('alert_delete'))) return; await deleteDoc(doc(db, "listings", id)); app.showToast(app.t('toast_deleted')); app.loadProfileData();
-            app.applyRegisteredOnlyVisibility(); app.loadListings(); },
-      deleteAccount: () => { app.openDeleteAccount(); },
-
-      // --- DETAIL & REPORT ---
+      removeAvatar: async () => {
+        if(!confirm(app.t('alert_remove_pic'))) return;
+        try {
+          const uref = doc(db, "users", app.user.uid);
+          const snap = await getDoc(uref);
+          const data = snap.exists() ? (snap.data() || {}) : {};
+          const p = data.avatarPath || `avatars/${app.user.uid}.jpg`;
+          try { await deleteObject(sRef(storage, p)); } catch(e) {}
+          await setDoc(uref, { photoURL: null, avatarPath: null }, { merge: true });
+          app.loadProfileData();
+          app.applyRegisteredOnlyVisibility();
+          app.showToast(app.t('toast_saved'));
+        } catch(e) {
+          app.showToast(app.t('toast_error'));
+        }
+      
       openDetail: async (id) => {
         const snap = await getDoc(doc(db, "listings", id));
         if(!snap.exists()) return;
+
         const data = snap.data();
-        if(data.status === 'sold') { app.showToast(app.t('lbl_sold')); return; } 
+        const status = data.status || "active";
+        const isOwner = !!(app.user && data.uid === app.user.uid);
+        const isAdmin = app.isAdmin();
+
+        if(status === "hidden" && !isOwner && !isAdmin) { app.showToast(app.t('empty_results')); return; }
+        if(status === 'sold') { app.showToast(app.t('lbl_sold')); return; }
+
+        if(app.user && app.blockedUids && app.blockedUids.has(data.uid)) {
+          app.showToast(app.t('toast_blocked'));
+          return;
+        }
+
         app.currentListing = { id: id, ...data };
-        
+
         const sellerSnap = await getDoc(doc(db, "users", data.uid));
         app.currentSeller = sellerSnap.exists() ? sellerSnap.data() : {};
 
-        document.getElementById('detail-title').innerText = data.title;
-        document.getElementById('detail-price').innerText = `€ ${data.price}`;
-        document.getElementById('detail-desc').innerText = data.desc;
-        document.getElementById('detail-loc').innerText = data.country;
-        document.getElementById('detail-cat').innerText = data.category;
-        document.getElementById('detail-date').innerText = new Date(data.createdAt.seconds * 1000).toLocaleDateString();
-        
+        document.getElementById('detail-title').innerText = data.title || "";
+        document.getElementById('detail-price').innerText = `€ ${data.price || ""}`;
+        document.getElementById('detail-desc').innerText = data.desc || "";
+        document.getElementById('detail-loc').innerText = data.region || data.country || "";
+        document.getElementById('detail-cat').innerText = data.subcategory ? `${data.category} / ${data.subcategory}` : (data.category || "");
+
+        const dt = (data.createdAt && data.createdAt.toDate) ? data.createdAt.toDate() : (data.createdAt?.seconds ? new Date(data.createdAt.seconds * 1000) : null);
+        document.getElementById('detail-date').innerText = dt ? dt.toLocaleDateString('de-CH') : "";
+
+        // Gallery
         const imgBox = document.getElementById('detail-img-box');
-        imgBox.innerHTML = data.image ? `<img src="${data.image}">` : `<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:50px;">📷</div>`;
+        const thumbs = document.getElementById('detail-thumbs');
+
+        const imgs = [];
+        if(data.image) imgs.push(data.image);
+        if(Array.isArray(data.images)) data.images.forEach(u => { if(u && !imgs.includes(u)) imgs.push(u); });
+
+        if(imgs.length === 0) {
+          imgBox.innerHTML = `<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:50px;">📷</div>`;
+          thumbs.style.display = "none";
+          thumbs.innerHTML = "";
+        } else {
+          imgBox.innerHTML = `<img src="${imgs[0]}">`;
+          if(imgs.length > 1) {
+            thumbs.style.display = "flex";
+            thumbs.innerHTML = imgs.map((u, idx) => `
+              <div class="detail-thumb ${idx===0?'active':''}" onclick="app.setDetailImage(${idx})"><img src="${u}"></div>
+            `).join('');
+          } else {
+            thumbs.style.display = "none";
+            thumbs.innerHTML = "";
+          }
+        }
+        app._detailImgs = imgs;
+        app._detailIdx = 0;
 
         document.getElementById('detail-seller-name').innerText = app.currentSeller.displayName || "User";
         const av = document.getElementById('detail-seller-av');
         av.style.backgroundImage = app.currentSeller.photoURL ? `url(${app.currentSeller.photoURL})` : "none";
         av.innerText = app.currentSeller.photoURL ? "" : "👤";
 
+        const blockFab = document.querySelector('#detail-modal .block-fab');
+        if(blockFab) blockFab.style.display = (app.user && data.uid === app.user.uid) ? "none" : "flex";
+
+        // Admin actions
+        const adminBar = document.getElementById("admin-actions");
+        const adminBtn = document.getElementById("btn-admin-hide");
+        if(adminBar && adminBtn) {
+          adminBar.style.display = isAdmin ? "flex" : "none";
+          adminBtn.textContent = (status === "hidden") ? app.t("btn_unhide") : app.t("btn_hide");
+        }
+
         document.getElementById('detail-modal').style.display = "flex";
       },
+
+      },
+
+      setDetailImage: (idx) => {
+        const imgs = app._detailImgs || [];
+        if(!imgs[idx]) return;
+        app._detailIdx = idx;
+        const imgBox = document.getElementById('detail-img-box');
+        imgBox.innerHTML = `<img src="${imgs[idx]}">`;
+        document.querySelectorAll('#detail-thumbs .detail-thumb').forEach((el, i) => el.classList.toggle('active', i === idx));
+      },
+
       openReport: () => {
+        if(!app.user) { app.showToast(app.t('toast_report_login')); app.openAuth('login'); return; }
         document.getElementById('report-modal').style.display = "flex";
       },
+      
       submitReport: async () => {
-        const reason = document.getElementById('report-reason').value;
         if(!app.currentListing) return;
-        await addDoc(collection(db, "reports"), {
+        if(!app.user) { app.showToast(app.t('toast_report_login')); app.openAuth('login'); return; }
+        const reason = document.getElementById('report-reason').value;
+        const note = (document.getElementById('report-note')?.value || "").trim();
+        try {
+          await addDoc(collection(db, "reports"), {
             listingId: app.currentListing.id,
-            reason: reason,
-            reportedBy: app.user ? app.user.uid : 'anonymous',
-            createdAt: new Date()
-        });
-        app.showToast(app.t('toast_published')); // "Published" is close enough to "Reported" for MVP
-        app.closeModal('report-modal');
+            reason,
+            note,
+            reportedBy: app.user.uid,
+            sellerUid: app.currentListing.uid,
+            createdAt: serverTimestamp()
+          });
+          app.showToast(app.t('toast_report_sent'));
+          app.closeModal('report-modal');
+        } catch(e) {
+          app.showToast(app.t('toast_report_fail'));
+        }
       },
+
       contactSeller: (method) => {
         if(!app.currentSeller) return;
 
@@ -1445,82 +1770,346 @@ window.app = {
       },
 
 
+      loadBlocked: async () => {
+        if(!app.user) { app.blockedUids = new Set(); return; }
+        try {
+          const snap = await getDocs(collection(db, "users", app.user.uid, "blocked"));
+          const set = new Set();
+          snap.forEach(d => set.add(d.id));
+          app.blockedUids = set;
+        } catch(e) { app.blockedUids = new Set(); }
+      },
+
+      blockCurrentSeller: async () => {
+        if(!app.currentListing || !app.currentListing.uid) return;
+        await app.blockSeller(app.currentListing.uid);
+      },
+
+      blockSeller: async (sellerUid) => {
+        if(!app.user) { app.showToast(app.t('toast_chat_login')); app.openAuth('login'); return; }
+        if(!sellerUid || sellerUid === app.user.uid) return;
+        try {
+          await setDoc(doc(db, "users", app.user.uid, "blocked", sellerUid), { createdAt: serverTimestamp() }, { merge: true });
+          app.blockedUids.add(sellerUid);
+          app.showToast(app.t('toast_blocked'));
+          app.closeModal('detail-modal');
+          app.loadListings();
+        } catch(e) { app.showToast(app.t('toast_block_fail')); }
+      },
+
+      openChat: async () => {
+        if(!app.user) { app.showToast(app.t('toast_chat_login')); app.openAuth('login'); return; }
+        if(!app.currentListing) return;
+        if(app.blockedUids && app.blockedUids.has(app.currentListing.uid)) { app.showToast(app.t('toast_blocked')); return; }
+        if(app.currentListing.uid === app.user.uid) { app.showToast(app.t('toast_error')); return; }
+
+        const listingId = app.currentListing.id;
+        const sellerUid = app.currentListing.uid;
+        const pair = [app.user.uid, sellerUid].sort().join("_");
+        const convId = `${listingId}__${pair}`;
+
+        app.chat = { convId, listingId, sellerUid, listingTitle: app.currentListing.title || "", unsub: null };
+
+        const convRef = doc(db, "conversations", convId);
+        const convSnap = await getDoc(convRef);
+        if(!convSnap.exists()) {
+          await setDoc(convRef, {
+            listingId,
+            participants: [app.user.uid, sellerUid],
+            buyerUid: app.user.uid,
+            sellerUid,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+            lastMessage: ""
+          }, { merge: true });
+        } else {
+          await updateDoc(convRef, { updatedAt: serverTimestamp() });
+        }
+
+        document.getElementById('chat-sub').textContent = app.chat.listingTitle;
+
+        const chips = [
+          app.t('tpl_available'),
+          app.t('tpl_price'),
+          app.t('tpl_meet')
+        ];
+        document.getElementById('chat-chips').innerHTML = chips.map(t => `<div class="chip" onclick="app.useTemplate(${JSON.stringify(t)})">${t}</div>`).join('');
+
+        document.getElementById('chat-scroll').innerHTML = "";
+        document.getElementById('chat-input').value = "";
+
+        document.getElementById('chat-modal').style.display = "flex";
+        app.subscribeChat();
+      },
+
+      useTemplate: (text) => {
+        const inp = document.getElementById('chat-input');
+        inp.value = text; inp.focus();
+      },
+
+      subscribeChat: () => {
+        if(!app.chat.convId) return;
+        if(app.chat.unsub) { try{ app.chat.unsub(); }catch(e){} app.chat.unsub = null; }
+        const qref = query(collection(db, "conversations", app.chat.convId, "messages"), orderBy("createdAt","asc"), limit(200));
+        app.chat.unsub = onSnapshot(qref, (snap) => {
+          const sc = document.getElementById('chat-scroll');
+          sc.innerHTML = "";
+          snap.forEach(d => {
+            const msg = d.data() || {};
+            const isMe = msg.senderUid === (app.user?.uid || "");
+            const created = (msg.createdAt && msg.createdAt.toDate) ? msg.createdAt.toDate() : null;
+            const timeTxt = created ? created.toLocaleString('de-CH', { hour:'2-digit', minute:'2-digit' }) : "";
+            const safe = String(msg.text||"").replace(/</g,'&lt;');
+            const div = document.createElement('div');
+            div.className = "bubble" + (isMe ? " me" : "");
+            div.innerHTML = `<div>${safe}</div>${timeTxt ? `<div class="bubble-meta">${timeTxt}</div>` : ``}`;
+            sc.appendChild(div);
+          });
+          sc.scrollTop = sc.scrollHeight;
+        });
+      },
+
+      sendChat: async () => {
+        if(!app.user || !app.chat.convId) return;
+        const inp = document.getElementById('chat-input');
+        const text = (inp.value || "").trim();
+        if(!text) return;
+        inp.value = "";
+        try {
+          await addDoc(collection(db, "conversations", app.chat.convId, "messages"), {
+            senderUid: app.user.uid,
+            text,
+            createdAt: serverTimestamp()
+          });
+          await updateDoc(doc(db, "conversations", app.chat.convId), { lastMessage: text.slice(0,200), updatedAt: serverTimestamp(), lastSender: app.user.uid });
+        } catch(e) { app.showToast(app.t('toast_error')); }
+      },
+
+      closeChat: () => {
+        const modal = document.getElementById('chat-modal');
+        if(modal) modal.style.display = "none";
+        if(app.chat.unsub) { try{ app.chat.unsub(); }catch(e){} }
+        app.chat = { convId: null, listingId: null, sellerUid: null, listingTitle: "", unsub: null };
+      },
+
+      openReportFromChat: () => { app.openReport(); },
+
+      blockChatSeller: async () => {
+        if(!app.chat?.sellerUid) return;
+        await app.blockSeller(app.chat.sellerUid);
+        app.closeChat();
+      },
+
+      adminToggleHidden: async () => {
+        if(!app.isAdmin() || !app.currentListing?.id) return;
+        try {
+          const refDoc = doc(db, "listings", app.currentListing.id);
+          const current = app.currentListing.status || "active";
+          const next = (current === "hidden") ? "active" : "hidden";
+          await updateDoc(refDoc, { status: next, updatedAt: serverTimestamp() });
+          app.currentListing.status = next;
+          app.showToast(next === "hidden" ? app.t("toast_hidden") : app.t("toast_visible"));
+          app.closeModal('detail-modal');
+          app.loadListings();
+        } catch(e) {
+          app.showToast(app.t('toast_error'));
+        }
+      },
+
+
+
+
       // --- LISTINGS ---
       triggerUpload: (index) => { app.uploadSlot = index; document.getElementById('upload-input').click(); },
       handleFileSelect: (event) => {
-        const file = event.target.files[0]; if (!file) return;
-        const reader = new FileReader(); reader.readAsDataURL(file);
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const slot = app.uploadSlot;
+        if (slot < 0 || slot > 7) return;
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
         reader.onload = (e) => {
-            const img = new Image(); img.src = e.target.result;
-            img.onload = () => {
-                const cvs = document.createElement('canvas'); const scale = 800 / img.width; cvs.width = 800; cvs.height = img.height * scale;
-                const ctx = cvs.getContext('2d'); ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
-                const dataUrl = cvs.toDataURL('image/jpeg', 0.7);
-                app.images[app.uploadSlot] = dataUrl;
-                document.querySelectorAll('.upload-box')[app.uploadSlot].innerHTML = `<img src="${dataUrl}">`;
-            };
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const cvs = document.createElement('canvas');
+            const MAX_W = 900;
+            const scale = Math.min(1, MAX_W / img.width);
+            cvs.width = Math.round(img.width * scale);
+            cvs.height = Math.round(img.height * scale);
+            const ctx = cvs.getContext('2d');
+            ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+
+            // Preview (UI)
+            const preview = cvs.toDataURL('image/jpeg', 0.75);
+            app.images[slot] = preview;
+            const box = document.querySelectorAll('.upload-box')[slot];
+            if (box) box.innerHTML = `<img src="${preview}">`;
+
+            // Blob for Firebase Storage upload at publish time
+            cvs.toBlob((blob) => {
+              if(!blob) { app.showToast(app.t('toast_error')); return; }
+              app.imageBlobs[slot] = blob;
+            }, 'image/jpeg', 0.75);
+          };
         };
       },
       publishListing: async () => {
         if (!app.user) { app.showToast(app.t('guest_desc')); app.openAuth('login'); return; }
-        const title = document.getElementById('sell-title').value;
-        const price = document.getElementById('sell-price').value;
+
+        const title = (document.getElementById('sell-title')?.value || "").trim();
+        const price = (document.getElementById('sell-price')?.value || "").trim();
         if(!title || !price) { app.showToast(app.t('toast_fill_all')); return; }
+
         try {
           app.showToast(app.t('toast_wait'));
-          await addDoc(collection(db, "listings"), {
-            title: title, price: price, category: document.getElementById('sell-cat').value,
-            subcategory: document.getElementById('sell-sub').value,
-            country: document.getElementById('sell-country').value, desc: document.getElementById('sell-desc').value,
-            image: app.images[0] || null, uid: app.user.uid, status: 'active', createdAt: new Date()
-          });
+
+          // Create listing id first (used for Storage path)
+          const listingRef = doc(collection(db, "listings"));
+          const listingId = listingRef.id;
+
+          // Upload images to Firebase Storage
+          const uploads = [];
+          for (let i = 0; i < 8; i++) {
+            const blob = app.imageBlobs?.[i];
+            if(!blob) continue;
+            const path = `listings/${listingId}/img_${i}_${Date.now()}.jpg`;
+            const r = sRef(storage, path);
+            await uploadBytes(r, blob, { contentType: "image/jpeg" });
+            const url = await getDownloadURL(r);
+            uploads.push({ url, path });
+          }
+
+          const imageUrls = uploads.map(u => u.url);
+          const imagePaths = uploads.map(u => u.path);
+
+          const payload = {
+            title,
+            price: Number(price),
+            category: document.getElementById('sell-cat')?.value || "",
+            subcategory: document.getElementById('sell-sub')?.value || "",
+            country: document.getElementById('sell-country')?.value || "",
+            region: (document.getElementById('sell-region')?.value || "").trim(),
+            desc: (document.getElementById('sell-desc')?.value || "").trim(),
+            image: imageUrls[0] || null,
+            images: imageUrls,
+            imagePaths: imagePaths,
+            uid: app.user.uid,
+            status: 'active',
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          };
+
+          await setDoc(listingRef, payload, { merge: true });
+
           app.showToast(app.t('toast_published'));
-          document.getElementById('sell-title').value = ""; app.images = [null,null,null,null];
-          document.querySelectorAll('.upload-box').forEach(b => { b.innerHTML = "+"; });
-          document.querySelector('.upload-box.main').innerHTML = "📷";
-          app.nav('market'); app.loadListings();
-        } catch (e) { app.showToast(app.t('toast_error') + e.message); }
+
+          // reset form + state
+          document.getElementById('sell-title').value = "";
+          document.getElementById('sell-price').value = "";
+          document.getElementById('sell-desc').value = "";
+          const sr = document.getElementById('sell-region'); if(sr) sr.value = "";
+          app.images = [null, null, null, null, null, null, null, null];
+          app.imageBlobs = [null, null, null, null, null, null, null, null];
+
+          const boxes = document.querySelectorAll('.upload-box');
+          boxes.forEach((b, idx) => {
+            b.innerHTML = (idx === 0) ? "📷" : "+";
+          });
+
+          app.closeModal('detail-modal');
+          app.nav('market');
+          app.loadListings();
+          if(app.user) app.loadProfileData();
+        } catch (e) {
+          app.showToast("Fehler: " + (e?.message || e));
+        }
       },
+      
       loadListings: async () => {
-        let q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(50));
-        const country = document.getElementById('filter-country').value;
-        if(country && country !== "all") { try { q = query(collection(db, "listings"), where("country", "==", country), orderBy("createdAt", "desc")); } catch(e){} }
-        
+        let q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(80));
+        const country = document.getElementById('filter-country')?.value || "all";
+        if(country && country !== "all") {
+          try { q = query(collection(db, "listings"), where("country", "==", country), orderBy("createdAt", "desc"), limit(80)); } catch(e) {}
+        }
+
         const snapshot = await getDocs(q);
         const container = document.getElementById('market-listings');
-        if (snapshot.empty) { container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`; return; }
-        let html = '';
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const isFav = app.userData.favorites && app.userData.favorites.includes(doc.id);
-          const imgHtml = data.image ? `<img src="${data.image}">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
-          
-          let badges = "";
-          if(data.status === 'sold') badges = `<div class="status-badge sold">${app.t('lbl_sold')}</div>`;
-          else if(data.status === 'reserved') badges = `<div class="status-badge reserved">${app.t('lbl_reserved')}</div>`;
-          
-          const overlay = data.status === 'sold' ? `<div class="card-overlay" style="display:flex">${app.t('lbl_sold')}</div>` : '';
-          const opacity = data.status === 'sold' ? '0.6' : '1';
 
-          html += `
-            <div class="rai-card" style="padding:0; cursor:pointer; opacity:${opacity}" onclick="app.openDetail('${doc.id}')">
+        if (snapshot.empty) {
+          container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`;
+          return;
+        }
+
+        const search = (document.getElementById('search-input')?.value || "").trim().toLowerCase();
+        const regionF = (document.getElementById('filter-region')?.value || "").trim().toLowerCase();
+        const catF = document.getElementById('filter-cat')?.value || "";
+        const subF = document.getElementById('filter-sub')?.value || "";
+
+        let items = [];
+        snapshot.forEach(d => {
+          const data = d.data() || {};
+          items.push({ id: d.id, ...data });
+        });
+
+        items = items.filter(it => {
+          const st = it.status || "active";
+          if(st !== "hidden") return true;
+          const isOwner = !!(app.user && it.uid === app.user.uid);
+          return isOwner || app.isAdmin();
+        });
+
+        if(app.user && app.blockedUids && app.blockedUids.size) {
+          items = items.filter(it => !app.blockedUids.has(it.uid));
+        }
+
+        if(catF) items = items.filter(it => String(it.category||"") === String(catF));
+        if(subF && subF !== app.t('opt_all')) items = items.filter(it => String(it.subcategory||"") === String(subF));
+
+        if(regionF) items = items.filter(it => String(it.region||"").toLowerCase().includes(regionF));
+
+        if(search) items = items.filter(it => (String(it.title||"").toLowerCase().includes(search) || String(it.desc||"").toLowerCase().includes(search)));
+
+        if(items.length === 0) {
+          container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`;
+          return;
+        }
+
+        let htmlCards = '';
+        items.forEach(it => {
+          const isFav = app.userData.favorites && app.userData.favorites.includes(it.id);
+          const imgHtml = it.image ? `<img src="${it.image}">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
+
+          let badges = "";
+          if(it.status === 'sold') badges = `<div class="status-badge sold">${app.t('lbl_sold')}</div>`;
+          else if(it.status === 'reserved') badges = `<div class="status-badge reserved">${app.t('lbl_reserved')}</div>`;
+          else if(it.status === 'hidden') badges = `<div class="status-badge reserved">HIDDEN</div>`;
+
+          const overlay = it.status === 'sold' ? `<div class="card-overlay" style="display:flex">${app.t('lbl_sold')}</div>` : '';
+          const opacity = it.status === 'sold' ? '0.6' : '1';
+
+          htmlCards += `
+            <div class="rai-card" style="padding:0; cursor:pointer; opacity:${opacity}" onclick="app.openDetail('${it.id}')">
               <div style="height:180px; background:var(--bg-input); position:relative;">
                 ${imgHtml}
                 <div class="card-badges">${badges}</div>
-                <div class="fav-btn ${isFav?'active':''}" onclick="app.toggleFav(event, '${doc.id}')">${isFav?'♥':'♡'}</div>
-                <div class="card-location">📍 ${data.country || "Balkan"}</div>
+                <div class="fav-btn ${isFav?'active':''}" onclick="app.toggleFav(event, '${it.id}')">${isFav?'♥':'♡'}</div>
+                <div class="card-location">📍 ${it.region ? it.region : (it.country || "Balkan")}</div>
                 ${overlay}
               </div>
               <div style="padding:15px;">
-                <div style="font-weight:700; font-size:16px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.title}</div>
-                <div style="color:var(--accent); font-weight:700;">€ ${data.price}</div>
+                <div style="font-weight:700; font-size:16px; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${it.title || ""}</div>
+                <div style="color:var(--accent); font-weight:700;">€ ${it.price || ""}</div>
               </div>
             </div>`;
         });
-        container.innerHTML = html;
+
+        container.innerHTML = htmlCards;
       },
 
-      // --- NAV & CONFIG ---
+// --- NAV & CONFIG ---
       nav: (view) => {
         window.scrollTo(0,0);
         ['market', 'sell', 'profile'].forEach(v => { document.getElementById('view-' + v).classList.add('hidden'); document.getElementById('tab-' + v).classList.remove('active'); });
@@ -1554,9 +2143,9 @@ window.app = {
         catSel.addEventListener('change', () => { 
            subSel.disabled = false; subSel.innerHTML = `<option>${app.t('opt_all')}</option>`; 
            if(CATEGORIES_DATA[catSel.value]) CATEGORIES_DATA[catSel.value].subs.forEach(s => { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; subSel.appendChild(o); });
-           app.renderContextFilters('filter', catSel.value, null);
+           app.renderContextFilters('filter', catSel.value, null); app.loadListings();
         });
-        subSel.addEventListener('change', () => app.renderContextFilters('filter', catSel.value, subSel.value));
+        subSel.addEventListener('change', () => { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
         
         const sellCat = document.getElementById('sell-cat'); const sellSub = document.getElementById('sell-sub');
         sellCat.addEventListener('change', () => {
