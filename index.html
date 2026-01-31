@@ -673,11 +673,11 @@ const googleProvider = new GoogleAuthProvider();
 
     // --- SERVICE WORKER REGISTRATION (PWA) ---
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
+      window.addEventListenerfunction('load', () {
         // Minimal Service Worker inline registration for simple PWA behavior
         // In a real file setup, you would create a sw.js file.
         // This is a placeholder to trigger the browser PWA heuristics.
-        navigator.serviceWorker.register('data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgKGUpID0+IHsgY29uc29sZS5sb2coJ1NXIGluc3RhbGxlZCcpOyB9KTs=').then(() => {}, () => {}); 
+        navigator.serviceWorker.register('data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgKGUpID0+IHsgY29uc29sZS5sb2coJ1NXIGluc3RhbGxlZCcpOyB9KTs=').thenfunction(() {}, function() {}); 
       });
     }
 
@@ -1280,7 +1280,7 @@ const googleProvider = new GoogleAuthProvider();
     };
 
     // Fallback: if a language lacks legal text, use EN with note.
-    const legalFallback = (lang, type) => {
+    const legalFallback = function(lang, type) {
       const L = LEGAL_CONTENT[lang] || {};
       if (L[type]) return L[type];
       return (LEGAL_CONTENT.en[type] || "") + `<p class="muted">Informative translation. The German version prevails.</p>`;
@@ -1293,16 +1293,16 @@ window.app = {
 userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
       adminEmails: ["irajet.ramadani@gmail.com"],
-      isAdmin: () => !!(app.user && app.adminEmails.includes(String(app.user.email||"").toLowerCase())),
+      isAdmin: function() { return !!(app.user && app.adminEmails.includes(String(app.user.email||"").toLowerCase())); },
       blockedUids: new Set(),
       chat: { convId: null, listingId: null, sellerUid: null, listingTitle: "", unsub: null },
 
 
-      t: (key) => TRANSLATIONS[app.lang][key] || key,
+      t: function(key) { return TRANSLATIONS[app.lang][key] || key; },
 
-      init: () => {
+      init: function() {
         app.loadTheme();
-        const savedLang = ( () => { try { return localStorage.getItem('lang'); } catch(e) { return null; } })();
+        const savedLang = function(() { try { return localStorage.getItem('lang'); } catch(e) { return null; } })();
         app.setLanguage(savedLang || 'de'); 
         app.setupListeners();
         app.initAuthListener();
@@ -1311,12 +1311,12 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         document.getElementById('upload-input').addEventListener('change', app.handleFileSelect);
         document.getElementById('avatar-input').addEventListener('change', app.handleAvatarUpload);
         const chatInp = document.getElementById('chat-input');
-        if(chatInp) chatInp.addEventListener('keydown', (e) => { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
+        if(chatInp) chatInp.addEventListenerfunction('keydown', (e) { if(e.key === 'Enter') { e.preventDefault(); app.sendChat(); } });
               app.bindLegalLinks();
 },
 
-      initAuthListener: () => {
-        onAuthStateChanged(auth, async (user) => {
+      initAuthListener: function() {
+        onAuthStateChangedfunction(auth, async (user) {
           app.user = user;
           const li = document.getElementById("profile-content-logged-in");
           const gu = document.getElementById("profile-content-guest");
@@ -1335,22 +1335,22 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
       // --- AUTH ---
-      openAuth: (mode) => {
+      openAuth: function(mode) {
         app.authMode = mode;
         document.getElementById('auth-modal').style.display = "flex";
         document.getElementById('auth-title').innerText = app.t(mode === 'login' ? 'btn_login' : 'btn_no_account');
       },
-      closeModal: (id) => { document.getElementById(id).style.display = "none"; },
+      closeModal: function(id) { document.getElementById(id).style.display = "none"; },
 
-      applyRegisteredOnlyVisibility: () => {
+      applyRegisteredOnlyVisibility: function() {
         const isLoggedIn = !!app.user;
-        document.querySelectorAll('.registered-only').forEach(el => {
+        document.querySelectorAll('.registered-only').forEach(function(el) {
           const disp = el.getAttribute('data-display') || 'block';
           el.style.display = isLoggedIn ? disp : 'none';
         });
       },
 
-      openLegal: (type) => {
+      openLegal: function(type) {
         if (type === 'imprint') {
           document.getElementById('imprint-content').innerHTML = legalFallback(app.lang, 'imprint');
           document.getElementById('imprint-modal').style.display = "flex";
@@ -1363,7 +1363,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
       
-      handleAuth: async () => {
+      handleAuth: async function() {
         const email = document.getElementById('auth-email').value;
         const pass = document.getElementById('auth-pass').value;
         if(!email || !pass) { app.showToast(app.t('toast_fill_all')); return; }
@@ -1373,14 +1373,14 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.closeModal('auth-modal');
         } catch (error) { app.showToast(app.t('toast_error') + error.message); }
       },
-      loginGoogle: async () => {
+      loginGoogle: async function() {
         try { await signInWithPopup(auth, googleProvider); app.showToast(app.t('toast_login_ok')); app.closeModal('auth-modal'); }
         catch (error) { app.showToast(app.t('toast_error') + error.message); }
       },
-      logout: async () => { await signOut(auth); app.showToast(app.t('toast_logout')); window.location.reload(); },
-      openDeleteAccount: () => {
+      logout: async function() { await signOut(auth); app.showToast(app.t('toast_logout')); window.location.reload(); },
+      openDeleteAccount: function() {
         if(!app.user) { app.showToast(app.t('toast_reauth')); return; }
-        const providers = (app.user.providerData || []).map(p => p.providerId);
+        const providers = (app.user.providerData || []).map(function(p) { return p.providerId; });
         const isPassword = providers.includes('password');
         const passEl = document.getElementById('del-pass');
         if(passEl) passEl.value = "";
@@ -1389,10 +1389,10 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         document.getElementById('delete-modal').style.display = "flex";
       },
 
-      confirmDeleteAccount: async () => {
+      confirmDeleteAccount: async function() {
         if(!app.user) { app.showToast(app.t('toast_reauth')); return; }
         try {
-          const providers = (app.user.providerData || []).map(p => p.providerId);
+          const providers = (app.user.providerData || []).map(function(p) { return p.providerId; });
           const isPassword = providers.includes('password');
 
           // Firebase requires a recent login for account deletion
@@ -1421,7 +1421,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         }
       },
 
-      _purgeUserData: async (uid) => {
+      _purgeUserData: async function(uid) {
         // Storage cleanup (avatar + listing images)
         try { await deleteObject(sRef(storage, `avatars/${uid}.jpg`)); } catch(e) {}
 
@@ -1447,7 +1447,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
 
       // --- PROFILE & WATCHLIST ---
-      loadProfileData: async () => {
+      loadProfileData: async function() {
         if(!app.user) return;
         const ref = doc(db, "users", app.user.uid);
         const snap = await getDoc(ref);
@@ -1491,7 +1491,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         
         const listContainer = document.getElementById('dash-listings-container');
         listContainer.innerHTML = "";
-        qSnap.forEach(d => {
+        qSnap.forEach(function(d) {
             const item = d.data();
             const div = document.createElement('div');
             div.className = "list-item";
@@ -1513,7 +1513,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             listContainer.appendChild(div);
         });
       },
-      openWatchlist: async () => {
+      openWatchlist: async function() {
         if(!app.userData.favorites || app.userData.favorites.length === 0) { app.showToast(app.t('empty_results')); return; }
         const list = document.getElementById('my-listings-list');
         list.innerHTML = "";
@@ -1530,11 +1530,11 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         }
         document.getElementById('my-listings-modal').style.display = "flex";
       },
-      changeStatus: async (id, status) => {
+      changeStatus: async function(id, status) {
         await updateDoc(doc(db, "listings", id), { status: status });
         app.showToast(app.t('toast_saved'));
       },
-      deleteListing: async (id) => {
+      deleteListing: async function(id) {
         if(!confirm(app.t('alert_delete'))) return;
         try {
           const refDoc = doc(db, "listings", id);
@@ -1554,7 +1554,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.showToast(app.t('toast_error'));
         }
       },
-      toggleFav: async (e, id) => {
+      toggleFav: async function(e, id) {
         e.stopPropagation();
         if(!app.user) { app.openAuth('login'); return; }
         const userRef = doc(db, "users", app.user.uid);
@@ -1568,30 +1568,30 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         app.loadProfileData();
             app.applyRegisteredOnlyVisibility(); 
       },
-      openSettings: async () => {
+      openSettings: async function() {
         document.getElementById('set-name').value = app.userData.displayName || "";
         document.getElementById('set-phone').value = app.userData.phone || "";
         document.getElementById('set-privacy').value = app.userData.privacy || "registered";
         document.getElementById('settings-modal').style.display = "flex";
       },
-      saveSettings: async () => {
+      saveSettings: async function() {
         try {
             await setDoc(doc(db, "users", app.user.uid), { displayName: document.getElementById('set-name').value, phone: document.getElementById('set-phone').value, privacy: document.getElementById('set-privacy').value }, { merge: true });
             app.showToast(app.t('toast_saved')); app.closeModal('settings-modal'); app.loadProfileData();
             app.applyRegisteredOnlyVisibility();
         } catch(e) { app.showToast(app.t('toast_error')); }
       },
-      triggerAvatarUpload: () => document.getElementById('avatar-input').click(),
-      handleAvatarUpload: (e) => {
+      triggerAvatarUpload: function() { return document.getElementById('avatar-input').click(); },
+      handleAvatarUpload: function(e) {
         const file = e.target.files[0];
         if(!file) return;
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = (ev) => {
+        reader.onload = function(ev) {
           const img = new Image();
           img.src = ev.target.result;
-          img.onload = async () => {
+          img.onload = async function() {
             try {
               const cvs = document.createElement('canvas');
               const MAX = 360;
@@ -1601,7 +1601,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
               const ctx = cvs.getContext('2d');
               ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
 
-              cvs.toBlob(async (blob) => {
+              cvs.toBlobfunction(async (blob) {
                 if(!blob) { app.showToast(app.t('toast_error')); return; }
 
                 const path = `avatars/${app.user.uid}.jpg`;
@@ -1621,7 +1621,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           };
         };
       },
-      removeAvatar: async () => {
+      removeAvatar: async function() {
         if(!confirm(app.t('alert_remove_pic'))) return;
         try {
           const uref = doc(db, "users", app.user.uid);
@@ -1637,7 +1637,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.showToast(app.t('toast_error'));
         }
       
-      openDetail: async (id) => {
+      openDetail: async function(id) {
         const snap = await getDoc(doc(db, "listings", id));
         if(!snap.exists()) return;
 
@@ -1674,7 +1674,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         const imgs = [];
         if(data.image) imgs.push(data.image);
-        if(Array.isArray(data.images)) data.images.forEach(u => { if(u && !imgs.includes(u)) imgs.push(u); });
+        if(Array.isArray(data.images)) data.images.forEach(function(u) { if(u && !imgs.includes(u)) imgs.push(u); });
 
         if(imgs.length === 0) {
           imgBox.innerHTML = `<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:50px;">📷</div>`;
@@ -1684,7 +1684,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           imgBox.innerHTML = `<img src="${imgs[0]}">`;
           if(imgs.length > 1) {
             thumbs.style.display = "flex";
-            thumbs.innerHTML = imgs.map((u, idx) => `
+            thumbs.innerHTML = imgs.mapfunction((u, idx) { return `; }
               <div class="detail-thumb ${idx===0?'active':''}" onclick="app.setDetailImage(${idx})"><img src="${u}"></div>
             `).join('');
           } else {
@@ -1714,21 +1714,21 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         document.getElementById('detail-modal').style.display = "flex";
       },
 
-      setDetailImage: (idx) => {
+      setDetailImage: function(idx) {
         const imgs = app._detailImgs || [];
         if(!imgs[idx]) return;
         app._detailIdx = idx;
         const imgBox = document.getElementById('detail-img-box');
         imgBox.innerHTML = `<img src="${imgs[idx]}">`;
-        document.querySelectorAll('#detail-thumbs .detail-thumb').forEach((el, i) => el.classList.toggle('active', i === idx));
+        document.querySelectorAll('#detail-thumbs .detail-thumb').forEachfunction((el, i) { return el.classList.toggle('active'; }, i === idx));
       },
 
-      openReport: () => {
+      openReport: function() {
         if(!app.user) { app.showToast(app.t('toast_report_login')); app.openAuth('login'); return; }
         document.getElementById('report-modal').style.display = "flex";
       },
       
-      submitReport: async () => {
+      submitReport: async function() {
         if(!app.currentListing) return;
         if(!app.user) { app.showToast(app.t('toast_report_login')); app.openAuth('login'); return; }
         const reason = document.getElementById('report-reason').value;
@@ -1749,7 +1749,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         }
       },
 
-      contactSeller: (method) => {
+      contactSeller: function(method) {
         if(!app.currentSeller) return;
 
         // Phone contact is restricted to registered users (require login)
@@ -1769,22 +1769,22 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
 
-      loadBlocked: async () => {
+      loadBlocked: async function() {
         if(!app.user) { app.blockedUids = new Set(); return; }
         try {
           const snap = await getDocs(collection(db, "users", app.user.uid, "blocked"));
           const set = new Set();
-          snap.forEach(d => set.add(d.id));
+          snap.forEach(function(d) { return set.add(d.id; }));
           app.blockedUids = set;
         } catch(e) { app.blockedUids = new Set(); }
       },
 
-      blockCurrentSeller: async () => {
+      blockCurrentSeller: async function() {
         if(!app.currentListing || !app.currentListing.uid) return;
         await app.blockSeller(app.currentListing.uid);
       },
 
-      blockSeller: async (sellerUid) => {
+      blockSeller: async function(sellerUid) {
         if(!app.user) { app.showToast(app.t('toast_chat_login')); app.openAuth('login'); return; }
         if(!sellerUid || sellerUid === app.user.uid) return;
         try {
@@ -1796,7 +1796,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         } catch(e) { app.showToast(app.t('toast_block_fail')); }
       },
 
-      openChat: async () => {
+      openChat: async function() {
         if(!app.user) { app.showToast(app.t('toast_chat_login')); app.openAuth('login'); return; }
         if(!app.currentListing) return;
         if(app.blockedUids && app.blockedUids.has(app.currentListing.uid)) { app.showToast(app.t('toast_blocked')); return; }
@@ -1832,7 +1832,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.t('tpl_price'),
           app.t('tpl_meet')
         ];
-        document.getElementById('chat-chips').innerHTML = chips.map(t => `<div class="chip" onclick="app.useTemplate(${JSON.stringify(t)})">${t}</div>`).join('');
+        document.getElementById('chat-chips').innerHTML = chips.map(function(t) { return `<div class="chip" onclick="app.useTemplate(${JSON.stringify(t; })})">${t}</div>`).join('');
 
         document.getElementById('chat-scroll').innerHTML = "";
         document.getElementById('chat-input').value = "";
@@ -1841,19 +1841,19 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         app.subscribeChat();
       },
 
-      useTemplate: (text) => {
+      useTemplate: function(text) {
         const inp = document.getElementById('chat-input');
         inp.value = text; inp.focus();
       },
 
-      subscribeChat: () => {
+      subscribeChat: function() {
         if(!app.chat.convId) return;
         if(app.chat.unsub) { try{ app.chat.unsub(); }catch(e){} app.chat.unsub = null; }
         const qref = query(collection(db, "conversations", app.chat.convId, "messages"), orderBy("createdAt","asc"), limit(200));
-        app.chat.unsub = onSnapshot(qref, (snap) => {
+        app.chat.unsub = onSnapshotfunction(qref, (snap) {
           const sc = document.getElementById('chat-scroll');
           sc.innerHTML = "";
-          snap.forEach(d => {
+          snap.forEach(function(d) {
             const msg = d.data() || {};
             const isMe = msg.senderUid === (app.user?.uid || "");
             const created = (msg.createdAt && msg.createdAt.toDate) ? msg.createdAt.toDate() : null;
@@ -1868,7 +1868,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         });
       },
 
-      sendChat: async () => {
+      sendChat: async function() {
         if(!app.user || !app.chat.convId) return;
         const inp = document.getElementById('chat-input');
         const text = (inp.value || "").trim();
@@ -1884,22 +1884,22 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         } catch(e) { app.showToast(app.t('toast_error')); }
       },
 
-      closeChat: () => {
+      closeChat: function() {
         const modal = document.getElementById('chat-modal');
         if(modal) modal.style.display = "none";
         if(app.chat.unsub) { try{ app.chat.unsub(); }catch(e){} }
         app.chat = { convId: null, listingId: null, sellerUid: null, listingTitle: "", unsub: null };
       },
 
-      openReportFromChat: () => { app.openReport(); },
+      openReportFromChat: function() { app.openReport(); },
 
-      blockChatSeller: async () => {
+      blockChatSeller: async function() {
         if(!app.chat?.sellerUid) return;
         await app.blockSeller(app.chat.sellerUid);
         app.closeChat();
       },
 
-      adminToggleHidden: async () => {
+      adminToggleHidden: async function() {
         if(!app.isAdmin() || !app.currentListing?.id) return;
         try {
           const refDoc = doc(db, "listings", app.currentListing.id);
@@ -1919,8 +1919,8 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
 
       // --- LISTINGS ---
-      triggerUpload: (index) => { app.uploadSlot = index; document.getElementById('upload-input').click(); },
-      handleFileSelect: (event) => {
+      triggerUpload: function(index) { app.uploadSlot = index; document.getElementById('upload-input').click(); },
+      handleFileSelect: function(event) {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -1929,10 +1929,10 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = (e) => {
+        reader.onload = function(e) {
           const img = new Image();
           img.src = e.target.result;
-          img.onload = () => {
+          img.onload = function() {
             const cvs = document.createElement('canvas');
             const MAX_W = 900;
             const scale = Math.min(1, MAX_W / img.width);
@@ -1948,14 +1948,14 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             if (box) box.innerHTML = `<img src="${preview}">`;
 
             // Blob for Firebase Storage upload at publish time
-            cvs.toBlob((blob) => {
+            cvs.toBlobfunction((blob) {
               if(!blob) { app.showToast(app.t('toast_error')); return; }
               app.imageBlobs[slot] = blob;
             }, 'image/jpeg', 0.75);
           };
         };
       },
-      publishListing: async () => {
+      publishListing: async function() {
         if (!app.user) { app.showToast(app.t('toast_chat_login') || "Bitte erst anmelden!"); app.openAuth('login'); return; }
 
         const title = (document.getElementById('sell-title')?.value || "").trim();
@@ -1991,8 +1991,8 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
             uploads.push({ url, path });
           }
 
-          const imageUrls = uploads.map(u => u.url);
-          const imagePaths = uploads.map(u => u.path);
+          const imageUrls = uploads.map(function(u) { return u.url; });
+          const imagePaths = uploads.map(function(u) { return u.path; });
 
           const payload = {
             title,
@@ -2022,7 +2022,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
           app.imageBlobs = [null, null, null, null, null, null, null, null];
 
           const boxes = document.querySelectorAll('.upload-box');
-          boxes.forEach((b, idx) => { b.innerHTML = (idx === 0) ? "📷" : "+"; });
+          boxes.forEachfunction((b, idx) { b.innerHTML = (idx === 0) ? "📷" : "+"; });
 
           app.nav('market');
           app.loadListings();
@@ -2032,7 +2032,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         }
       },
       
-      loadListings: async () => {
+      loadListings: async function() {
         let q = query(collection(db, "listings"), orderBy("createdAt", "desc"), limit(80));
         const country = document.getElementById('filter-country')?.value || "all";
         if(country && country !== "all") {
@@ -2053,12 +2053,12 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         const subF = document.getElementById('filter-sub')?.value || "";
 
         let items = [];
-        snapshot.forEach(d => {
+        snapshot.forEach(function(d) {
           const data = d.data() || {};
           items.push({ id: d.id, ...data });
         });
 
-        items = items.filter(it => {
+        items = items.filter(function(it) {
           const st = it.status || "active";
           if(st !== "hidden") return true;
           const isOwner = !!(app.user && it.uid === app.user.uid);
@@ -2066,15 +2066,15 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         });
 
         if(app.user && app.blockedUids && app.blockedUids.size) {
-          items = items.filter(it => !app.blockedUids.has(it.uid));
+          items = items.filter(function(it) { return !app.blockedUids.has(it.uid; }));
         }
 
-        if(catF) items = items.filter(it => String(it.category||"") === String(catF));
-        if(subF && subF !== app.t('opt_all')) items = items.filter(it => String(it.subcategory||"") === String(subF));
+        if(catF) items = items.filter(function(it) { return String(it.category||""; }) === String(catF));
+        if(subF && subF !== app.t('opt_all')) items = items.filter(function(it) { return String(it.subcategory||""; }) === String(subF));
 
-        if(regionF) items = items.filter(it => String(it.region||"").toLowerCase().includes(regionF));
+        if(regionF) items = items.filter(function(it) { return String(it.region||""; }).toLowerCase().includes(regionF));
 
-        if(search) items = items.filter(it => (String(it.title||"").toLowerCase().includes(search) || String(it.desc||"").toLowerCase().includes(search)));
+        if(search) items = items.filter(function(it) { return (String(it.title||""; }).toLowerCase().includes(search) || String(it.desc||"").toLowerCase().includes(search)));
 
         if(items.length === 0) {
           container.innerHTML = `<div class="empty-state"><div class="empty-icon">🛒</div><div>${app.t('empty_results')}</div></div>`;
@@ -2082,7 +2082,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         }
 
         let htmlCards = '';
-        items.forEach(it => {
+        items.forEach(function(it) {
           const isFav = app.userData.favorites && app.userData.favorites.includes(it.id);
           const imgHtml = it.image ? `<img src="${it.image}">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:30px;">📷</div>`;
 
@@ -2114,52 +2114,52 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
       },
 
 // --- NAV & CONFIG ---
-      nav: (view) => {
+      nav: function(view) {
         window.scrollTo(0,0);
-        ['market', 'sell', 'profile'].forEach(v => { document.getElementById('view-' + v).classList.add('hidden'); document.getElementById('tab-' + v).classList.remove('active'); });
+        ['market', 'sell', 'profile'].forEach(function(v) { document.getElementById('view-' + v).classList.add('hidden'); document.getElementById('tab-' + v).classList.remove('active'); });
         document.getElementById('view-' + view).classList.remove('hidden'); document.getElementById('tab-' + view).classList.add('active');
         if(view === 'profile' && app.user) app.loadProfileData();
             app.applyRegisteredOnlyVisibility();
       },
-      showToast: (text) => {
+      showToast: function(text) {
         const c = document.getElementById('toast-container'); const el = document.createElement('div'); el.className = 'toast show'; el.innerText = text; c.appendChild(el);
-        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
+        setTimeoutfunction(() { el.classList.remove('show'); setTimeoutfunction(() { return el.remove(; }), 300); }, 3000);
       },
       
-      bindLegalLinks: () => {
+      bindLegalLinks: function() {
         // any element with data-i18n lnk_impressum / lnk_privacy will open the modals
-        document.querySelectorAll('[data-i18n="lnk_impressum"]').forEach(a => {
-          a.addEventListener('click', (e) => { e.preventDefault(); app.openLegal('imprint'); });
+        document.querySelectorAll('[data-i18n="lnk_impressum"]').forEachfunction(function(a) {
+          a.addEventListener('click', (e) { e.preventDefault(); app.openLegal('imprint'); });
         });
-        document.querySelectorAll('[data-i18n="lnk_privacy"]').forEach(a => {
-          a.addEventListener('click', (e) => { e.preventDefault(); app.openLegal('privacy'); });
+        document.querySelectorAll('[data-i18n="lnk_privacy"]').forEachfunction(function(a) {
+          a.addEventListener('click', (e) { e.preventDefault(); app.openLegal('privacy'); });
         });
       },
 
-      setLanguage: (langCode) => { app.lang = langCode; try{ localStorage.setItem('lang', langCode); }catch(e){} app.translatePage(); app.populateDropdowns('filter'); app.populateDropdowns('sell'); },
-      translatePage: () => {
+      setLanguage: function(langCode) { app.lang = langCode; try{ localStorage.setItem('lang', langCode); }catch(e){} app.translatePage(); app.populateDropdowns('filter'); app.populateDropdowns('sell'); },
+      translatePage: function() {
         const t = TRANSLATIONS[app.lang];
-        document.querySelectorAll('[data-i18n]').forEach(el => { if (t[el.getAttribute('data-i18n')]) el.innerHTML = t[el.getAttribute('data-i18n')]; });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { if (t[el.getAttribute('data-i18n-placeholder')]) el.placeholder = t[el.getAttribute('data-i18n-placeholder')]; });
+        document.querySelectorAll('[data-i18n]').forEach(function(el) { if (t[el.getAttribute('data-i18n')]) el.innerHTML = t[el.getAttribute('data-i18n')]; });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) { if (t[el.getAttribute('data-i18n-placeholder')]) el.placeholder = t[el.getAttribute('data-i18n-placeholder')]; });
       },
-      setupListeners: () => {
+      setupListeners: function() {
         const catSel = document.getElementById('filter-cat'); const subSel = document.getElementById('filter-sub');
-        catSel.addEventListener('change', () => { 
+        catSel.addEventListenerfunction('change', () { 
            subSel.disabled = false; subSel.innerHTML = `<option>${app.t('opt_all')}</option>`; 
-           if(CATEGORIES_DATA[catSel.value]) CATEGORIES_DATA[catSel.value].subs.forEach(s => { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; subSel.appendChild(o); });
+           if(CATEGORIES_DATA[catSel.value]) CATEGORIES_DATA[catSel.value].subs.forEach(function(s) { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; subSel.appendChild(o); });
            app.renderContextFilters('filter', catSel.value, null); app.loadListings();
         });
-        subSel.addEventListener('change', () => { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
+        subSel.addEventListenerfunction('change', () { app.renderContextFilters('filter', catSel.value, subSel.value); app.loadListings(); });
         
         const sellCat = document.getElementById('sell-cat'); const sellSub = document.getElementById('sell-sub');
-        sellCat.addEventListener('change', () => {
+        sellCat.addEventListenerfunction('change', () {
            sellSub.disabled = false; sellSub.innerHTML = `<option>${app.t('opt_choose')}</option>`;
-           if(CATEGORIES_DATA[sellCat.value]) CATEGORIES_DATA[sellCat.value].subs.forEach(s => { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; sellSub.appendChild(o); });
+           if(CATEGORIES_DATA[sellCat.value]) CATEGORIES_DATA[sellCat.value].subs.forEach(function(s) { const o = document.createElement('option'); o.value = s.k; o.textContent = s[app.lang] || s['de']; sellSub.appendChild(o); });
            app.renderContextFilters('sell', sellCat.value, null);
         });
-        sellSub.addEventListener('change', () => app.renderContextFilters('sell', sellCat.value, sellSub.value));
+        sellSub.addEventListenerfunction('change', () { return app.renderContextFilters('sell'; }, sellCat.value, sellSub.value));
       },
-      populateDropdowns: (prefix) => {
+      populateDropdowns: function(prefix) {
         const lang = app.lang;
         const countrySel = document.getElementById(prefix + '-country'); countrySel.innerHTML = "";
         for (const code in COUNTRIES_DATA) { const opt = document.createElement('option'); opt.value = code; opt.textContent = COUNTRIES_DATA[code][lang] || COUNTRIES_DATA[code]['en']; countrySel.appendChild(opt); }
@@ -2168,7 +2168,7 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         for (const catKey in CATEGORIES_DATA) { const opt = document.createElement('option'); opt.value = catKey; opt.textContent = CATEGORIES_DATA[catKey].label[lang] || CATEGORIES_DATA[catKey].label['de']; catSel.appendChild(opt); }
         catSel.value = prev;
       },
-      renderContextFilters: (prefix, categoryKey, subKey) => {
+      renderContextFilters: function(prefix, categoryKey, subKey) {
         const container = document.getElementById(prefix === 'filter' ? 'dynamic-filters' : 'sell-dynamic-inputs');
         container.innerHTML = ""; container.style.display = "none"; container.classList.remove('show');
         if (!categoryKey || !CATEGORIES_DATA[categoryKey]) return;
@@ -2176,14 +2176,14 @@ userData: { favorites: [] }, currentListing: null, currentSeller: null,
         if (categoryKey === 'realestate' && subKey && (subKey.includes('apt') || subKey.includes('house'))) { filters.push({ id: "filter_rooms" }); filters.push({ id: "filter_floor" }); }
         if (filters.length === 0) return;
         container.style.display = prefix === 'filter' ? "block" : "grid";
-        if(prefix === 'filter') { setTimeout(() => container.classList.add('show'), 10); container.innerHTML = `<div class="grid-2">${filters.map(f => `<div class="rai-input-group" style="margin:0"><label class="rai-label">${app.t(f.id)}</label><input type="number" class="rai-input" placeholder="0"></div>`).join('')}</div>`; }
-        else { container.innerHTML = filters.map(f => `<div class="rai-input-group"><label class="rai-label">${app.t(f.id)}</label><input type="number" class="rai-input" placeholder="0"></div>`).join(''); }
+        if(prefix === 'filter') { setTimeoutfunction(() { return container.classList.add('show'; }), 10); container.innerHTML = `<div class="grid-2">${filters.map(function(f) { return `<div class="rai-input-group" style="margin:0"><label class="rai-label">${app.t(f.id; })}</label><input type="number" class="rai-input" placeholder="0"></div>`).join('')}</div>`; }
+        else { container.innerHTML = filters.map(function(f) { return `<div class="rai-input-group"><label class="rai-label">${app.t(f.id; })}</label><input type="number" class="rai-input" placeholder="0"></div>`).join(''); }
       },
-      loadTheme: () => { const saved = localStorage.getItem('theme') || 'light'; document.documentElement.setAttribute('data-theme', saved); document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙'; },
-      toggleTheme: () => { const current = document.documentElement.getAttribute('data-theme'); const next = current === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙'; }
+      loadTheme: function() { const saved = localStorage.getItem('theme') || 'light'; document.documentElement.setAttribute('data-theme', saved); document.getElementById('theme-icon').textContent = saved === 'dark' ? '☀️' : '🌙'; },
+      toggleTheme: function() { const current = document.documentElement.getAttribute('data-theme'); const next = current === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙'; }
     };
 
-    document.getElementById('btn-auth-switch').addEventListener('click', () => { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
+    document.getElementById('btn-auth-switch').addEventListenerfunction('click', () { app.openAuth(app.authMode === 'login' ? 'register' : 'login'); });
     document.getElementById('btn-auth-action').addEventListener('click', app.handleAuth);
 
     app.init();
